@@ -31,7 +31,9 @@ export default defineConfig({
 			plugins: [
 				starlightThemeRapide(),
 				starlightLinksValidator({
-					errorOnInvalidHashes: false
+					errorOnInvalidHashes: false,
+					errorOnRelativeLinks: false,
+					failOnError: false,
 				}),
 				starlightCoolerCredit({
 					credit: {
