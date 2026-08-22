@@ -9,7 +9,7 @@ sidebar:
 El contenido de esta sección es una adaptación (parcial o total) del trabajo creado por **Phos**. Para más contexto, visita la [publicación original aquí](https://phoscity.github.io/Phos-Fansubbing-Guide/Typesetting/Basic%20ASS%20Tags/).
 :::
 
-Las etiquetas de sobrescritura (_Override Tags_) son un marcado especial que cambia la posición, animación, apariencia y comportamiento del texto. Dado que en [Tipografía y carteles](/p/typesetting) todo se centra en cómo se muestra y comporta el texto, aprenderse estas etiquetas es una de las habilidades más importantes para alguien en esta posición. En esta guía verás tanto las [etiquetas básicas](basic/bold) como las [etiquetas avanzadas](advanced/) que hay a tu disposición.
+Las etiquetas de sobrescritura (_Override Tags_) son un marcado especial que cambia la posición, animación, apariencia y comportamiento del texto. Dado que en [Tipografía y carteles](/p/typesetting) todo se centra en cómo se muestra y comporta el texto, aprenderse estas etiquetas es una de las habilidades más importantes para alguien en esta posición. En esta guía verás tanto las [etiquetas básicas](/aegisub/tags/basic/bold) como las [etiquetas avanzadas](/aegisub/tags/advanced/) que hay a tu disposición.
 
 Hasta ahora, en la breve sección que aparecía en [Aegisub](/aegisub#etiquetas) hemos aprendido que las etiquetas se escriben dentro de la columna de diálogo (_Text_) entre llaves `{}`; a esto lo llamaremos un **bloque de etiquetas**. En el texto de diálogo puedes tener tantos bloques de etiquetas como quieras, y dentro de cada bloque de etiquetas puedes tener tantas etiquetas como necesites, cada una de ellas **debe** comenzar con una contrabarra `\` seguida del nombre de la etiqueta y luego el parámetro/valor de la misma.
 
@@ -25,7 +25,7 @@ Al no escribir un valor concreto en la etiqueta, el valor predeterminado del est
 
 Existen dos categorías de etiquetas: `Etiquetas globales` (_Global tags_) y `Etiquetas locales` (_Local tags_). Las globales cambian la propiedad de la línea entera. Estas deberían de aparecer una sola vez en la línea, en el primer bloque de etiquetas. Las etiquetas locales modifican todo el texto desde esta hasta el final o hasta que la etiqueta se sobrescribe o se deshabilita (se deja en predeterminado).
 
-También se clasifican entre `Etiquetas transformables` (_Transformable tags_) y `Etiquetas no transformables` (_Untransformable tags_). Estas clasificación define qué etiquetas pueden ser tratadas en la [etiqueta de transformación](advanced/transform) y cuáles no.
+También se clasifican entre `Etiquetas transformables` (_Transformable tags_) y `Etiquetas no transformables` (_Untransformable tags_). Estas clasificación define qué etiquetas pueden ser tratadas en la [etiqueta de transformación](/aegisub/tags/advanced/transform) y cuáles no.
 
 Un bloque de etiquetas se cataloga entre `Etiquetas iniciales` (_Start tags_) y `Etiquetas en línea` (_Inline tags_). Las etiquetas iniciales se refieren al bloque de etiquetas que aparece al inicio de la línea, antes de que aparezca nada de texto. Al bloque de etiquetas que aparece en mitad del texto se le llama etiquetas en línea.
 

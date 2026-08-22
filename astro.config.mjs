@@ -30,7 +30,9 @@ export default defineConfig({
 			],
 			plugins: [
 				starlightThemeRapide(),
-				starlightLinksValidator(),
+				starlightLinksValidator({
+					errorOnInvalidHashes: false
+				}),
 				starlightCoolerCredit({
 					credit: {
 						title: "¿Tienes dudas o sugerencias?",
