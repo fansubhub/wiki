@@ -1,0 +1,212 @@
+---
+title: Enmascaramiento vectorial
+description: Verás cómo utilizar la generación de máscaras vectoriales para tapar texto.
+---
+
+import Author from '@components/Author.astro';
+import Video from '@components/Video.astro';
+import { Kbd } from 'starlight-kbd/components';
+import { Badge, Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<Badge text="TS : Completo" variant="note" />{' '}&ensp;<Badge text="Tipo : Softsub" variant="tip" />
+<Author id="trotacalles" />
+
+<Video src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Video/Mascaras_ES_lite.mp4?sign=DoiDw-ZVBUBTrFyVARNGsStUKLx_USFT8oKlsskHcFM=:0" autoplay />
+
+Enmascaramiento vectorial se refiere a tapar el texto de un idioma extranjero (como es en este caso el japonés), ya no mediante una única forma (_shape_) con un color plano, sino a taparlo usando múltiples formas de varios colores, dispuestos por la superficie a tapar y redibujando la porción de pantalla que tapaba el texto. La información con la que rellenarás el hueco puede o bien ser provista por otro fotograma que la tenga o bien ser generada mediante una característica de los programas que utilizarás.
+
+## Prerrequisitos
+
+<CardGrid>
+<LinkCard
+    title="Adobe Photoshop"
+    href="https://photoshop.adobe.com/?promoid=DZTGZS8L&mv=other&mv2=unav&lang=en"
+    description="Imagen oficial (CS5 en adelante)"
+/>
+
+<LinkCard
+    title="Adobe Photoshop"
+    href="https://www.artistapirata.com/adobe-photoshop-cc-2025-eliminar-objetos-y-personas-de-fotos/"
+    description="Imagen no oficial (CS5 en adelante)"
+/>
+
+<LinkCard
+    title="AI2ASS.jsx"
+    href="https://github.com/TypesettingTools/AI2ASS/blob/master/built/AI2ASS.jsx"
+    description="Del repositorio oficial"
+/>
+
+<LinkCard
+    title="Aegisub actualiado"
+    href="https://github.com/arch1t3cht/Aegisub/releases/"
+    description="Versión de arch1t3cht. Versión oficial: https://aegisub.org/downloads/"
+/>
+</CardGrid>
+
+<Steps>
+1. Descargar e instalar los recursos anteriores.
+
+2. Mover el _script_ AI2ASS.
+
+    El _script_ **AI2ASS** debes moverlo a la ruta `C:\Program Files\Adobe\Adobe Illustrator\Presets\es_ES\Secuencias de comandos` en caso de que hayas instalado **Illustrator** en la ruta predeterminada y en español.
+
+</Steps>
+
+## Configuraciones
+
+Al instalar **Photoshop** por primera vez o para utilizarlo para crear máscaras que Illustrator pueda procesar de manera óptima, hay algunas consideraciones que necesitas tener en mente.
+
+Para empezar, todas tus herramientas deben tener el **suavizado desactivado**, **desvanecimiento en `0%`** y deben estar en modo **suma** en el caso de las herramientas de selección.
+
+![Herramientas](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/PS1.png?sign=iRqCzWn29Bj3RLj1WDJ1DsslJgHC8aMqc-Q4gITjbqU=:0)
+
+Principalmente usarás tres herramientas de selección: el **lápiz**, la **goma** y la **mano**. El **lazo** y **lazo poligonal** se encuentran aquí (puedes acceder a las herramientas contenidas en la misma familia haciendo clic derecho). La configuración es la misma para ambos; [la primera imagen de esta sección](#configuraciones).
+
+![Herramientas de lazo](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/PS2.png?sign=ogFCrmuMlTAp5ZQJ9uEVEtbv9vqxdkKH1HFBO4-KkfQ=:0)
+
+Para la varita mágica, tienes cosas como el **área de muestra**, que define los píxeles que se usarán para hacer la selección automática. También la **tolerancia**, que regula qué tan sensible será la selección a los cambios de color. Una tolerancia mayor hará que tome más colores diferentes a tu área de muestra y seleccione más contenido. El suavizado debe estar **desactivado**. La **continuidad** debe estar activada para que no seleccione todo lo que sea del mismo color en todo el fotograma y solo use la continuidad de la zona en la que tomes la muestra. Además, debes muestrear todas las capas, eso te permitirá ir agregando información usando la información que hayas generado antes.
+
+![Herramienta de varita mágica](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/PS7.png?sign=Z9PJTi4aRzCPpAUvJDFcXRpXYBs6175gbaG9z9q4Llg=:0)
+
+Las otras dos herramientas son el **lápiz** y la **goma de borrar**. El lápiz solo debe tener el **suavizado desactivado**. Están marcadas con estos dos íconos. El lápiz está dentro de la familia del pincel.
+
+![Lápiz y goma](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/PS4.png?sign=iRBSVxMrS6sZzdvZdL4jGIYpF537d5U2qfVoYaSoURQ=:0)
+
+Para la goma, es importante que el modo esté en **lápiz**, opacidad al **`100%`** y suavizado al **`0%`**.
+
+![Goma de borrar](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/PS5.png?sign=i_AhiSKdAouOhWvNxpVv60qiY1p2DpJTws7L5opziGg=:0)
+
+## Máscaras vectoriales
+
+### Rellenando según el contenido
+
+Comenzarás con una máscara estática, adecuada para ser usada en el caso de que tu cartel no presente movimiento, o ese movimiento sea [lineal](blender-tracking) y la máscara no deba ser [recortada](/aegisub/tags/advanced/clip) para ocultar algo que pase por delante.
+
+<Steps>
+1. Mira el siguiente ejemplo práctico para hacerla, este fotograma será tu muestra. Lo mejor para hacer esto es tomar la captura con el mismo Aegisub, ya que será una captura del fotograma sin modificaciones, mismo color y sin pérdida de calidad.
+
+    ![Muestra_x1](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/M1.webp?sign=SX0ajj791_byMcLDuhwlXXT00oYy1b95zIMlrMjhFUU=:0)
+
+2. Presenta un patrón complicado de poder cubrir con [formas](clip-shapes) sin que se note fácilmente.
+
+    ![Muestra_x2](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/M2.PNG?sign=_58EVGx2JIRSao7iqYMDLlcmi8Hm-eAOjQr_4tefSJY=:0)
+
+3. Realiza la captura y pásala a Photoshop. A continuación verás diferentes métodos de selección para que sepas cada uno.
+
+    <Video src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Video/M3.mp4?sign=Tz2XcNwIgEt8IXCSCeSYXiDmhXcw33VAjWBgOdkVHIE=:0" />
+</Steps>
+
+Cada método de selección se utiliza de diferente manera y quedará en ti decidir cuál usarás. Tras seleccionar, es necesario volver a una herramienta de la familia **lazo**, hacer clic derecho y seleccionar **relleno según contenido**. Esta herramienta te permite rellenar la información faltante del lugar en el que estaba el texto. Utiliza el contexto que le das pintando sobre la imagen. Cuanto más cerca de la selección esté la zona pintada, más relevancia le dará para rellenar. Sumado a esto, tiene una serie de opciones avanzadas que pueden servir para refinar el resultado, pero quedará en ti practicar con cada una y ver cómo lo modifica. Sin embargo, recomiendo que uses esta configuración a medida y que no utilices el modo automatizado.
+
+![Modo de lazo y relleno](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/PS8.PNG?sign=-Qx7QuYUUlFzbVIyy8WCpE3B7dsJOjiysiSBsjM6HwY=:0)
+
+### Tomar información de otro fotograma
+
+A veces, la información que necesitas rellenar está ahí mismo, en otro fotograma de la secuencia. En estos casos, lo mejor es utilizar la información original del vídeo para obtener buenos resultados. En este vídeo muestro cómo puedes hacerlo.
+
+<Video src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Video/M4.mp4?sign=_IYQc1XVub0P5V9M0XTwq4brwYhNRC7yBsp271iWRAs=:0" />
+
+:::tip[¿Por qué usar el modo **diferencia** en lugar de solo seleccionar el texto?]
+Porque en ocasiones el texto no estará tan claro como aquí, podría estar demasiado desenfocado o podría presentar contaminación de color en la zona cercana a los caracteres. Para evitar que al aparecer el texto se forme una aureola de contaminación del color que haga visible tu máscara, debes usar el modo **diferencia**, que te lo muestra claramente y te permite incluir esa zona en tu selección.
+:::
+
+### Guardar tu máscara
+
+Una vez tienes tu máscara, sea con el método que sea, necesitas exportarla en un formato que Illustrator pueda calcar de forma óptima.
+
+Antes, crea una capa debajo de la máscara y la píntala con el lápiz, cubriendo la zona de los bordes de la máscara completamente. Esta segunda máscara debe ir pintada de un color que contraste con la primera, un verde _chroma key_ o un fuxia muy saturado. Esta segunda máscara es especialmente necesaria cuando tu máscara tiene tonos próximos al blanco. A la hora de calcar, Illustrator rellena toda la zona transparente de nuestro PNG con blanco. Eso genera que, cuando tu máscara también es blanca o casi blanca, Illustrator se confunda, haciendo un pésimo trabajo en los bordes, generando shapes pequeños y difíciles de limpiar y otras complicaciones que te harán la vida miserable.
+
+:::note[Experiencia propia]
+Para evitarme todos esos dolores de cabeza, comencé a aplicar este fondo de color plano para ayudar a Illustrator a separar mi máscara del fondo.
+:::
+
+<Video src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Video/M5.mp4?sign=HkZ6wdpQPPQPil1GUA-W3Oj0QwAQibj1hmrOuxPd4Wo=:0" />
+
+Además de la máscara de contraste, debes asegurarte de que las opciones de tu exportación son las que salen en el vídeo. Conservar detalles y no aplicar sRGB, PNG, transparencia habilitada. Si lo guardas así, dejarás todo listo para que Illustrator haga un buen trabajo.
+
+:::tip[¿Por qué pintar por los bordes y no usar el balde de pintura para pintarlo todo de un clic?]
+Porque el balde de pintura no tiene opción de eliminar el suavizado, lo que dejaría a Illustrator confundido y generando formas de error por todo el borde. Además, porque cuando cubres una gran extensión de píxeles con un color plano, Illustrator tiende a partir esa zona en pedazos más pequeños, lo que te retrasaría más.
+:::
+
+### Calcar en Illustrator
+
+Una vez tengas guardada la máscara, ve a donde la has guardado y cópiala. Abre Illustrator, pégala y, dependiendo de si tienes Illustrator antiguo o nuevo, podrás calcar directamente o tendrás que ir a **Propiedades** e incrustar la imagen antes de calcar.
+
+:::note[Nota]
+Mientras que en Photoshop puedes dejar abierto el documento y solo borrar las capas dejando la blanca sola antes de seguir con otra máscara, en Illustrator recomiendo que cierres la pestaña del documento abierto cada vez que hagas una máscara nueva. Illustrator pega al centro de nuestro visualizador. Si moviste el visualizador del documento, la máscara que pegues no estará centrada al fotograma y se exportará fuera de posición.
+:::
+
+:::caution[El calcador no está abierto]
+En caso de que no tengas el calcador abierto, ve a `Ventana → Calco de imagen`.
+:::
+
+El modo **Foto de alta fidelidad** es el más recomendable para una máscara equilibrada. [Más adelante en esta guía verás a fondo cómo se utiliza el calcador](#profundizando-en-el-calcador-de-illustrator). Por ahora, selecciona el modo y calca. Luego toca en **Expandir** ahí mismo o, si nuestro Illustrator es más antiguo, en **Propiedades**.
+
+Tras expandir, Illustrator agrupará los trazados que calcó. Eso quiere decir que no podrás borrar el blanco o la máscara de contraste directamente. Primero necesitas meterte al grupo haciendo doble clic en los trazados. Si te metiste correctamente, debería salirte una barra bajo la barra del archivo abierto actualmente, indicando que estás dentro de la agrupación. Entonces, selecciona el banco y lo eliminas con <Kbd windows="Suprimir" />. Después, selecciona un pedacito de la máscara de contraste y ve a la pestaña `Seleccionar → Mismo → Color de relleno` para que te seleccione las demás partes y suprímelas.
+
+Puedes ver el proceso completo a continuación.
+
+<Video src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Video/M6.mp4?sign=w5fG7XuMTATOj33PUpo88OfwOGh8iEepdp0TZOiHlmI=:0" />
+
+:::note[Nota]
+En el video podemos ver cómo usar el modo Ignore de AI2ASS ahorra líneas, pero puede romper algunas texturas con shapes repetitivos.
+:::
+
+Una vez eliminas lo que sobra, es hora que abrir **AI2ASS**, que encontrarás en `Archivo → Secuencias de comandos`. Para este caso, selecciona el modo **Safe** y copia el resultado. Después lo pegarás en Aegisub, asignarás estilo (recomiendo el de [esta guía](/guides/p/typesetting/style-management)), sincronizarás por fotogramas y listo. Tendrás la máscara lista.
+
+:::danger[Comprueba siempre que las guías delimitadoras estén activas antes de exportar]
+**AI2ASS** exportará basándose en tu área de 1920x1080 o la resolución que estés usando en ese momento. Pero si haces clic fuera de ese espacio, pasarás a estar trabajando en el **campo general de Illustrator** y las coordenadas de tus formas se calcularán en referencia al `0` de ese gran campo. Podrías pasar de tener coordenadas de mil pixeles a ocho mil o más, y no ver siquiera tu máscara al pegarla en Aegisub. Así que ya sabes, controla que esté activada o, si no lo está, haz clic dentro de la zona.
+![Guía delimitadora](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/AI1.png?sign=-SOhz_DoJBYnppDEYaQ46cEo_3JdxbnLdMk5araO1fg=:0)
+:::
+
+### Describiendo AI2ASS
+
+Aunque a la hora de hacer máscaras solo necesitas el modo **Drawing** de AI2ASS, no te vendrá mal saber para qué sirven todas sus funciones.
+
+| Función | Descripción |
+| :--- | :--- |
+| _Output Format_ | Es el tipo de formato que puede retornar con la información de Illustrator. Puede ser **Drawing** para formas, `\clip` para un _clip_, `\iclip` para un _iclip_, **Bare** para obtener solo las coordenadas sin nada más o **Line** para adquirir líneas completas con un actor y estilo propio. |
+| _Collection Target_ | Permite seleccionar la fuente de tu información. |
+| _Path Combining_ | Sirve para decidir cómo se combinará la información.<br /><br />En modo **Safe** se mantiene el orden que usó Illustrator para escribir los trazados, lo que conserva el aspecto de los shapes tal cual.<br /><br />En modo **Ignore** se escribe una línea de ASS por cada color detectado, lo que reduce el número de líneas, pero puede modificar la manera en la que se ven algunos shapes. |
+
+### Profundizando en el calcador de Illustrator
+
+El calcador de Illustrator es muy importante a la hora de optimizar tus máscaras. Dependiendo de su uso, podrías estar obteniendo poca calidad en un cartel que requiere que se vea genial, o estar haciendo una máscara demasiado pesada en un cartel que necesita mucho rendimiento.
+
+![Calcador](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Img/AI2.png?sign=idWD2CalFWtpyH5xb_6qc4O2wlg1hJaqB4Xu1iBB-JM=:0)
+
+<Steps>
+1. Te permite seleccionar los ajustes preestablecidos y personalizados que hayas guardado. Junto a él está el botón para administrar estos perfiles.
+2. Sirve para seleccionar la vista de la máscara, puedes usarlo para ver la estructura interna de las formas y cómo se apilan, por ejemplo.
+3. El modo de color te permite seleccionar si tu calco se hará en color, en blanco y negro o en escala de grises. Esta opción cambiará el comportamiento del punto 4 y 5.
+4. La paleta sirve para elegir el espectro de color que usarás para calcar. Esta opción cambiará el comportamiento del punto 5.
+5. El deslizador de colores te permite seleccionar la cantidad de colores que quieres tomar en cuenta a la hora de calcar. En modo blanco y negro regula el equiibrio entre blancos y negros. Esto impacta mucho en el rendimiento de tu máscara.
+6. Te permite regular la cantidad de trazados que se harán en el calco, más trazados dan formas más complejas y detalladas, menos trazados dan una estética _low poly_. Esto impacta en el rendimiento de tu máscara.
+7. Sirve para regular los vértices que se le darán a cada trazado. Más vértices reducirán los huecos en la máscara y darán lugar a formas más redondeadas y curvas. Esto impacta en el rendimiento de tu máscara.
+8. El ruido te permite definir el cuidado que se le dará a los detalles de las texturas, menos ruido es igual a más detalles. Pero si tu máscara es un degradado suave, más ruido reducirá el _banding_. Esto impacta en el rendimiento de tu máscara.
+9. El método te deja elegir entre paralelizar los trazados, haciendo que nunca se apilen, o **superponerlos** para que tengan una zona en común. A fin de evitar líneas entre las formas al haber un texto muy claro atrás de la máscara, se usa el superponerlos.
+10. Esta tabla te dice la cantidad de datos y los tipos de los mismos en el calco actual. Te permite saber si tu máscara es óptima o no.
+
+    **a.**	Número de trazados presentes en el calco. Preocúpese si supera los 10 mil.
+
+    **b.**	Número de vértices presentes en el calco. Preocúpese si supera los 20 mil.
+
+    **c.**	Número de colores detectados al calcar. Este dato te permite saber cuántas líneas generará AI2ASS en modo Ignore.
+</Steps>
+
+:::note[Breve nota sobre los colores]
+En mi experiencia, más de 800 colores para una máscara ya comienza a ser pesado. Si tendrá un seguimiento hay que seguir antes de calcarla, para poder saber cuántos fotogramas serán y si el movimiento es lineal o no. Si no lo es, debes optimizar lo más posible la máscara, buscando valores inferiores a 500 líneas, si se pueden menos de 300, mejor. MPV suele manejar bien hasta 1000 líneas por fotograma, pero que pueda cargar toda esa información en tiempo real de reproducción ya dependerá de la velocidad de su sistema.
+:::
+
+:::tip[¿Por qué es tan importante medir la cantidad de colores y líneas que se generan?]
+- Porque definirá mucho el rendimiento de tu máscara y condicionará desde un principio el impacto que tenga en el peso del subtítulo en total.
+- Por ejemplo: Supón que tienes una máscara que en colores al `100%` te da 350 colores en modo **Ignore**. No es mucho, ¿verdad? Bueno, imagina que debemos aplicarlo a un tracking no lineal de `120` fotogramas. Así que, solo la parte de la máscara del cartel serían $350 \times 120 = 42.000$ líneas. Eso elevaría el peso de tu subtítulo una barbaridad y podría causar _lag_ al ver el subtítulo ya muxeado en un [mkv](/files/matroska). Ahora, imagina que bajamos los colores a `90%` y el número de líneas generadas baja a solo 80. Entonces, $80 \times 120 = 9600$. Siguen siendo muchas, pero es mucho más realista.
+:::
+
+## Consejos útiles y conclusión
+
+Algunos _fansubbers_ desaconsejan usar máscaras vectoriales porque dicen que son muy pesadas, que nunca quedan tan bien como el video o que aumentan innecesariamente el peso del subtítulo bajando el rendimiento en aparatos móviles. Parte de razón tienen, pero lo primero que debería importarte no es la opinión de algún otro _fansubber_, sino lo que **tú** estés tratando de lograr. Si estás intentando hacer una versión que tenga todos los mimos, tendrás que usar máscaras, redibujados y toda clase de técnicas como estas. Si, por otro lado, solo quieres hacer un subtítulo que cumpla y ya, no necesitarás aprender mucho de este apartado. Sin embargo, como yo soy del primer grupo y quiero ponerle mimo a cada subtítulo que realizo, me he especializado en utilizar lo mejor posible todo esto. A lo que voy es, que rompiendo se aprende y, aunque al principio te saldrán regular, con la experiencia irás teniendo mejores máscaras. Espero que los consejos que volqué en esta guía te ayuden a crear buenos _typesettings_.
+
+Te dejo un vídeo con la recopilación de lo que has visto en esta guía para que lo tengas a mano, sigue aprendiendo de esta hermosa afición.
+
+<Video src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Vect_Mask/Video/M7.mp4?sign=25kN-f2ynFfcc1ilUcLRg9iDC_p_Zp4CdjEqwLasNNE=:0" />

@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import starlightThemeRapide from 'starlight-theme-rapide';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightCoolerCredit from 'starlight-cooler-credit';
@@ -12,6 +14,10 @@ import starlightAnnouncement from 'starlight-announcement';
 
 // https://astro.build/config
 export default defineConfig({
+	markdown: {
+		remarkPlugins: [remarkMath],
+		rehypePlugins: [rehypeKatex],
+	},
 	integrations: [
 		starlight({
 			title: 'Fansub Hub',
@@ -97,7 +103,7 @@ export default defineConfig({
 						items: [
 							{
 								label: 'Introducción',
-								items: ['p/typesetting']
+								items: ['p/typesetting', 'p/typesetting/guides']
 							},
 							{
 								label: 'Guías',
@@ -106,6 +112,25 @@ export default defineConfig({
 							{
 								label: 'Material y recursos',
 								items: [{ autogenerate: { directory: 'resources/p/typesetting' } }],
+							}
+						]
+					},
+					{
+						label: 'Sincronización',
+						link: '/p/sync',
+						icon: 'clock',
+						items: [
+							{
+								label: 'Introducción',
+								items: ['p/sync']
+							},
+							{
+								label: 'Guías',
+								items: [{ autogenerate: { directory: 'guides/p/sync' } }],
+							},
+							{
+								label: 'Material y recursos',
+								items: [{ autogenerate: { directory: 'resources/p/sync' } }],
 							}
 						]
 					},

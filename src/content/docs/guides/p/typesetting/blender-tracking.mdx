@@ -1,0 +1,214 @@
+---
+title: Seguimiento en Blender
+description: Verás de básico a avanzado en el manejo de Blender para seguimiento (tracking).
+---
+
+import { Badge } from '@astrojs/starlight/components';
+import Author from '@components/Author.astro';
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { SaveFile } from "starlight-save-file-component";
+import CoverVideo from '@components/CoverVideo.astro';
+
+<Badge text="TS : Completo" variant="note" />{' '}&ensp;<Badge text="Tipo : Softsub" variant="tip" />
+<Author id="trotacalles" />
+
+<CoverVideo src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_portada_ES.mp4?sign=QuemPa6VaYL5adPsiMpTdR8jE4_NNVF0Jraf2KfdIMg=:0" />
+
+:::note[Guía completa de básico a avanzado]
+:::
+
+[**Blender**](https://www.blender.org/) es un programa multitarea que se utiliza para muchas cosas; desde esculpir figuras en tres dimensiones hasta hacer seguimiento (_tracking_) a seres humanos y localizaciones para colocar escenas completas con efectos visuales y demás. Es de las herramientas de uso libre y gratuito más utilzadas en seguimiento de movimiento (_motion tracking_) por los _typesetters_ junto a su alternativa de pago [**MOCHA**](https://borisfx.com/products/mocha-pro/).
+
+Blender realiza el seguimiento de movimiento analizando una secuencia de vídeo para recrear el movimiento de la cámara real dentro de un entorno 3D. Para definir este seguimiento utiliza **marcadores** (_markers_), que son puntos de referencia colocados por ti sobre áreas específicas del metraje que poseen alto contraste y un patrón de píxeles claro y estable. El algoritmo de Blender sigue la trayectoria 2D de estos marcadores a través de los fotogramas y luego utiliza esta información (en combinación con datos de la cámara, como la distancia focal), para **resolver** (_resolve_) la escena. Este proceso calcula el movimiento tridimensional (posición y rotación) de la cámara virtual y la ubicación 3D de los puntos rastreados permitiendo así la integración perfecta de elementos 3D en el vídeo original.
+
+Dado que no es posible utilizarlo en solitario, sino que necesitas conocer el [**Aegisub Motion**](/aegisub/plugins/aegisub-motion) y cómo aplica la información de tus líneas, en esta guía no se tratará solo el uso de Blender, sino que se acompañará con las configuraciones apropiadas en Aegisub Motion.
+
+<LinkCard
+    title="Aegisub Motion"
+    href="https://github.com/TypesettingTools/Aegisub-Motion"
+    description="Repositorio oficial del plugin."
+/>
+
+## Tu espacio de trabajo
+
+<Steps>
+1. Configura tu espacio de trabajo.
+
+    Lo primero que necesitas configurar correctamente es tu espacio de trabajo. A continuación tienes un vídeo con todo el proceso necesario con el que debes proceder.
+
+    <video controls width="100%" alt="Vídeo de trotacalles">
+        <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_001.mp4?sign=y5PoJhNtwkcOh15SKpdMKdRZegEqHoK7ctGAFEppNws=:0" type="video/mp4" />
+        Tu navegador no soporta la reproducción de video.
+    </video>
+
+2. Guardar la plantilla.
+
+    Puedes guardar este espacio de trabajo como una plantilla para no tener que configurarlo cada vez.
+
+    <SaveFile
+        title="plantilla_typesetting_4.3.2.blend"
+        href="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/plantilla_typesetting_4.3.2.blend?sign=OZxfY3p3qWugawXazCTjgK5xqgNY-xo88gEGau_SNAU=:0"
+        description="Mi plantilla de espacio de tabajo."
+    />
+
+3. Descargar **AAE Export**.
+
+    Debse descargar el archivo para exportar los datos de Blender a un formato que Aegisub Motion pueda leer.
+
+    <LinkCard
+        title="AAE Export"
+        href="https://github.com/Akatmks/Akatsumekusa-Aegisub-Scripts?tab=readme-ov-file#aae-export"
+        description="Repositorio oficial del plugin."
+    />
+
+4. Instalar el exportador.
+
+    Para instalar el exportador sigue el siguiente tutorial.
+
+    <video controls width="100%" alt="Vídeo de trotacalles">
+        <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_002.mp4?sign=fhWTS2VzaLmEAjI4BlS11Usj3u05KjbE65haT3TN6ss=:0" type="video/mp4" />
+        Tu navegador no soporta la reproducción de video.
+    </video>
+</Steps>
+
+## Conseguir un recorte con Aegisub Motion
+
+Ahora que tienes tu espacio de trabajo listo, podemos comenzar a hacer un seguimiento. Lo primero que debes ahcer es utilizar Aegisub Motion para recortar un pedazo de tu episodio actual. Ese pedazo se establece con una línea que tenga la longitud en fotogramas de lo que quieras hacer el seguimiento. Esto no siempre es sencillo, así que pondré un ejemplo complicado para que entiendas el concepto. Debes pensar, sobre todo en movimientos muy largos, que a veces es necesario hacer más de un seguimiento por cartel.
+
+### Ejemplo de uso
+
+:::note[Nota]
+En este ejemplo mostraré cómo configurar Aegisub Motion desde cero. He elegido un seguimiento que es imposible de hacer de una sola vez por cómo se desplaza.
+:::
+
+Primero, debes elegir un buen fotograma en mitad de la secuencia, para que el cartel sea bien visible. Después estableces la duración de la secuencia que vas a rastrear, fijándote en qué elementos puedes utilizar para ello. Finalmente procedes a instalar los programas, automatizaciones y crear el recorte (_trim_).
+
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_003.mp4?sign=RV0_ejUQWhEQY3ecSFfB1NRovD5TWPqRmwIhVrU3frU=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+
+## Seguimiento con Blender
+
+Ahora puedes simplemente dirigirte a la ubicación de tu recorte (por defecto estará junto al vídeo que has utilizado) y abrir la plantilla de Blender.
+
+:::tip[Caso personal]
+En mi caso siempre pongo la plantilla junto al vídeo, dado que agiliza el buscar el recorte. Pongo una plantilla en cada carpeta de fuentes de vídeo de cada proyecto.
+:::
+
+Abre la plantilla, carga el recorte y sigue los pasos necesarios para realizar el seguimiento.
+
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_004.mp4?sign=wGwB7fvt_0YpLGf0sC0aOwlPYGzUQH_9CurJzwXVLDs=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+
+Como has visto en el vídeo, primero se establecen los fotogramas del vídeo, después de precargan en [RAM](https://es.wikipedia.org/wiki/Memoria_de_acceso_aleatorio) y luego se configura el porcentaje del área de búsqueda a `100%` para que utilice exactamente la cantidad de píxeles que abarca el cuadrado de búsqueda. Blender utiliza ese cuadrado como el área en la que buscar el marcador. Si el objeto se mueve rápido, el área deberá ser mayor. Cuanto más grande sea, más lento será el seguimiento y más RAM consumirá Blender. Otro detalle visible es el uso de **Normalizar**, esto ayuda a hacer un mejor rastreo usando un poco más de recursos.
+
+[En la siguiente sección hablaré más sobre los marcadores](#marcadores), por ahora estás rastreando la posición, por lo que es innecesario. Tienes el recorte, has rastreado y hecho el seguimiento y has aplicado.
+
+### Ventana _Apply_ de Aegisub Motion
+
+Si nuestros fotogramas no corresponden con las líneas a las que estás aplicando, te saldrá vacío el recuadro de información de rastreo junto con el siguiente mensaje.
+
+![Error de Aegisub Motion por fotogramas](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/AM1.png?sign=bEwAMZnBNETF049c2470_JgHVt0CUTpP8VgOgeC7X1s=:0)
+
+El mensaje indica que esperaba **138 fotogramas** de información pero solo **obtuvo 119**. Tienes que revisar que has hecho todos los pasos correctamente.
+
+Otra cosa es que dependiendo de qué quieras aplicar cambiará lo que elijas en las casillas.
+
+![Explicación de casillas Aegisub Motion](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/AM2.png?sign=eQEqO1dD5mwDDuWa-S6Hquh10CxmZ1VNN3KbmkawAKs=:0)
+
+<Steps>
+1. Aplicar el movimiento en el eje `X`.
+2. Aplicar el zoom.
+3. Aplicar la rotación.
+4. Aplicar al _clip_ en las líneas, ya sea para un _clip_ rectangular (_Rect Clip_) o uno vectorial (_Vect Clip_).
+5. Aplicar calculando las transformaciones que hay en las líneas.
+6. Para que las casillas que usamos esta vez estén marcadas la próxima vez que abras.
+7. Aplicar solo al _clip_ y no al resto de elementos en las líneas.
+8. Aplicar el movimiento en el eje `Y`.
+9. Aplicar al origen, sobre todo si estás usando perspectivas usando el origen, hace que se tome en cuenta y se escriba también.
+10. Estas son opciones que se activan si _Scale_ (2) está marcado. Escala el borde para que al hacerse un zoom este no quede exageradamente pequeño o grande. Si se hace _zoom-in_ o _zoom-out_ es necesario escalar también para que la manera como se ve el elemento se mantenga inalterada.
+11. Toma como absoluta la información del seguimiento sin hacer que dependa de la posición anterior. Útil si lo que quieres es posicionar algo encima de un objeto, pero sigue siendo mejor posicionar antes.
+12. Escala la sombra con el zoom (2), similar al punto 10.
+13. Escala el desenfoque con el zoom (2), similar al punto 10.
+14. Establece la aceleración del escalado de borde, sombra y desenfoque.
+15. Permite decidir si quieres que el seguimiento del _clip_ se mantenga como rectangular o se pase a vectorial.
+16. Sube o baja el valor para el punto 17.
+17. Si está activado, hace que el seguimiento se aplique tomando en cuenta en qué fotograma de la secuencia está el reproductor en ese momento. Útil para hacer el cartel en un fotograma en el que se ve bien y luego aplicar incluso hasta donde ya casi no se ve (como en este ejemplo).
+18. Aplicar de manera lineal. Toma la información del primer y último fotograma y realiza un [`\move`](/aegisub/tags/advanced/translation) de un punto al otro. Las transformaciones también se ponen en una sola línea. Solo los _clips_ vectoriales cambian esto, ya que deben ser escritos línea a línea. Activa esta casilla si ves un movimiento como el siguiente en el graficador de Blender.
+
+    ![Graficador de Blender](https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/AM3.PNG?sign=hpNUejG_plYCY-FGKOAZSiFXU1Ue4_39NGGzqKkpByw=:0)
+
+    Como puedes ver, es un movimiento continuo y estable en ambos ejes, representados por el color rojo y verde: eso es lineal.
+
+    Usar esta casilla siempre que se pueda te ayuda a ahorrar muchas líneas, sobre todo en máscaras pesadas, ya que hace que se muevan con un `\move` y no teniendo que crear una copia entera por cada fotograma.
+</Steps>
+
+:::note[_Track `\clip` separately_]
+En otra guía hablaré de _Track \clip separately_.
+:::
+
+Ahora te mostraré el resto del proceso de este cartel. Fíjate que aplico sin lineal para poder copiar la información del último y penúltimo fotograma, y luego le quito el último fotograma a mi línea y mi seguimiento. Después pego las líneas que copié, como si hubiera avanzado en el tiempo y luego recuperado algo que borré. Aplico en lineal para ahorrar la mayor cantidad de líneas y extiendo la duración de ese último fotograma que recuperé de antes para hacer, ahora sí, el último seguimiento.
+
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_005.mp4?sign=1kLspRC7vHFP3_mjLBCBjbn9dxu5YNWdWd8fGCvA6Ug=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+
+## Marcadores y más cosas
+
+Con todo lo anterior, puedes comenzar a hacer seguimientos, pero todavía te falta mucha información adicional. Blender es muy bueno en seguimiento de posición y zoom, pero adolece en cuestiones de rotación y perspectiva. Siempre que puedo, intento usar MOCHA para estos dos apartados que tanto le cuestan a Blender.
+
+### Marcadores
+
+No es posible cambiar el tipo de información que está rastreando un marcador ubna vez se ha generado, así que asegúrate de ver qué movimientos está haciendo el objeto, si tiene zoom o no, si tiene un movimiento de perspectiva u otro tipo, para así estar siguiendo lo que corresponde.
+
+Blender también permite hacer algunas cosas de forma manual para casos en los que no es posible un seguimiento automático. Toma por ejemplo el caso siguiente; no se trata de un zoom normal, sino que es un zoom con cambio en el campo visual. Eso lleva a que debas seguir la escala y posición del punto exacto en el que va tu cartel. Pero a veces, eso no es posible. ¿Qué puedes hacer en un caso así? Puedes triangular la posición y escala tomando como referencia otros puntos cercanos, haciendo una especie de triángulo con otros marcadores y promediando la información.
+
+<Tabs>
+
+<TabItem label="Proceso" icon="pencil">
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_006.mp4?sign=1JcP9bZO6v3qm6vhzqEN_IexLpamfuqmao3vMGTAbkA=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+</TabItem>
+
+<TabItem label="Resultado" icon="seti:video">
+Así es como queda el cartel con _clips_ seguidos por separado. Como puedes ver, aunque el campo visual cambie, se puede promediar cada parte del cartel para conseguir un buen seguimiento.
+
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_007.mp4?sign=ChoUO5ofEN83apaAYGZchv0qlqc0_PTYdBGtZ06pyjU=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+</TabItem>
+
+</Tabs>
+
+### Seguimiento a mano
+
+Otra cosa que se puede hacer con Blender es seguir a mano algunos fotogramas en caso de ser necesario. En este ejemplo dejaré algunos fotogramas sin seguimiento para mostrar la manera de solventar esto.
+
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_008.mp4?sign=9WPyRxg-VyL-Ywrp4j4HSRlCr8Yj1J3CSAuF4_maepQ=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+
+### Seguimiento en zoom largo
+
+A veces, cuando sigues un zoom largo, Blender pierde la pista del marcador a la mitad del seguimiento. Para seguir, basta con volver al último fotograma seguido y cambiar el área de búsqueda, o como me pasó a mí, tienes que hacer un fotograma a mano. Pero también es posible.
+
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/muestra_de_sistema_nuevo/Roles/04.Edici%C3%B3n/Gu%C3%ADas/Blender/Blender_009.mp4?sign=s0zvAloJKfFEQq9AlASBnTDWszU0205Bv86eDWXUDSE=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+
+---
+
+Además de lo visto hasta ahora, hay cuestiones tanto sobre el exportador como sus opciones avanzadas, suavizado, extrapolación de seguimiento y muchas otras características que pueden resolver más de un apuro en casos muy difíciles. Para esos caso recomiendo mirar [esta guía](https://fansubbers.miraheze.org/wiki/User:PhosCity/Blender_Motion_Tracking_for_Fansubbing) de [Fansubbing Wiki](https://fansubbers.miraheze.org/wiki/Main_Page).
+
+Con todo esto creo que ya he cubierto los truquitos que puedes aplicar con Blender. Más adelante completaré más esta guía.

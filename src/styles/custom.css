@@ -1,3 +1,5 @@
+@import 'katex/dist/katex.min.css';
+
 table {
     border: 1px solid #2e2a2a;
     /* Color del borde (ajustar según tu paleta) */
@@ -18,4 +20,9 @@ table th {
 table th,
 table td {
   padding: 0.55rem 1.25rem; /* arriba/abajo y lados */
+}
+
+.content-panel video,
+.content-panel img {
+  border-radius: 9px;
 }

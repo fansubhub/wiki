@@ -1,0 +1,55 @@
+---
+interface Props {
+    src: string;
+    width?: string;
+    type?: string;
+    poster?: string;
+    autoplay?: boolean;
+    loop?: boolean;
+    muted?: boolean;
+}
+
+const {
+    src,
+    width = "100%",
+    type = "video/mp4",
+    poster,
+    autoplay = false,
+    loop = false,
+    muted = false,
+} = Astro.props;
+---
+
+<div class="video-container not-content" style={`max-width: ${width};`}>
+    <video
+        controls={!autoplay}
+        autoplay={autoplay}
+        loop={loop || autoplay}
+        muted={muted || autoplay}
+        playsinline
+        preload="metadata"
+        poster={poster}
+    >
+        <source src={src} type={type} />
+        Tu navegador no soporta la reproducción de vídeo.
+    </video>
+</div>
+
+<style>
+    .video-container {
+        margin: 1.5rem auto;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background-color: #000;
+        border: 1px solid var(--sl-color-gray-5);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    video {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9; /* Mantiene la proporción y evita saltos de carga */
+        object-fit: contain;
+    }
+</style>

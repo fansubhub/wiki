@@ -1,21 +1,24 @@
 ---
 import { Icon } from "@astrojs/starlight/components";
+import { type AuthorData, authors } from "../data/authors";
 
-interface Props {
-    name: string;
-    role?: string;
-    avatar?: string;
-    github?: string;
-    discord?: string;
+interface Props extends Partial<AuthorData> {
+    id?: keyof typeof authors | string;
 }
 
-const {
-    name,
-    role = "Autor",
-    github,
-    avatar = github ? `https://github.com/${github}.png` : null,
-    discord,
-} = Astro.props;
+const props = Astro.props;
+const data: Partial<AuthorData> =
+    props.id && authors[props.id] ? authors[props.id] : {};
+const name = props.name ?? data.name ?? "Autor";
+const role = props.role ?? data.role ?? "Autor";
+const github = props.github ?? data.github;
+const avatar =
+    props.avatar ?? props.github
+        ? `https://github.com/${props.github}.png`
+        : data.github
+          ? `https://github.com/${data.github}.png`
+          : data.avatar;
+const discord = props.discord ?? data.discord;
 ---
 
 <div class="author-box" not-content>
@@ -72,7 +75,7 @@ const {
     .author-avatar {
         width: 44px;
         height: 44px;
-        border-radius: 50%;
+        border-radius: 50% !important;
         object-fit: cover;
         margin: 0 !important;
     }

@@ -5,11 +5,58 @@ description: Verás algunos aspectos esenciales de la herramienta de recortes ve
 
 import { Badge } from '@astrojs/starlight/components';
 import Author from '@components/Author.astro';
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-<Badge text="Nivel : Básico" variant="success" />{' '}&ensp;<Badge text="Tipo : Softsub" variant="tip" />
+<Badge text="TS : Básico" variant="success" />{' '}&ensp;<Badge text="Tipo : Softsub" variant="tip" />
+<Author id="trotacalles" />
 
-<Author 
-    name="trotacalles"
-    github="Mandholine"
-    discord="trotacalles"
-/>
+En esta guía verás cómo crear formas (_shapes_) hechas con un trazado vectorial a partir del uso de la herramienta _Clip_ en [Aegisub](/aegisub).
+
+## La herramienta de recortes vectoriales
+
+La herramienta de recortes vectoriales (de ahora en adelante "herramienta _clip_"), es una poderosa característica de las versiones más modernas de Aegisub, y su función es hacer un trazado de coordenadas en tu línea activa mediante puntos de referencia. Por defecto, es capaz de crear una etiqueta [`\clip`](/aegisub/tags/advanced/clip) de forma automática con solo trazar sobre el visualizador de vídeo.
+
+Solo es posible usarla cuando el visualizador está en alguno de los fotogramas abarcados por tu línea activa y dicha línea no está comentada. Si está comentada o el visualizador no está en alguno de los fotogramas (porque la línea dure menos de un fotograma, por ejemplo), entonces no podrás manipular el _clip_.
+
+<Steps>
+1. Seleccionar la herramienta _clip_.
+
+    ![ClipTool](https://media.fansubhub.com/d/uploads/images/guides/es/clips-y-figuras/herramienta_clip_1.png?sign=lqdK4TB1UL13Sqbb2Vc5euUcsGccHkDFEFu6QS2B4wo=:0)
+    Al seleccionar la herramienta _clip_, te aparecerán las herramientas subordinadas a ella.
+
+2. Subherramientas de _clip_.
+
+    ![ClipSubtools](https://media.fansubhub.com/d/uploads/images/guides/es/clips-y-figuras/herramienta_clip_2.png?sign=fxE41cbzPWZSuBmNmR9QexprvjxIiSt6UgoXQAAyD3Y=:0)
+    Los _clips_ tienen mucho usos, pero en esta guía nos centraremos en su utilidad a la hora de crear formas.
+</Steps>
+
+## Métodos de creación
+
+Para crear formas tienes un par de métodos; el manual y el automático.
+
+<Tabs>
+
+<TabItem label="Manual" icon="pencil">
+Las coordenadas que conforman un _clip_ no son en sí mismas lo mismo que una forma, pero pueden servir para crear una. Para eso hay un procedimiento manual que te devuelve una forma en nuestra línea si usas esas coordenadas como si fuera tu texto. Debes tomar las coordenadas y ponerlas fuera de las [llaves que delimitan las etiquetas](/aegisub/tags), luego debes agregar un [`\p1`](/aegisub/tags/basic/scale) a tus etiquetas. Esta etiqueta sirve para darle escala a la forma ingresada.
+
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/videos/guides/es/clips-y-figuras/manual.mp4?sign=6-r_rN74EuF2hZpZ-c_KjvtfHGgQvUUi6Zo3qi-E3A4=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+
+Ahora bien, este método no es del todo correcto y puede presentar problemas en ciertos escenarios, por lo que no puedo recomendarlo. Además tiene otra principal desventaja: es lento. A la hora de hacer carteles nuestra prioridad siempre será ahorrar tiempo en lo más sencillo ara poder dedicarlo a lo más complicado. De esta forma, nuestro trabajo será balanceado.
+</TabItem>
+
+<TabItem label="Automático" icon="code-branch">
+En este método utilizas un [_plugin_](/aegisub/plugins) (una automatización), para que Aegisub calcule la forma a partir de tu _clip_. Este método es mucho más seguro y te ahorrará más de un dolor de cabeza, al mismo tiempo que te permite evitar copiar y pegar texto manualmente.
+
+Para ello debes hacer tu _clip_, dirigirte a la automatización y usarla correctamente. Hay varias alternativas; la más sencilla es usar las macros de [_shapery_](/aegisub/plugins/thirdparty/shapery) y utilizar la opción **Clip to shape**. Esta es la manera más sencilla, pero nos deja sin cosas como el desenfoque ([`\blur`](/aegisub/tags/basic/blur)), la alineación ([`\an`](/aegisub/tags/basic/alignment)) y otras cosas como las dimensiones ([`\fsc`](/aegisub/tags/advanced/sizing)). Para más personalización puedes usar la automatización [_masquerade_](/aegisub/plugins/thirdparty/masquerade), la cual tiene muchas más opciones.
+
+<video controls width="100%" alt="Vídeo de trotacalles">
+    <source src="https://media.fansubhub.com/d/uploads/videos/guides/es/clips-y-figuras/automatizado.mp4?sign=-GeyYQ7rAR7TgAiNrgGXgd4Kw-vmPaba9PK6RLgwaH8=:0" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>
+</TabItem>
+
+</Tabs>
