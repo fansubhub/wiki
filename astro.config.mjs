@@ -14,6 +14,7 @@ import starlightAnnouncement from 'starlight-announcement';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://fansubhub.github.io',
 	markdown: {
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [rehypeKatex],
