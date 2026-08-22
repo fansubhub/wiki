@@ -174,7 +174,7 @@ export default defineConfig({
 							}
 						]
 					}
-				]),
+				], { exclude: ['reference/**'] }),
 				starlightAutoDrafts(),
 				starlightKbd({
 					globalPicker: false,
