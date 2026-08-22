@@ -15,6 +15,7 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Fansub Hub',
+			lastUpdated: true,
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/fansubhub/wiki' },
 				{ icon: 'discord', label: '¡Únete a nuestro servidor!', href: 'https://discord.gg/rt3zuNGyA9' }
@@ -47,6 +48,63 @@ export default defineConfig({
 							{
 								label: 'Etiquetas',
 								items: [{ autogenerate: { directory: 'aegisub/tags' } }],
+							}
+						]
+					},
+					{
+						label: 'Traducción',
+						link: '/p/translate',
+						icon: 'translate',
+						items: [
+							{
+								label: 'Introducción',
+								items: ['p/translate']
+							},
+							{
+								label: 'Guías',
+								items: [{ autogenerate: { directory: 'guides/p/translate' } }],
+							},
+							{
+								label: 'Material y recursos',
+								items: [{ autogenerate: { directory: 'resources/p/translate' } }],
+							}
+						]
+					},
+					{
+						label: 'Corrección',
+						link: '/p/correct',
+						icon: 'pencil',
+						items: [
+							{
+								label: 'Introducción',
+								items: ['p/correct']
+							},
+							{
+								label: 'Guías',
+								items: [{ autogenerate: { directory: 'guides/p/correct' } }],
+							},
+							{
+								label: 'Material y recursos',
+								items: [{ autogenerate: { directory: 'resources/p/correct' } }],
+							}
+						]
+					},
+					{
+						label: 'Tipografía y carteles',
+						link: '/p/typesetting',
+						icon: 'seti:svg',
+						items: [
+							{
+								label: 'Introducción',
+								items: ['p/typesetting']
+							},
+							{
+								label: 'Guías',
+								items: [{ autogenerate: { directory: 'guides/p/typesetting' } }],
+							},
+							{
+								label: 'Material y recursos',
+								items: [{ autogenerate: { directory: 'resources/p/typesetting' } }],
 							}
 						]
 					},

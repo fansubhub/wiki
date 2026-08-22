@@ -1,0 +1,113 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+
+interface Props {
+    name: string;
+    role?: string;
+    avatar?: string;
+    github?: string;
+    discord?: string;
+}
+
+const {
+    name,
+    role = "Autor",
+    github,
+    avatar = github ? `https://github.com/${github}.png` : null,
+    discord,
+} = Astro.props;
+---
+
+<div class="author-box" not-content>
+    {avatar && <img src={avatar} alt={name} class="author-avatar" />}
+    <div class="author-info">
+        <div class="author-meta">
+            <span class="author-role">{role}</span>
+            <span class="author-name">{name}</span>
+        </div>
+        <div class="author-links">
+            {
+                github && (
+                    <a
+                        href={`https://github.com/${github}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <Icon name="github" size="1.1rem" />
+                    </a>
+                )
+            }
+            {
+                discord && (
+                    <span title={discord} class="author-discord">
+                        <Icon name="discord" size="1.1rem" />
+                    </span>
+                )
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .author-box,
+    .author-box * {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .author-box {
+        margin: 1.5rem 0 !important;
+    }
+
+    .author-box {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        margin: 1.5rem 0;
+        border: 1px solid var(--sl-color-gray-5);
+        background-color: var(--sl-color-gray-6);
+        border-radius: 0.5rem;
+    }
+    .author-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 !important;
+    }
+    .author-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+    .author-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: var(--sl-text-sm);
+    }
+    .author-role {
+        color: var(--sl-color-gray-3);
+        font-size: var(--sl-text-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .author-name {
+        font-weight: 600;
+        color: var(--sl-color-white);
+    }
+    .author-links {
+        font-size: var(--sl-text-xs);
+        color: var(--sl-color-gray-3);
+        display: flex;
+        gap: 0.75rem;
+    }
+    .author-links a {
+        color: var(--sl-color-accent-high);
+        text-decoration: none;
+    }
+    .author-links a:hover {
+        text-decoration: underline;
+    }
+</style>

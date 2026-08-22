@@ -1,0 +1,31 @@
+---
+title: Manejo de estilos
+description: Verás cómo organizar de forma eficiente los estilos de tu script.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+import Author from '@components/Author.astro';
+
+<Badge text="Nivel : Básico" variant="success" />{' '}&ensp;<Badge text="Tipo : Softsub" variant="tip" />
+
+<Author 
+    name="trotacalles"
+    github="Mandholine"
+    discord="trotacalles"
+/>
+
+Cómo organizar los estilos en un _script_ es algo que se suele debatir con frecuencia entre los _fansubbers_ que nos dedicamos a esto de reproducir carteles originalmente en un idioma diferente al nuestro al nuestro (en este caso **español**). Hay dos principales opiniones a este respecto; los que dicen que se debe de hacer un estilo para cada cartel y los que dicen que debe haber un solo estilo para todos ellos. Algunos incluso usan un solo estilo para todos y los hacen iguales.
+
+En mi experiencia como _typesetter_ durante estos años, he podido palpar de primera mano la enorme comodudad de utilizar un solo estilo y tener toda la información del texto en [etiquetas](/aegisub/tags) dentro de la misma línea. Aunque esto genera un poco más de densidad en nuestras líneas, ya que esa información necesita ser repetida en cada una, por ejemplo, dentro de las líneas generadas por un seguimiento (_tracking_).
+
+Es por esta experiencia personal que recomiendo y enseño a hacer todo el proceso tomando como base un solo estilo y a condensar toda la información en las mismas líneas de [Aegisub](/aegisub).
+
+## Estilo único de edición
+
+Para el estilo de edición que utilizaré durante mis guías, te pondré esta captura.
+
+![Guia_x1](https://media.fansubhub.com/d/uploads/images/guides/es/estilos/estilo_unico.png?sign=cu8t9dlz2JE4_Cow2XTL1QJ6S_S6CihUtu2NcyaZ3_E=:0)
+
+Como puedes ver es muy parecido al estilo predeterminado de Aegisub, únicamente cambiando el borde, la sombra y la alineación. Para más comodidad amplia el tamaño de la letra para que se te haga más fácil buscar fuentes. Este es el estilo que siempre utilizo y me ha dado los mejores resultados.
+
+Cabe destacar que usar este método tiene dos principales ventajas. Por un lado te libera del tedio de elegir entre montones de estilos por tener uno para cada cartel y tener que copiarlos siempre a tu _script_, y por otro lado te permite utilizar montones de etiquetas y opciones que el editor de estilos no tiene en su interfaz de usuario. Usar las etiquetas de Aegisub más seguido también te permite memorizarlas rápidamente y te da más flexibilidad para desempeñar mucho mejor tu tarea de acondicionar el texto de tu cartel al contexto del vídeo (anime o imagen real) en el que estás trabajando.
