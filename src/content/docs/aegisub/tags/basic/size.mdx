@@ -1,0 +1,21 @@
+---
+title: Tamaño de fuente
+description: Etiqueta de invalidación (override tag) para controlar el tamaño de la fuente.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\fs<tamaño>}` | *Personalizado* | Ajusta el tamaño explícito. |
+| `{\fs}` `{\fs0}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+
+## Ejemplo
+
+```text
+Cuidado que {\fs24}aumenta{\fs} el texto.
+```
+
+![FontSize](/pending.png)

@@ -1,0 +1,31 @@
+---
+title: Ignorar márgenes
+description: Etiqueta de invalidación (override tag) para que el texto ignore los márgenes de la pantalla.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+Esta etiqueta hace que la línea ignore los márgenes horizontales de la pantalla, permitiendo que se use todo el espacio vacío fuera del vídeo.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\q2}` | **Activado** | Aplica el ajuste para que el texto ignore los márgenes de la pantalla. |
+
+:::note[No tiene más configuraciones]
+:::
+
+## Ejemplo
+
+```text
+{\an4\fs600}Ejemplo sin q2
+```
+
+![Margin_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/sinq2.png?sign=9nr3QjW4JpfCZjuDiI90fH63JTBAXn5MMt8wqb_pMag=:0)
+
+```text
+{\an4\fs600\q2}Ejemplo con q2
+```
+
+![Margin_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/conq2.png?sign=loHFnoJIwdABKy0uus51FSpEOTAaYwxrqVaFEWxeu_s=:0)

@@ -1,0 +1,88 @@
+---
+title: Advanced SubStation Alpha
+description: Formato estándar de subtítulos enriquecidos y estilizados (.ass)
+---
+
+import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**Advanced SubStation Alpha (`.ass`)** es el estándar por defecto en la comunidad de *fansubbing* para la creación de subtítulos complejos. A diferencia de formatos básicos como `.srt`, permite un control tipográfico total, maquetación (*typesetting*), efectos visuales y posicionamiento exacto sobre el lienzo del vídeo.
+
+:::note[Evolución del formato]
+Es la evolución directa de **SubStation Alpha v4 (`.ssa`)**, introduciendo soporte completo para estilos avanzados, [transformaciones](/aegisub/tags/advanced/transform) [vectoriales](/aegisub/tags/advanced/clip), [transparencias alfa](/aegisub/tags/basic/color) y mayor precisión en el renderizado con motores como `libass`.
+:::
+
+## Capacidades principales
+
+<Card title="Estilos y tipografía" icon="pencil">
+* Definición global de fuentes, tamaños, colores primarios, secundarios y sombras.
+* Control preciso de [bordes](/aegisub/tags/basic/border) (*outline*), degradados y opacidad por canal alfa.
+* Soporte para fuentes personalizadas incrustadas directamente en contenedores MKV.
+</Card>
+
+<Card title="Posicionamiento y transformación" icon="laptop">
+* Coordenadas exactas en pantalla mediante [etiquetas de posición](/aegisub/tags/basic/position) (`\pos`).
+* [Rotación](/aegisub/tags/advanced/rotation) y [escalado tridimensional](/aegisub/tags/advanced/sizing) (`\frz`, `\frx`, `\fry`, `\fscx`, `\fscy`).
+* [Alineación](/aegisub/tags/basic/alignment) flexible según el teclado numérico estándar (`\an1` a `\an9`).
+</Card>
+
+<Card title="Efectos y karaoke" icon="rocket">
+* [Animaciones temporales](/aegisub/tags/advanced/transform) suaves mediante interpolación (`\t`).
+* Sincronización silábica avanzada para karaoke (`\k`, `\kf`, `\ko`).
+* [Trazado de gráficos y máscaras vectoriales](/aegisub/tags/basic/scale) con comandos de dibujo (`\p1`).
+</Card>
+
+<Card title="Estructura en texto plano" icon="document">
+* Formato legible estructurado por bloques (`[Script Info]`, `[V4+ Styles]`, `[Events]`).
+* Fácil control de versiones y compatibilidad universal con editores de texto.
+</Card>
+
+## Estructura básica de un archivo
+
+<Tabs>
+  <TabItem label="Estructura mínima">
+```ini
+[Script Info]
+Title: Fansub Hub - Ejemplo básico
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1920
+PlayResY: 1080
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,52,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,2.5,1.5,2,30,30,35,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:01:10.00,0:01:13.50,Default,,0,0,0,,Línea de diálogo estándar centrada abajo.
+; Fade in / Fade out (milisegundos):
+Dialogue: 0,0:01:20.00,0:01:23.00,Default,,0,0,0,,{\fad(400,400)}Aparece y desaparece suavemente.
+
+; Rotación en el eje Z (grados):
+Dialogue: 0,0:01:25.00,0:01:28.00,Default,,0,0,0,,{\frz-15\pos(400,300)}Cartel inclinado.
+```
+  </TabItem>
+
+  <TabItem label="Tipos de eventos">
+```ini
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+; Diálogo estándar visible:
+Dialogue: 0,0:00:01.00,0:00:03.00,Default,,0,0,0,,Subtítulo visible en pantalla.
+
+; Comentario invisible (útil para notas de traducción o timing de referencia):
+Comment: 0,0:00:01.00,0:00:03.00,Default,,0,0,0,,Nota del traductor: este evento no se renderiza en el reproductor.
+
+; Renderizado por capas (Layer superior se dibuja por encima):
+Dialogue: 0,0:00:05.00,0:00:08.00,Fondo,,0,0,0,,{\p1}m 0 0 l 200 0 200 50 0 50{\p0}
+Dialogue: 1,0:00:05.00,0:00:08.00,Default,,0,0,0,,Texto colocado encima del fondo dibujado.
+```
+  </TabItem>
+</Tabs>
+
+## Recursos
+
+:::caution[Pendientes de definir]
+:::

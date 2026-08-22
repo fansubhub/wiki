@@ -1,0 +1,68 @@
+---
+title: Desenfoque
+description: Etiqueta de invalidación (override tag) para controlar el desenfoque del texto u objeto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="Transformable" variant="success" />
+
+## Simétrico
+
+Actúa sobre el cuerpo principal del objeto o texto y su sombra [en caso de que la tenga]. Si el objeto tiene borde, entonces actúa sobre el borde y no sobre el cuerpo principal. En cualquiera de los dos casos `\blur` **siempre** actuará sobre la sombra del elemento.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\blur0}` | **Desactivado** | Quita el desenfoque del texto siguiente. |
+| `{\blur}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\blur<0-100>}` | *Personalizado* | Ajusta el desenfoque del texto u objeto dentro del rango permitido, decimales incluidos. |
+
+### Ejemplo
+
+```text
+{\blur2}Ejemplo.
+```
+
+![Blur_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/blur3.png?sign=79ZpDBhn67a1eZf9yOjvKmvpT_5qrf20V-0KdgJkye4=:0)
+
+```text
+{\shad2\blur2}Ejemplo.
+```
+
+![Blur_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/blur1.png?sign=hA4VVHFa5AQIGY6EhBEFKTqp8JGbQByD5skF8vuIAg0=:0)
+
+```text
+{\shad2\bord2\blur2}Ejemplo.
+```
+
+![Blur_x3](https://media.fansubhub.com/d/uploads/images/aegisub/tags/blur2.png?sign=HAGqF-PTw4yd-Pp7tTbAAha9MlSTksHY3VlfTv9ujCU=:0)
+
+## Asimétrico
+
+El desenfoque asimétrico es similar al simétrico, pero con una aceleración de la dispersión diferente; útil a la hora de crear desenfoques por profundidad de campo. Tiene los mismos efectos sobre el cuerpo principal, sombra y borde que el desenfoque simétrico.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\be0}` | **Desactivado** | Quita el desenfoque del texto siguiente. |
+| `{\be}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\be<0-100>}` | *Personalizado* | Ajusta el desenfoque del texto u objeto dentro del rango permitido, decimales incluidos. |
+
+### Ejemplo
+
+```text
+{\be2}Ejemplo.
+```
+
+![Blur_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/blur3.png?sign=79ZpDBhn67a1eZf9yOjvKmvpT_5qrf20V-0KdgJkye4=:0)
+
+```text
+{\shad2\be2}Ejemplo.
+```
+
+![Blur_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/blur1.png?sign=hA4VVHFa5AQIGY6EhBEFKTqp8JGbQByD5skF8vuIAg0=:0)
+
+```text
+{\shad2\bord2\be2}Ejemplo.
+```
+
+![Blur_x3](https://media.fansubhub.com/d/uploads/images/aegisub/tags/blur2.png?sign=HAGqF-PTw4yd-Pp7tTbAAha9MlSTksHY3VlfTv9ujCU=:0)

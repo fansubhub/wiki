@@ -1,0 +1,21 @@
+---
+title: Fuente
+description: Etiqueta de invalidación (override tag) para controlar el tipo de fuente del texto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\fn<nombre>}` | *Personalizado* | Cambia el tipo de fuente. |
+| `{\fn}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+
+## Ejemplo
+
+```text
+Una fuente {\fnGrill Sans}diferente{\fn} a la normal.
+```
+
+![FontSize](/pending.png)

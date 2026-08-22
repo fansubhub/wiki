@@ -1,0 +1,46 @@
+---
+title: BatchFontCollector
+description: Script en Python que recopila fuentes de múltiples archivos de subtítulos, las organiza por episodio e informa de las fuentes que faltan.
+---
+
+import { ContributorList } from "astro-contributors";
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+
+:::note[Créditos de autoría]
+El contenido de esta sección es una adaptación (parcial o total) del trabajo creado por **ougihz**. Para más contexto, visita la [publicación original aquí](https://github.com/ougihz/BatchFontCollector).
+:::
+
+<ContributorList githubRepo="ougihz/BatchFontCollector" />
+
+## Prerrequisitos
+
+<CardGrid>
+<Card title="Python 3.8+" icon="seti:python">
+    De esta versión para arriba.
+</Card>
+<Card title="FontCollector" icon="seti:font">
+    Descárgalo desde [aquí](https://github.com/moi15moi/FontCollector). Asegúrate de que la carpeta de Python `Scripts` esté incluida en las variables de entorno de tu sistema.
+</Card>
+</CardGrid>
+
+## Características
+
+- Procesa múltiples archivos de subtítulos .ass por lotes.
+- Recopila todas las fuentes necesarias para cada archivo de subtítulos.
+- Organiza las fuentes en carpetas por episodio.
+- Registra el proceso de extracción (process.log).
+- Informa de las fuentes que faltan (missing_fonts.log).
+
+## Uso
+
+<Steps>
+1. Abra un terminal.
+
+2. Navegue hasta la carpeta que contiene el _script_ `batch_font_collector.py`.
+
+3. Ejecute el _script_ con la ruta a su carpeta de subtítulos:
+    ```bash
+    python batch_font_collector.py "/ruta/a/los/subtítulos"
+    ```
+</Steps>

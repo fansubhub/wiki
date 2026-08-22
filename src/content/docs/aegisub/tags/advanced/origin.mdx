@@ -1,0 +1,41 @@
+---
+title: Origen
+description: Etiqueta de invalidación (override tag) para controlar el origen avanzado de elementos.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+import { Kbd } from 'starlight-kbd/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+Especifica el centro de los giros de todos los `\fr`. Si no se encuentra especificado, aquellas etiquetas que dependan de él usarán el `\pos` o la posición según alineación en pantalla para determinar su centro de giro.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\org(ox, oy)}` | *Personalizado* | Determina la posición de origen en el eje correspondiente. |
+
+:::caution[Fuera de órbita]
+Debes tener cuidado al modificar el origen, ya que uno muy alejado de la pantalla podría mandar tu objeto muy lejos de los píxeles visibles y hacer que manipularlo o reubicarlo sea imposible. Siempre podrás borrar la etiqueta de la línea o utilizar <Kbd windows="Control+Z" /> para volver atrás.
+:::
+
+Al mover el origen, todo el cálculo de giro cambia y es mucho más crucial entender cómo lo hace para conseguir el resultado buscado.
+
+## Ejemplo
+
+```text
+{\org(200,500)\frz45}Ejemplo
+```
+
+![Origin_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/origen1.png?sign=mzyH5gyM7a6HWY9MaT4JFRXlPw2d7FMfgtv2M94CVZA=:0)
+
+```text
+{\org(200,500)\fry45}Ejemplo
+```
+
+![Origin_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/origen2.png?sign=4YdoNK1BGWS1n3COYCBSppXSA9xk-T1KUVokuAiXaGw=:0)
+
+```text
+{\org(200,500)\frx45}Ejemplo
+```
+
+![Origin_x3](https://media.fansubhub.com/d/uploads/images/aegisub/tags/origen3.png?sign=vx15rRa43kk3UJw4dv6d39kLLYKzBTHbOP7SDjE2y98=:0)

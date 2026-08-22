@@ -1,0 +1,28 @@
+---
+title: Traslación
+description: Etiqueta de invalidación (override tag) para controlar la traslación avanzada de elementos.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+Esta etiqueta establece un movimiento en línea recta de una posición determinada de origen a una posición determinada de destino en un tiempo especificado. Realiza una traslación del objeto con velocidad constante y sin variar la aceleración.
+
+:::caution[Compatibilidad]
+En una línea solo puede haber una etiqueta `\pos` o `\move`, no pueden coexistir. Tampoco puede haber más de una etiqueta `\move` en una misma línea.
+:::
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\move(x1,y1,x2,y2,t1,t2)}` | *Personalizado* | Las variables `x1` e `y1` son las coordenadas de origen, `x2` e `y2` son las coordenadas de destino y `t1` y `t2` son los tiempos en milisegundos referentes a la línea actual, `t1` es el de comienzo y `t2` el de finalización. |
+
+En caso de que `t1` y `t2` no estén especificados, será considerado como tiempo de traslación la entera duración de la línea.
+
+## Ejemplo
+
+```text
+{\move(419.35,174.22,1405.34,845.1,0,4963)}Ejemplo.
+```
+
+![Translation_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/move.gif?sign=Hzrzav1AWWCFWKf3YQNPvPsFT5_Q4uFQbKRJ7SOdvqY=:0)

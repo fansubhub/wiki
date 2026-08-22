@@ -1,0 +1,34 @@
+---
+title: Bordes
+description: Etiqueta de invalidación (override tag) para controlar los bordes del texto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="Transformable" variant="success" />
+
+Esta etiqueta puedes controlarla tanto uniformemente `\bord` como por cada uno de sus ejes: `\xbord` y `\ybord`. Cada una de estas variables controla el nivel de borde del texto u objeto en el eje correspondiente.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\bord0}` | **Desactivado** | Quita el borde del texto siguiente. |
+| `{\bord}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\bord<borde>}` `{\xbord<borde>}` `{\ybord<borde>}` | *Personalizado* | Ajusta el borde del texto con un valor positivo (de `0` a `∞`), pudiendo contener decimales. |
+
+:::caution[Sobrescritura]
+Si utilizas `\bord` después de `\xbord` o `\ybord` [en el mismo bloque], este sobrescribirá los valores anteriores de esas etiquetas.
+:::
+
+## Ejemplo
+
+```text
+{\bord2}Ejemplo.
+```
+
+![Border_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/borde1.png?sign=ZRczQeGKuSg8a_iTtCjOxXQHGjLBPLs6-sS02Rsvldo=:0)
+
+```text
+{\bord8}Ejemplo.
+```
+
+![Border_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/borde2.png?sign=j65cpUtlK4mRlBbFfqHH2Ndfa40O2yxkM4tL78W2Um8=:0)

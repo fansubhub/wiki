@@ -1,0 +1,39 @@
+---
+title: Alineación
+description: Etiqueta de invalidación (override tag) para controlar la alineación en pantalla del texto o un objeto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+:::note[Alineación y posición]
+Esta etiqueta especifica la alineación según la posición `\pos` en caso de que esta esté especificada o en caso contrario, según la pantalla entera.
+:::
+
+Los valores de alineación de esta etiqueta son parecidos al teclado numérico, siendo las siguientes todas las posibilidades que hay.
+
+![Align_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/an.png?sign=sSt0hipGK0hMuaHmGs8cM2x1Cr_XWdu5cLb_xpG1rQE=:0)
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\an}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\an1-9}` | *Personalizado* | Ajusta la alineación en pantalla. |
+
+:::note[Nota]
+Cabe destacar que la alineación también determina cómo se organizan los párrafos y cómo crece el texto a medida que es escrito.
+:::
+
+## Ejemplo
+
+```text
+{\an5}Ejemplo
+```
+
+![Align_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/an5.png?sign=hNvqGKV2_OzKEIlwZO4pcdibNWorm-aWhjzmOCZsnpM=:0)
+
+```text
+{\an4}Ejemplo
+```
+
+![Align_x3](https://media.fansubhub.com/d/uploads/images/aegisub/tags/an4.png?sign=WfzlzEGa9ToBcqufzIlJaB0kVf1t-1WhRzcSAtQxEas=:0)

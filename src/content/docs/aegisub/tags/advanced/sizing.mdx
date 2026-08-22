@@ -1,0 +1,35 @@
+---
+title: Dimensionamiento
+description: Etiqueta de invalidación (override tag) para controlar el dimensionamiento avanzado de texto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+Este es el método avanzado de la etiqueta [`\fs`](/aegisub/tags/basic/size) en la que puedes controlar el tamaño uniformemente. Con estas etiquetas: `\fscx` y `\fscy` puedes controlar las dimensiones de los ejes `X` e `Y` por separado.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\fscx100}` `{\fscx100}` | *Por defecto* | Restablece la dimensión predeterminada en el eje correspondiente. |
+| `{\fscx0-∞}` `{\fscx0-∞}` | *Personalizado* | Ajusta la dimensión en el eje correspondiente. |
+
+## Ejemplo
+
+```text
+{\fscx100\fscy100}Ejemplo.
+```
+
+![Sizing_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/fsc100.png?sign=zDdRrhT4TIcKv2Bz6H4iRiWcZyKBLffK_y3wNNJ2jK0=:0)
+
+```text
+{\fscx200\fscy200}Ejemplo.
+```
+
+![Sizing_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/fsc200.png?sign=uLZuqrc5NuDtuCaQUu29lvJxGzTksyrSjWz4qKc6KLU=:0)
+
+```text
+{\fscx50\fscy150}Estiradiño
+```
+
+![Sizing_x3](/pending.png)

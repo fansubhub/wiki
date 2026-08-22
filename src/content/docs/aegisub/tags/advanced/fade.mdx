@@ -1,0 +1,38 @@
+---
+title: Aparición y desvanecimiento controlado
+description: Etiqueta de invalidación (override tag) para controlar la aparición y desvanecimiento avanzado de texto o un objeto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+Establece un desvanecimiento desde un tiempo y alpha determinado de inicio, luego una progresión hacia un estado intermedio y otro desvanecimiento hacia un tiempo y alpha final.
+
+:::note[Duración de la línea]
+Añadir un efecto de aparición/desvanecimiento no extiende la duración de la línea. El efecto es únicamente visible dentro de la duración de esta.
+:::
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\fade(alpha1,alpha2,alpha3,t1,t2,t3,t4)}` | *Personalizado* | Valor de aparición y desvanecimiento personalizado. |
+
+<Aside type="tip" title="Valores" icon="list-format">
+    Tomando como estado de inicio `alpha1`, este se mantendrá hasta llegar a `t1`. Llegado a ese punto, irá transformándose en `alpha2` hasta alcanzar `t2`. Así se quedará hasta `t3`, punto en el que comenzará a transfomarse en `alpha3` hasta alcanzar `t4`.
+
+    - `alpha1`, `alpha2` y `alpha3` pueden ser un número entre `0` y `255`, siendo `0` totalmente visible y `255` totalmente transparente.
+    - `t1` es el tiempo de inicio de la primera progresión en milisegundos tomando como referencia el tiempo de línea.
+    - `t2` cumple con las mismas reglas, pero representa el tiempo de finalizacion de la primera progresión.
+    - `t3` es igual a los demas `t`, representa el inicio de la segunda progresión y `t4` el final de la misma.
+</Aside>
+
+## Ejemplo
+
+En un `\fad(500, 300)` la línea utiliza los primeros `500` milisegundos para aparecer y los últimos `300` para desaparecer. Si el valor es `0`, entonces no hará nada en esa parte de la línea. Ambos valores son **obligatorios**.
+
+```text
+{\fade(0,255,0,1000,2500,3500,5000)\pos(926,666)}Ejemplo.
+```
+
+![FadeAdv_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/fade.gif?sign=7dV3a7yqD3QpK3BQeTYtiBtw-yIuIaeuG_XtxXVkqkM=:0)

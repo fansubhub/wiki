@@ -1,0 +1,98 @@
+---
+title: Primeros pasos
+description: Guía de primeros pasos sobre los plugins de Aegisub.
+sidebar:
+  order: 1
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { Kbd } from 'starlight-kbd/components';
+
+:::note[Créditos de autoría]
+El contenido de esta sección es una adaptación (parcial o total) del trabajo creado por **Phos**. Para más contexto, visita la [publicación original aquí](https://phoscity.github.io/Phos-Fansubbing-Guide/Typesetting/Aegisub%20Scripts/).
+:::
+
+Los _scripts_ o _plugins_ (en adelante _plugins_) de [Aegisub](/aegisub) son archivos `Lua` o `Moonscript` que puedes utilizar para automatizar tareas tediosas, repetitivas o complejas. Estos _plugins_ son absolutamente obligatorios para [Tipografía y carteles](/p/typesetting) ya que utilizarlos aumentará tu eficiencia.
+
+Hay dos métodos para instalar _plugins_ para Aegisub: **automático** y **manual**.
+
+## Carpeta de _plugins_
+
+Todos los _plugins_ deben estar en la carpeta _automation_ de Aegisub. Dependiendo de tu sistema operativo, esta carpeta puede estar en diferentes directorios.
+
+| Sistema operativo | Directorio de automatizaciones |
+| :--- | :--- |
+| Windows | `%AppData%\Aegisub\` |
+| Linux | `~/.aegisub/` |
+| MacOS | `~/Library/Application Support/Aegisub/` |
+
+Dentro de la carpeta del programa, debe de haber una carpeta llamada _automation_. Dentro de esta carpeta deben de haber dos más: _autoload_ e _include_. Si estás instalando _plugins_ manualmente o cualquiera de estas carpetas no existe, créalas tú mismo. La carpeta _autoload_ consiste de todos los _plugins_ que quieres que Aegisub cargue mientras que la carpeta _include_ consiste de todos los módulos de los que dependen los _plugins_.
+
+:::note[Versiones portables]
+Si tienes una instalación portable de Aegisub, la carpeta de automatizaciones está localizada dentro del mismo directorio que la instalación de Aegisub.
+:::
+
+## Métodos de instalación
+
+<Tabs>
+
+<TabItem label="Automático" icon="code-branch">
+Este es el método recomendado para la instalación de _plugins_ para Aegisub ya que te permite instalar, desinstalar y actualizar _plugins_ sin salir de la aplicación. La herramienta que permite todo esto es el [control de dependencias (_Dependency Control_)](dependency_control). En Windows, las nuevas versiones de Aegisub ya vienen con este _plugin_ incluido. Si tu instalación no contiene este _plugin_, sigue las instrucciones del enlace anterior para instalarlo.
+</TabItem>
+
+<TabItem label="Manual" icon="pencil">
+No todos los _plugins_ de Aegisub se han añadido al control de dependencias. Para poder instalar esos _plugins_ tendrás que descargarlos y moverlos a las carpetas requeridas manualmente.
+
+<Steps>
+1. Descarga el _plugin_ en tu ordenador. Si este depende de algún módulo, descárgalo también.
+2. Copia el _plugin_ al directorio _automation_ y (si aplica) los módulos al directorio _include_.
+3. Reinicia Aegisub.
+</Steps>
+</TabItem>
+
+</Tabs>
+
+## _Plugins_ globales y locales
+
+Los _plugins_ globales son aquellos que están disponibles en la carpeta de automatizaciones. Cuando Aegisub se ejecuta, todos estos se cargan automáticamente.
+
+Los _plugins_ locales son los añadidos manualmente por el usuario (tú). Estos _plugins_ pueden estar en cualquier directorio y están enlazados al archivo de subtítulos abierto en el momento en que se añadió el _plugin_. Cuando abres un archivo de subtítulos que está enlazado a un _plugin_ local, este _plugin_ se carga. Similarmente, cuando cierras ese archivo de subtítulos, todos los _plugins_ locales enlazados dejarán de estar cargados en el programa.
+
+## Gestor de automatizaciones
+
+Para ver información sobre el gestor de automatizaciones (_Automation Manager_) de Aegisub dirígete [aquí](automation_manager).
+
+## Recargar _plugins_
+
+Aegisub carga todos los _plugins_ que encuentra en su directorio de carga automática al arrancar. Si has instalado un _plugin_ mientras Aegisub estaba abierto, este no lo cargará automáticamente.
+
+Hay dos maneras para recargar los _plugins_. La primera es simplemente cerrar y volver a abrir Aegisub. Si no quieres cerrar Aegisub para recargar los _plugins_, puedes hacerlo a través del [gestor de automatizaciones](automation_manager).
+
+## Errores durante la instalación de _plugins_
+
+Tras instalar un _plugin_, la primera vez que se carga en Aegisub, puedes encontrarte con algún mensaje de error para todos los _plugins_ que no se han podido cargar. Los errores pueden ocurrir por las siguientes razones:
+
+- Errores en el mismo _plugin_.
+- El _plugin_ depende de algún módulo externo, pero no puede localizarlos en el directorio.
+
+Hacer clic sobre **Detalles** siempre te dará más información. Te dirá de qué trata el error, lo que te dará una pista sobre cómo solucionarlo. Si el error es sobre archivos faltantes, siempre puede arreglarse moviendo los archivos requeridos al directorio requerido. Otros errores tendrás que atenderlos por cada caso.
+
+## Asignar una tecla a un _plugin_
+
+Cada vez que ejecutas un _plugin_, no quieres necesariamente tener que ir a `Automatización` y hacer clic sobre el _plugin_. Es por ello que puedes asignar una tecla o combinación de ellas para que ejecuten un _plugin_.
+
+<Steps>
+1. En Aegisub, ve a `Ver → Opciones → Interfaz → Atajos de teclado`.
+2. Haz clic sobre un `Subtitle Grid`.
+3. Haz clic sobre el botón `Nuevo`.
+4. Aquí, en la columna `Atajo` (izquierda), pulsa la tecla o combinación de ellas a la que quieres asignar el _plugin_. Por ejemplo, si quieres ejecutar el _plugin_ `Edit Tags` cuando pulses <Kbd windows="E" /> en `Subtitle Grid`, escribe `E` en la primera columna.
+5. En la columna `Comando` (central) escribe `automation/lua`. Aparecerá un desplegable en el que podrás seleccionar `Edit Tags`. Puedes escribir más para refinar la búsqueda.
+6. Guarda los cambios haciendo clic sobre `OK`.
+7. Ahora, cada vez que presiones la tecla de la columna izquierda, se ejecutará el comando de la columna central.
+</Steps>
+
+<video controls width="100%" alt="Vídeo de y por Phos">
+    <source src="https://phoscity.github.io/Phos-Fansubbing-Guide/Typesetting/assets/Aegisub%20Script/hotkey_edit_tags.mp4" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+</video>

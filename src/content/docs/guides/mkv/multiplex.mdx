@@ -1,0 +1,82 @@
+---
+title: Multiplexado MKVToolNix
+description: Unir diferentes archivos en un solo contenedor MKV.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Aside title="Proceso" icon="comment">
+    El multiplexado MKV es el proceso de combinar diferentes pistas de video, audio, subtítulos y otros elementos en un único archivo MKV. Este archivo puede contener múltiples fuentes de audio, diferentes idiomas de subtítulos y más, lo que permite al usuario elegir la pista que prefiera durante la reproducción.
+</Aside>
+
+## Prerequisitos
+
+<CardGrid>
+    <Card title="MKVToolNix" icon="laptop">
+        Descárgalo desde [aquí](https://mkvtoolnix.download/downloads.html) si todavía no lo tienes.
+    </Card>
+    <Card title="Archivos multimedia" icon="document">
+        Un archivo de vídeo cualquiera y un archivo de subtítulos o audio.
+    </Card>
+</CardGrid>
+
+## Añadir archivos
+
+<Steps>
+1. Abrimos la aplicación **MKVToolNix**.
+
+2. Añadimos el archivo de vídeo que queremos juntar.
+
+    <Tabs>
+        <TabItem label="Arrastrando" icon="code-branch">
+        Arrastramos los archivos que queremos importar hasta el recuadro bajo **Archivos de origen**.
+        ![Multiplex_x1](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/arrastrar.png?sign=OcMrhI6sQQafeP7scTDx1xaM2dDI_4PvRZn1ACIkT6s=:0)
+        </TabItem>
+        <TabItem label="Clic derecho" icon="code-branch">
+        Podemos añadir archivos haciendo clic derecho sobre el recuadro bajo **Archivos de origen**. Se nos abrirá una ventana del explorador de archivos, desde la que escogeremos los archivos que queramos importar.
+        ![Multiplex_x2](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/clic-derecho.png?sign=zDH4uKmaUsw9chjr9Y3XSq-CqLKVwQJZgrRHm59rq0M=:0)
+        ![Multiplex_x3](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/archivos.png?sign=1o3oNsMnMAcvqWxPO0C88Gls6gNmGT51OJrPUIHpJOs=:0)
+        </TabItem>
+    </Tabs>
+3. Añadimos los archivos de subtítulos/audio.
+
+    Añadimos el archivo de subtítulos o audio que queramos emparejar con el vídeo dentro del contenedor Matroska. En la ventana que nos aparece seleccionamos la primera opción, con la que agregaremos el archivo a la configuración de multiplexado actual.
+    ![Multiplex_x4](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/a%C3%B1adir-subtitulos.png?sign=hNH5ucNQZWdCjTA1gZlgYdBrN4lrvhCBhHS4rcw5OHA=:0)
+4. Revisión de archivos importados.
+
+    Cuando hayamos agregado todos los archivos, veremos que en la parte de abajo habrá una sección que contendrá diferentes tipos de pistas. Estas pistas están agrupadas con el **color del archivo**, podremos identificar de dónde proceden mirando su color respecto a los archivos importados.
+    Desde aquí también podemos seleccionar qué pistas querremos que haya en el **archivo final**. Podemos **quitar pistas** que ya existieran previamente y que no queramos preservar en el nuevo archivo que crearemos.
+    ![Multiplex_x5](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/pistas.png?sign=qqQ9AHYYFOMHppVNQGSXVRLjlGoUDbl-0R6qOWwGTcw=:0)
+</Steps>
+
+## Modificar pistas
+
+Podemos modificar las propiedades de inserción de una pista. En este ejemplo estamos viendo y cambiando las propiedades de una pista de subtítulos. Las propiedades más importantes que destacaremos son:
+
+- **Nombre de pista:** El nombre o título de la pista que se mostrará cuando la seleccionemos en algún reproductor de vídeo.
+- **Idioma:** Especifica el idioma de la pista, lo que es útil para que los reproductores puedan seleccionar el idioma predeterminado correcto para el usuario. También ayuda a la persona a seleccionar el audio que quiera escuchar de forma manual.
+- **Pista predefinida:** Esto define si esta pista será la que se reproducirá por defecto (en caso de que el reproductor de vídeo no tenga ningún idioma predeterminado configurado por el usuario). Si hay más de una pista con esta propiedad definida, puede conllevar a resultados no deseados.
+- **Delay (desfase en ms):** Los milisegundos (tanto positivos como negativos) de restraso o adelanto que tenga la pista de audio o vídeo. Muy útil si se necesita sincronizar todo un subtítulo en la misma medida.
+
+![Multiplex_x6](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/modificar-pistas.png?sign=6Hlv8kSOkkCtCeVXF8sna-xguDgh2pYhPtX5AT6nuNw=:0)
+
+## Multiplexar
+
+<Steps>
+1. Iniciar multiplexado.
+
+    Una vez hemos terminado de ajustar todas las opciones que necesitemos, podemos proceder a multiplexar y obtener el archivo final. Para ello haremos clic en **Iniciar multiplexado**. Esto iniciará el proceso que tardará más o menos dependiendo de la velocidad de los dispositivos de almacenaje en donde se encuentren estos archivos.
+    ![Multiplex_x7](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/multiplexar.png?sign=cEwSbf5Od8fPl2bgsgAhPvoyj76oi_IBHUTYRwGgGwc=:0)
+2. Esperar.
+
+3. Verificar la exportación del archivo.
+
+    ![Multiplex_x8](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/tutorial.png?sign=ICCRxcV91daCERUr-3Arm3eQgj60wKbYBrgfOZkvMQ4=:0)
+</Steps>
+
+Si volvemos a MKVToolNix para revisar las pistas dentro del nuevo archivo, veremos que ahora todas están agrupadas dentro del mismo **con el mismo color** todas las pistas. Ahora podríamos volver al archivo anterior si desmarcamos la pista que hemos agregado anteriormente y volvemos a iniciar el multiplexado.
+
+![Multiplex_x9](https://media.fansubhub.com/d/uploads/images/guides/es/unir-archivos-a-mkv/pistas-tutorial.png?sign=vh_ISe2zyNgIUvKEzCYEKWOMykyflThnjc6vgUgDRAo=:0)

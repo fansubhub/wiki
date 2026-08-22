@@ -1,0 +1,29 @@
+---
+title: Oblicuación
+description: Etiqueta de invalidación (override tag) para controlar la oblicuación avanzada de elementos.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="Transformable" variant="success" />
+
+Esta etiqueta se usa mayormente en perspectivas y te permite corregir el ángulo de ataque del eje `Y` con respecto al `X` y hacer que no sea necesariamente de `90º`. El número que establezcas determinará qué tan "distorsionado" se verá el objeto en el plano oblicuo.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\fax0}` `{\fay}` | *Por defecto* | Restablece la inclinación en el eje correspondiente. |
+| `{\fax0-∞}` `{\fay0-∞}` | *Personalizado* | Determina la inclinación oblicua en el eje correspondiente. |
+
+## Ejemplo
+
+```text
+{\fax-0.5}Ejemplo.
+```
+
+![Obliqueness_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/fax.png?sign=6aDjnQPV8iT2BISHlOS-hMa1S3JoyO1kAO2Qp-D48Q8=:0)
+
+```text
+{\fay-0.5}Ejemplo.
+```
+
+![Obliqueness_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/fay.png?sign=VHbs-1aCESbCEVT6X5NAXWeg0xR9UFJ1pZxvrsbS2qw=:0)

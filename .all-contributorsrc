@@ -1,0 +1,20 @@
+{
+  "projectName": "wiki",
+  "projectOwner": "fansubhub",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["README.md"],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "AlexGallego2005",
+      "name": "Nyalex",
+      "avatar_url": "https://github.com/AlexGallego2005.png",
+      "profile": "https://github.com/AlexGallego2005",
+      "contributions": ["docs", "mantenimiento"]
+    }
+  ],
+  "contributorsPerLine": 7
+}

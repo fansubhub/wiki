@@ -1,0 +1,55 @@
+---
+title: Color y alfa
+description: Etiqueta de invalidación (override tag) para controlar el color y alfa de la fuente.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="Transformable" variant="success" />
+
+## Color
+
+:::caution[BGR]
+El color de la etiqueta está codificado en **[HEX](https://es.wikipedia.org/wiki/Colores_web)**, sin embargo, no es **RGB** (_Red_, _Green_, _Blue_), sino que es **BGR** (_Blue_, _Green_, _Red_). Esto debes tenerlo en cuenta si aplicas los colores manualmente.
+    :::note[Traducción automática]
+    Si en vez de aplicar los colores manualmente lo haces a través de la interfaz de colores de [Aegisub](/aegisub), esté automáticamente convertirá tu **HEX** de **RGB** a **BGR**.
+:::
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\c}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\c&H<BGR>&}` | *Personalizado* | Ajusta el color del texto u objeto. |
+| `{\1c&H<BGR>&}` | *Personalizado* | Ajusta el interior de la letra, el color principal. |
+| `{\2c&H<BGR>&}` | *Personalizado* | Ajusta el relleno de las sílabas que aún no son cantadas en una línea de karaoke. |
+| `{\3c&H<BGR>&}` | *Personalizado* | Ajusta el borde de la letra. |
+| `{\4c&H<BGR>&}` | *Personalizado* | Ajusta la sombra de la letra. |
+
+![Color_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/colores.png?sign=Weaf_Fwos21G1Fb7Wv6t1nzb0FdwUWCUQixgirAvvyc=:0)
+
+### Ejemplo
+
+```text
+¿Puedes {\c&H0000FF&}sangrar{\c} demasiado?
+```
+
+![Color_x2](/pending.png)
+
+## Alfa
+
+Además del color del texto, puedes cambiar el alfa de este para determinar la visibilidad de una parte o completa del texto. Puedes ajustar los distintos alfas manualmente o desde la interfaz de usuario de [Aegisub](/aegisub) en el seleccionador de colores, aplicándose a una parte determinada del objeto.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\<numero>a}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\1a&H<HEX>&}` | *Personalizado* | Ajusta el alfa principal. |
+| `{\2a&H<HEX>&}` | *Personalizado* | Ajusta el alfa del color de las sílabas no cantadas aún en el karaoke. |
+| `{\3a&H<HEX>&}` | *Personalizado* | Ajusta el alfa del borde. |
+| `{\4a&H<HEX>&}` | *Personalizado* | Ajusta el alfa de la sombra. |
+
+### Ejemplo
+
+```text
+{\1a&H5A&}Ejemplo.
+```
+
+![Alpha_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/alpha.png?sign=16N80foyM7YA9I1BvUbtscC1We-U_5k8V8NUpgwvMIc=:0)

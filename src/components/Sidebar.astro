@@ -1,0 +1,10 @@
+---
+import Default from '@astrojs/starlight/components/Sidebar.astro';
+import TopicsDropdown from 'starlight-sidebar-topics-dropdown/TopicsDropdown.astro';
+import DefaultPagination from 'starlight-cooler-credit/components/Pagination.astro';
+---
+
+{/* Render the topics dropdown menu. */}
+<TopicsDropdown />
+{/* Render the default sidebar. */}
+<Default><slot /></Default>

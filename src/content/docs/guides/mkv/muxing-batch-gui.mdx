@@ -1,0 +1,41 @@
+---
+title: MKV Muxing Batch GUI
+description: Es una herramienta dedicada a automatizar el proceso de muxing, agregando multiples pistas de video, audio, subs, attachments para ahorrar tiempo y mitigar errores.
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Esta herramienta es muy útil cuando quieres trabajar series que cuentan con muchos episodios, ya que a diferencia de mkvtoolnix, aquí puedes automatizar el proceso.
+
+## Instalación
+
+<Steps>
+1. Descarga e instala la aplicación desde GitHub
+
+    La aplicación es de código abierto, por lo que la puedes instalar desde [su repositorio de GitHub](https://github.com/yaser01/mkv-muxing-batch-gui/releases/tag/2.4.2) (existe la versión QT5 y QT6, asegúrate de leer cuál es compatible en tu caso).
+
+2. Reemplazar los binarios.
+
+    Tras instalar el programa, debes actualizar los binarios que trae por defecto en `C:\Program Files (x86)\MKV Muxing Batch GUI\Resources\Tools\Windows64` → (`mkvmerge.exe` y `mkvpropedit.exe`). Si ya tienes instalado **MKVToolNix** `C:\Program Files\MKVToolNix`, entonces simplemente reemplázalos para que tengas una versión más actualizada.
+
+3. Editar el archivo de idiomas.
+
+    Otra cosa que debes hacer es editar el archivo de idiomas, el cual se encuentra en `C:\Program Files (x86)\MKV Muxing Batch GUI\Resources\Languages` → (`iso639_language_list.json`).
+
+    Y así, puedes agregar idiomas por región que no vienen añadidos por defeco, como lo son `es-419` o `es-ES`. Un ejemplo de cómo lo editarías sería el siguiente: `"Spanish": "spa","Spanish (Latin America)": "es-419","Spanish (Castilian)": "es-ES"`.
+</Steps>
+
+## Configuración
+
+Abre el programa y ve al apartado de opciones para configurarlo de la siguiente manera. Agregamos todas las extensiones de audio/subs y también agregamos los idiomas favoritos para audio/subtítulos.
+
+![MuxBatch_x1](https://i.ibb.co/YTjry03V/Screenshot-2025-08-28-222157.png)
+
+## Uso
+
+Realmente no profundizaré en esto, ya que el programa es bastante intuitivo, solo es arrastrar archivos procurando que esten enumerados correctamente. Pasando a la sección de _attachments_, esta cuenta con un modo experto en donde puedes agregar carpetas enumeradas que los contengan para cada archivo de video específico, esto es super útil si quieres evitar agregar _attachments_ innecesarios en un episodio concreto.
+
+Si quieres saber cómo ordenar por episodio las fuentes de tus subtítulos de manera automatizada, puedes ir a la siguiente guía: [BatchFontCollector](/guides/scripts/python/batch-font-collector). Para finalizar, en el apartado _mux setting_ no es necesario activar ningún _checkbox_ realmente, solo añade a la cola y especifica la ruta de salida, es todo.
+
+Gracias por leer.
+

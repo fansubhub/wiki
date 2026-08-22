@@ -1,0 +1,23 @@
+---
+title: Posicionamiento
+description: Etiqueta de invalidación (override tag) para controlar la posición en la pantalla del texto o un objeto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="Transformable" variant="success" />
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\pos}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\pos(<px>,<py>)}` | *Personalizado* | Ajusta la posición sobre el eje `X` (_px_) e `Y` (_py_). |
+
+## Ejemplo
+
+Una posición `\pos(350,140)` significa que el objeto estará posicionado a `350` píxeles del margen **izquierdo** de la pantalla y a `140` píxeles del margen **superior** de la misma.
+
+```text
+{\pos(350,140)}Ejemplo
+```
+
+![Position_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/pos.png?sign=8Urai8-dfzDhRbwYznaWJYEXxm0754txEef7sflzLAg=:0)

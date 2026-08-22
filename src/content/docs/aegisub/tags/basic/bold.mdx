@@ -1,0 +1,23 @@
+---
+title: Negrita
+description: Etiqueta de invalidación (override tag) para controlar el peso de la fuente.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\b1}` | **Activado** | Aplica formato de negrita al texto siguiente. |
+| `{\b0}` | **Desactivado** | Quita la negrita del texto siguiente. |
+| `{\b}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\b<peso>}` | *Personalizado* | Ajusta el peso explícito (ej. `{\b700}` para *bold*, `{\b400}` para regular). |
+
+## Ejemplo
+
+```text
+Estoy de muy {\b1}mal{\b0} humor.
+```
+
+![Bold](/pending.png)

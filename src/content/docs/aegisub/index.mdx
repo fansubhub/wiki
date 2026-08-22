@@ -1,0 +1,36 @@
+---
+title: Aegisub
+description: Documentación general del editor de subtítulos Aegisub
+---
+
+![Aegisub](https://media.fansubhub.com/d/uploads/images/aegisub/aegisub-logo-large.png?sign=r8ZV4p3HTZgYTIzKAWLvJCib--Cw1pY2k_tzUPMnJWE=:0)
+
+Es una herramienta gratuita, multiplataforma y de código abierto para crear y modificar subtítulos. Aegisub permite sincronizar los subtítulos con el audio de forma rápida y sencilla, y cuenta con muchas herramientas potentes para darles estilo, incluida una vista previa de video en tiempo real incorporada.
+
+Las versiones estables y documentación puede encontrarse en [su sitio oficial](https://aegisub.org/).
+Las versiones más avanzadas pueden hallarse en el Github de [arch1t3cht](https://github.com/arch1t3cht/Aegisub).
+
+## Plugins
+
+Aegisub cuenta con múltiples subherramientas llamadas [automatizaciones](plugins/automation_manager) o *plug-ins* que pueden ser instaladas mediante el repositorio que viene instalado por defecto en las versiones más modernas del programa. Dicho repositorio de llama ***Dependency Control*** y puede ser instalado marcando la casilla **Instalación completa** en las versiones `3.4.x`, y se planea implementarlo completamente en versiones posteriores.
+
+Algunos de los objetivos de la automatización son:
+
+- Macros para automatizar tareas complejas de edición de subtítulos.
+- Exportar filtros para generar efectos complejos a partir de una entrada más simple.
+- Efectos de karaoke.
+- Cuadros de notas de traducción.
+- Probablemente varios usos aún no descubiertos.
+
+## Etiquetas
+
+En un archivo **ASS**, las etiquetas se encuentran dentro de la línea de diálogo, en el campo `Text`, y se colocan entre llaves (`{}`).
+
+```yaml
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:01.00,0:00:05.00,Default,,0,0,0,,{etiquetas}Texto aquí
+```
+
+Dentro de la interfaz de Aegisub el campo de diálogo lo podemos ver de la siguiente manera.
+
+![Aegisub Dialog](https://media.fansubhub.com/d/uploads/images/aegisub/tags/tags-ejemplo-1.png?sign=daNElU2jPS-aTXFw66_nqC3adCvXNyYvSK0KYEQI3xU=:0)

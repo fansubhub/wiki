@@ -1,0 +1,76 @@
+---
+title: Matroska
+description: Formato de contenedor multimedia universal (.mkv)
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+
+**Matroska (`.mkv`)** es un formato de **contenedor abierto** diseñado para almacenar una cantidad ilimitada de pistas de vídeo, audio, imágenes y subtítulos dentro de un único archivo.
+
+:::tip[Contenedor vs. Códec]
+Matroska **no es un códec** como `H.264`, `HEVC` o `AV1`. Actúa como un paquete que envuelve diferentes pistas y formatos sin necesidad de recomprimir el contenido multimedia.
+:::
+
+## Características principales
+
+<Card title="Multipista y VFR" icon="laptop">
+* Varias pistas de vídeo y audio alternativas.
+* Soporte para vídeo y audio con *framerate* variable (**VFR**).
+* Capacidad de concatenar vídeos sin pérdida de calidad.
+</Card>
+
+<Card title="Subtítulos y capítulos" icon="document">
+* Soporte nativo y avanzado para formatos como `SSA`, `ASS` y `PGS`.
+* Gestión detallada de múltiples capítulos en un solo archivo.
+* Inclusión de fuentes y archivos adjuntos de cualquier tipo.
+</Card>
+
+<Card title="Rendimiento y streaming" icon="rocket">
+* Menor sobrecarga (*overhead*) de datos.
+* Búsqueda (*seeking*) instantánea sin desincronización ni congelamientos.
+* Alta tolerancia a errores y corrupción en comparación con `AVI` o `MP4`.
+</Card>
+
+<Card title="Metadatos" icon="seti:image">
+* Portadas e imágenes empotradas como muestra de contenido.
+* Sistema flexible de etiquetas globales y por pista.
+</Card>
+
+## Recursos
+
+<CardGrid>
+<LinkCard
+    title="MKVToolNix"
+    href="https://mkvtoolnix.download/downloads.html"
+    description="Conjunto de herramientas estándar para crear, dividir, editar y multiplexar archivos Matroska."
+/>
+
+<LinkCard
+    title="gMKVExtractGUI"
+    href="https://sourceforge.net/projects/gmkvextractgui/"
+    description="Interfaz gráfica ligera basada en MKVToolNix para extraer pistas y recursos individuales."
+/>
+
+<LinkCard
+    title="MKV Muxing Batch GUI"
+    href="https://github.com/yaser01/mkv-muxing-batch-gui"
+    description="Utilidad para procesar y multiplexar lotes de archivos de forma automatizada."
+/>
+</CardGrid>
+
+## Guías relacionadas
+
+<CardGrid>
+<LinkCard
+    title="Multiplexado MKVToolNix"
+    href="/guides/mkv/multiplex"
+    description="Guía sobre cómo hacer multiplexado básico con MKVToolNix."
+/>
+
+<LinkCard
+    title="MKV Muxing Batch GUI"
+    href="/guides/mkv/muxing-batch-gui"
+    description="Guía general para instalar y utilizar el progrma."
+/>
+</CardGrid>

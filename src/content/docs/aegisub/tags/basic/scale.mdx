@@ -1,0 +1,28 @@
+---
+title: Escala
+description: Etiqueta de invalidación (override tag) para controlar la escala del objeto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+La etiqueta declara la escala del dibujado vectorial, utilizado mayoritariamente en formas (_shapes_).
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\p0-∞}` | *Personalizado* | Ajusta la escala del dibujo tras las llaves `{}`. |
+
+## Ejemplo
+
+```text
+{\p1}m 796 428 l 992 428 992 632 796 632
+```
+
+![Scale_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/p1.png?sign=BOzRIF5DSwD-Ae9QZqSXxA-srkUBLF1w5Zq5GqUh7Fk=:0)
+
+```text
+{\p2}m 796 428 l 992 428 992 632 796 632
+```
+
+![Scale_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/p2.png?sign=namUzaHJFqCgJuRDYP88a0GQqyUreb7U2mSGaMU79yA=:0)

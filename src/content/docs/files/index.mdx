@@ -1,0 +1,41 @@
+---
+title: Tipos de archivo
+description: Guía de formatos, contenedores y extensiones comunes en el ecosistema del subtitulado y fansubbing.
+slug: files
+sidebar:
+  hidden: true
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+En el flujo de trabajo del subtitulado digital y el *fansubbing*, conviven distintos tipos de archivos especializados para cada etapa: desde contenedores multimedia hasta formatos de subtítulos enriquecidos, fuentes tipográficas y scripts de automatización.
+
+:::tip[Estructura modular]
+La mayoría de los proyectos modernos separan el contenido en capas editables (scripts `.ass`, fuentes `.ttf`/`.otf` y audios de referencia) antes de multiplexarlos en un contenedor final como `.mkv`.
+:::
+
+## Formatos principales
+
+<Card title="Contenedores multimedia" icon="laptop">
+Archivos que empaquetan vídeo, múltiples pistas de audio, subtítulos y metadatos en un único fichero sin recomprimir.
+* **MKV (`.mkv`)**: Estándar universal con soporte de fuentes adjuntas y softsubs.
+* **MP4 (`.mp4`)**: Contenedor estándar con soporte limitado para subtítulos complejos.
+</Card>
+
+<Card title="Subtítulos basados en texto" icon="document">
+_Scripts_ con marcas de tiempo, estilos tipográficos, posicionamiento y maquetación (*typesetting*).
+* **ASS (`.ass`)**: El formato de referencia con control de estilos, dibujo vectorial y animaciones.
+* **SRT (`.srt`)**: Formato plano básico solo con texto y tiempos.
+</Card>
+
+<Card title="Tipografías y Recursos" icon="pencil">
+Fuentes y gráficos necesarios para que los subtítulos se rendericen exactamente como fueron diseñados.
+* **TTF / OTF (`.ttf`, `.otf`)**: Fuentes incrustadas directamente dentro del contenedor.
+* **Woff2 (`.woff2`)**: Formato web comprimido para visores en línea.
+</Card>
+
+<Card title="Subtítulos de imagen / Bitmap" icon="seti:image">
+Subtítulos renderizados como mapas de bits procedentes de medios físicos o transmisiones oficiales.
+* **PGS (`.sup`)**: Subtítulos gráficos utilizados en Blu-ray.
+* **VobSub (`.idx` / `.sub`)**: Subtítulos _ripeados_ de DVD.
+</Card>

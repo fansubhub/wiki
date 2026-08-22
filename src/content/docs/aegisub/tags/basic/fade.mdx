@@ -1,0 +1,34 @@
+---
+title: Aparición y desvanecimiento
+description: Etiqueta de invalidación (override tag) para controlar la aparición y desvanecimiento del texto o un objeto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+**Aparición** hace referencia al efecto de empezar siendo transparente hasta volverse opaco/visible mientras que **desvanecimiento** es el efecto contrario; pasar de ser visible/opaco a transparente.
+
+:::note[Duración de la línea]
+Añadir un efecto de aparición/desvanecimiento no extiende la duración de la línea. El efecto es únicamente visible dentro de la duración de esta.
+:::
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\fad(<T1>,<T2>)}` | *Personalizado* | Ajusta la aparición y desvanecimiento de la línea, en milisegundos. |
+
+<Aside type="tip" title="Valores" icon="list-format">
+    - `T1` es el tiempo en milisegundos que usará la línea para pasar de transparente a visible, contando desde el inicio de la misma.
+    - `T2` es el tiempo en milisegundos que usará la línea para pasar de visible a transparente, contando desde el final de la línea hacia atrás.
+</Aside>
+
+## Ejemplo
+
+En un `\fad(500, 300)` la línea utiliza los primeros `500` milisegundos para aparecer y los últimos `300` para desaparecer. Si el valor es `0`, entonces no hará nada en esa parte de la línea. Ambos valores son **obligatorios**.
+
+```text
+{\fad(1500,1500)}Ejemplo
+```
+
+![Fade_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/gif_fad.gif?sign=dotPSGQxVN4yI_PUitQeErCt4XWZe-m6ASrqCFAwhV8=:0)

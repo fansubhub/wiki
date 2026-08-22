@@ -1,0 +1,39 @@
+---
+title: Rotación
+description: Etiqueta de invalidación (override tag) para controlar la rotación avanzada de texto o formas.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="Transformable" variant="success" />
+
+Los tres tipos de `\fr` te permiten manipular el ángulo de tu texto en cada eje, podiendo dar un giro específico a cada uno y podiendo aplicar varios de ellos al mismo tiempo.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\frz0}` `{\frx0}` `{\fry0}` | *Por defecto* | Restablece la rotación en el eje correspondiente. |
+| `{\frz0-360}` `{\frx0-360}` `{\fry0-360}` | *Personalizado* | Determina los grados de giro en el eje correspondiente. |
+
+:::note[> 360º]
+Si el número de grados es superior a `360`, el elemento dará una vuelta entera y usará el resto de los grados para determinar la posición.
+:::
+
+## Ejemplo
+
+```text
+{\frz45}Ejemplo
+```
+
+![Rotation_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/frz.png?sign=xq4jkLKIin8G5I3gWEVuD0UMLwq_CuNSUEzd-DScgao=:0)
+
+```text
+{\fry45}Ejemplo
+```
+
+![Rotation_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/fry.png?sign=1utyhfzu642ovvBvHEM-NGD5i5_t1mceFCcV1gFSkno=:0)
+
+```text
+{\frx45}Ejemplo
+```
+
+![Rotation_x3](https://media.fansubhub.com/d/uploads/images/aegisub/tags/frx.png?sign=PC_n9FtmJ3wAK7b9bUM_QcTzQrOgYBr-zyjs68_bVzE=:0)

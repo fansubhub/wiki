@@ -1,0 +1,76 @@
+---
+title: Recorte vectorial
+description: Etiqueta de invalidación (override tag) para recortar vectorialmente un objeto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+<Aside type="tip" title="Tipos de <clip>" icon="list-format">
+    - `\clip` genera una ventana por la cual ver tu objeto.
+    - `\iclip` genera una caja invisible que borra esa porción del objeto.
+</Aside>
+
+La etiqueta hace un corte vectorial en la visualización del objeto. `\clip` e `\iclip` no pueden convivir en una misma línea, solo puede haber un tipo por línea. Ambos pueden ser sumados, basta con copiar las coordenadas de uno y pegarlas a continuación de las del otro, dejando un espacio entre ambos juegos de coordenadas.
+
+Las coordenadas de un `\clip` no tendrán el efecto que podríamos suponer en un `\iclip`. Cada uno de ellos tiene polaridad; pueden sumar más campo visible o funcionar como un `\iclip` dentro de un `\clip`. La polaridad dependerá del sentido de dibujado del `\clip`. Si es en el sentido de las agujas del reloj; sumará al recorte. Si es en sentido contrario a las agujas del reloj; restará la selección.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\clip(<coordenadas>)}` `{\iclip(<coordenadas>)}` | *Personalizado* | Crea el recorte por el objeto según las coordenadas establecidas. |
+
+## Recortes simples/rectangulares
+
+:::note[Transformable]
+La etiqueta `\clip` únicamente es transformable cuando la forma es rectangular.
+:::
+
+### Ejemplo
+
+```text
+{\clip(549.38,404.5,1027.17,694)}Ejemplo.
+```
+
+![Clip_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/clip.png?sign=d83jfWMU6qVEGWTFVsL_oewidMGivkW9TpMgHfhKwgY=:0)
+
+```text
+{\iclip(549.38,404.5,1027.17,694)}Ejemplo.
+```
+
+![Clip_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/iclip.png?sign=rWjKZ6MLELPMEeX5gnA0AKynOMkAtciIrQsgtDyBshs=:0)
+
+:::note[Clips]
+Estos `\clip` son de tipo rectangular y pueden ser transformados por el tag [`\t()`](transform). Los `\clip`s más complejos no pueden ser transformados y solo pueden ser animados escribiéndolos _frame_ a _frame_.
+:::
+
+## Recortes avanzados
+
+### Ejemplo 1
+
+Si sumo este `\clip` hecho en el sentido de las agujas del reloj...
+
+```text
+{\clip(m 648.31 446.31 l 728.75 403.69 821.25 399.67 876.75 439.08 871.12 498.59 836.53 531.56 775.4 570.96 719.1 582.22 674.86 576.59 629.01 563.72 605.68 529.95 596.03 495.37 606.49 474.46 620.16 461.59)}Ejemplo.
+```
+
+![Clip_x3](https://media.fansubhub.com/d/uploads/images/aegisub/tags/clipej1.png?sign=5I24mzNrYgiOg1Z_cffrEkQulnlaJOB1iH1zngPwObc=:0)
+
+con este otro hecho en el mismo sentido, obtenemos un resultado en el que ambos `\clip` se concatenan para mostrar más elemento.
+
+```text
+{\clip(m 786.66 445.51 l 869.51 414.15 944.32 410.13 1017.51 428.62 1059.34 461.59 1071.4 529.95 1010.27 588.65 898.47 624.04 811.6 609.56 770.57 570.16 748.05 523.51 752.07 486.52 758.51 468.03)}
+```
+
+![Clip_x4](https://media.fansubhub.com/d/uploads/images/aegisub/tags/clipej2.png?sign=cfzeu6_t4oXXvkUgxjEWsk9EsZFojvSwcl09qkH8cjM=:0)
+
+### Ejemplo 2
+
+En cambio, si volvemos a sumar el `\clip` inicial con este otro hecho en el sentido contrario a las agujas del reloj, mi segundo `\clip` hará un hoyo en el primero.
+
+```text
+{\clip(m 731.53 514.94 l 765.68 524.38 783.84 512.04 791.1 490.98 785.29 473.54 770.03 467.73 755.51 468.46 735.16 480.08 730.81 490.25 727.17 502.6 703.93 484.44 687.22 480.81 654.53 489.52 643.63 506.95 645.81 530.2 667.6 549.08 699.57 553.44 721.36 546.9 730.08 529.47 730.08 521.48)}
+```
+
+![Clip_x5](https://media.fansubhub.com/d/uploads/images/aegisub/tags/clipej3.png?sign=XlD53Hkp0xHrVFlcXLTgY6A06S6ehJ669G0uXX1NEjA=:0)

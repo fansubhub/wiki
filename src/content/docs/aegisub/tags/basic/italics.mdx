@@ -1,0 +1,22 @@
+---
+title: Cursiva
+description: Etiqueta de invalidación (override tag) para controlar la transformación en cursiva de la fuente.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\i1}` | **Activado** | Aplica formato de cursiva al texto siguiente. |
+| `{\i0}` | **Desactivado** | Quita la cursiva del texto siguiente. |
+| `{\i}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+
+## Ejemplo
+
+```text
+No me gusta {\i1}inclinarme{\i0} tanto.
+```
+
+![Italics](/pending.png)

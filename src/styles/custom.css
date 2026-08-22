@@ -1,0 +1,21 @@
+table {
+    border: 1px solid #2e2a2a;
+    /* Color del borde (ajustar según tu paleta) */
+    border-radius: 9px;
+    /* Bordes redondeados */
+    border-collapse: separate;
+    /* Necesario para que respete el border-radius */
+    border-spacing: 0;
+    overflow: hidden;
+    max-width: 100%;
+    width: fit-content;
+}
+
+table th {
+  white-space: nowrap;
+}
+
+table th,
+table td {
+  padding: 0.55rem 1.25rem; /* arriba/abajo y lados */
+}

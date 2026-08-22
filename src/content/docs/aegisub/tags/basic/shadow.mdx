@@ -1,0 +1,34 @@
+---
+title: Sombra
+description: Etiqueta de invalidación (override tag) para controlar los bordes del texto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="Transformable" variant="success" />
+
+Esta etiqueta puedes controlarla tanto uniformemente `\shad` como por cada uno de sus ejes: `\xshad` y `\yshad`. Cada una de estas variables controla el nivel de sombra del texto u objeto en el eje correspondiente.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\shad0}` | **Desactivado** | Quita el borde del texto siguiente. |
+| `{\shad}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+| `{\shad<sombra>}` `{\xshad<sombra>}` `{\yshad<sombra>}` | *Personalizado* | Ajusta la sombra del texto u objeto con un valor positivo (de `0` a `∞`), pudiendo contener decimales. |
+
+:::caution[Sobrescritura]
+Si utilizas `\shad` después de `\xshad` o `\yshad` [en el mismo bloque], este sobrescribirá los valores anteriores de esas etiquetas.
+:::
+
+## Ejemplo
+
+```text
+{\shad2}Ejemplo.
+```
+
+![Shadow_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/shad1.png?sign=_bxowY2cTuxc-cd_I9uxjll8TJsFhF-rGtErfA4QLTU=:0)
+
+```text
+{\shad8}Ejemplo.
+```
+
+![Shadow_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/shad2.png?sign=MUU30ENbKH6YX96Tcf_Y0my_e6W8D_YGUBEA8ozl05k=:0)

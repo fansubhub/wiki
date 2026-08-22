@@ -1,0 +1,22 @@
+---
+title: Subrayado
+description: Etiqueta de invalidación (override tag) para controlar la decoración de subrayado del texto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\u1}` | **Activado** | Aplica decoración de subrayado al texto siguiente. |
+| `{\u0}` | **Desactivado** | Quita el subrayado del texto siguiente. |
+| `{\u}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+
+## Ejemplo
+
+```text
+Así puedes {\u1}enfocar{\u0} un texto.
+```
+
+![Underline](/pending.png)

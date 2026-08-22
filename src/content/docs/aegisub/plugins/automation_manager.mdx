@@ -1,0 +1,18 @@
+---
+title: Automation Manager
+description: Instalación y revisión del plugin \'Automation\' para Aegisub
+---
+
+### Administrador de automatización
+
+La ventana **Administrador de Automatización** se utiliza para ver, cargar y descargar *scripts* de automatización y se abre desde el menú **Automatización** o con el botón ![automation-toolbar-icon.png](https://media.fansubhub.com/d/uploads/images/aegisub/automation-toolbar-icon.png?sign=ec3Ur9k8EtnimhUzBMQDrtRi_D_BHv2zIaI8AL2PVh0=:0) de la barra de herramientas.
+
+![automation_manager.png](https://media.fansubhub.com/d/uploads/images/aegisub/automation_manager.png?sign=__Yu1nf_iHEcEWYcrDn4acqpH4W8cGlK0v80jGSZ3Gs=:0)
+
+El área principal de la ventana es una lista de todos los archivos de *scripts* cargados. Es importante recordar que un archivo de *script* puede contener varias funciones, por ejemplo, un archivo de *script* puede definir dos macros y un filtro de exportación.
+
+Los *scripts* se pueden cargar de dos maneras. En la captura de pantalla anterior, la mayoría de los scripts son globales (cargados automáticamente), como lo indica la “**G**” en la columna más a la izquierda. Los *scripts* globales se cargan automáticamente junto con Aegisub. Se colocan por defecto en la carpeta `C:\Program Files\aegisub\automation\autoload`. No puedes descargar *scripts* globales; debes eliminarlos del directorio de carga automática y luego volver a escanear el directorio de carga automática.
+
+El último *script* en la captura de pantalla anterior es un ejemplo del otro tipo de *script*: *scripts* locales, como lo indica la “**L**”. Los *scripts* agregados manualmente a través del botón **Agregar** son locales <ins>para el archivo de subtítulos en el que se está trabajando</ins> y se descargan automáticamente cuando se cierra el archivo de subtítulos actual y luego se vuelven a cargar junto con el archivo de subtítulos cuando lo vuelves a abrir.
+
+A veces, un *script* se muestra en rojo en la lista. Esto solo sucede si el *script* no se pudo cargar por alguna razón. El motivo generalmente se mostrará en la columna **Descripción**. Si la descripción del error es demasiado larga para leer, puedes seleccionar el *script* y hacer clic en el botón **Mostrar información** para verla entera. Los *scripts* solo deberían no cargarse si estás escribiendo tus propios *scripts* y cometes un error de programación o si el *script* ya no funciona con la versión actual de Aegisub que se está ejecutando.

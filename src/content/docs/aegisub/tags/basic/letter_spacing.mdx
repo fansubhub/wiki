@@ -1,0 +1,29 @@
+---
+title: Espaciado de caracteres
+description: Etiqueta de invalidación (override tag) para controlar el espaciado de los caracteres.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="Transformable" variant="success" />
+
+La función de esta etiqueta es cambiar el espacio (píxeles) entre los caracteres del texto al que afetca. Si se usan valores positivos, la separación será mayor. En caso de usar valores negativos, la separación será negativa y los caracteres se apilarán.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\fsp<espacio>}` | *Personalizado* | Ajusta el espaciado con un valor positivo (de `0` a `∞`) o negativo, pudiendo contener decimales. |
+| `{\fsp}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+
+## Ejemplo
+
+```text
+{\fsp100}Ejemplo
+```
+
+![LetterSpacing_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/fsp1.PNG?sign=JicLXgqtwHWbVRxA5rwXUXwj-ocdv1_WAeFDDwwj_Dk=:0)
+
+```text
+{\fsp-100}Ejemplo
+```
+
+![LetterSpacing_x2](https://media.fansubhub.com/d/uploads/images/aegisub/tags/fsp2.PNG?sign=wZQtYzGGwqUSPy68ajKiw1P2B9NRi-BLg7Q7Dq2ntpw=:0)

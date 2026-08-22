@@ -1,0 +1,29 @@
+---
+title: Transformación
+description: Etiqueta de invalidación (override tag) para controlar la transformación avanzada de elementos.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Global" variant="caution" />&ensp;
+
+:::note[Etiquetas transformables]
+Las etiquetas transformables por esta etiqueta son todas aquellas que están marcadas como <Badge text="Transformable" variant="success" /> dentro de su sección.
+:::
+
+Establece una transformación desde un tiempo determinado de inicio y un tiempo determinado de destino referente a la línea actual, según un valor de aceleración, desde los valores anteriormente declarados en la línea (1), los valores del estilo (2) o los valores predeterminados (3), siguiendo ese mismo orden de importancia.
+
+Haciendo que la transformación vaya desde el milisegundo `t1` hasta el milisegundo `t2`, hasta que al final las etiquetas declaradas queden con el valor declarado. Esa transformación puede ser más rápida al principio y más lenta al final o viceversa, según el valor `acc` (número entre `0` y `1`), pasando por sus valores decimales.
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\t(t1,t2,acc,<tags>)}` | *Personalizado* | Valor de transformación personalizado. |
+
+
+## Ejemplo
+
+```text
+{\fscx150\fscy150\bord2\t(0,5000,1,\fscx20\bord15\fay-0.2)}Ejemplo.
+```
+
+![Transform_x1](https://media.fansubhub.com/d/uploads/images/aegisub/tags/t1.gif?sign=Ldx_T8A_uJY5d08hdQMwpvT0-WVBbJ1kvKJNrIOqq4A=:0)

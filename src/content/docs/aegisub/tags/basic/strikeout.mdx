@@ -1,0 +1,22 @@
+---
+title: Tachado
+description: Etiqueta de invalidación (override tag) para controlar la decoración de tachado del texto.
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+<Badge text="Local" variant="note" />{' '}&ensp;<Badge text="No transformable" variant="tip" />
+
+| Sintaxis | Estado | Descripción |
+| :--- | :--- | :--- |
+| `{\s1}` | **Activado** | Aplica decoración de tachado al texto siguiente. |
+| `{\s0}` | **Desactivado** | Quita el tachado del texto siguiente. |
+| `{\s}` | *Por defecto* | Restablece el valor predeterminado del estilo. |
+
+## Ejemplo
+
+```text
+Digamos que queda {\s1}descartado{\s0} por algo mejor.
+```
+
+![Strikeout](/pending.png)
