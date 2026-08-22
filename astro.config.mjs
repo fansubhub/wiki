@@ -16,6 +16,7 @@ export default defineConfig({
 		starlight({
 			title: 'Fansub Hub',
 			lastUpdated: true,
+			defaultLocale: "es",
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/fansubhub/wiki' },
 				{ icon: 'discord', label: '¡Únete a nuestro servidor!', href: 'https://discord.gg/rt3zuNGyA9' }

@@ -1,0 +1,25 @@
+<script>
+    import mediumZoom from "medium-zoom";
+
+    function initZoom() {
+        // Selecciona todas las imágenes del contenido de Starlight ignorando iconos y avatares (not-content)
+        mediumZoom(".sl-markdown-content :not(.not-content) img", {
+            margin: 24,
+            background: "rgba(0, 0, 0, 0.85)",
+            scrollOffset: 40,
+        });
+    }
+
+    // Inicializa en la carga inicial y en cada navegación de cliente
+    initZoom();
+    document.addEventListener("astro:page-load", initZoom);
+</script>
+
+<style is:global>
+    .medium-zoom-overlay {
+        z-index: 1000;
+    }
+    .medium-zoom-image--opened {
+        z-index: 1001;
+    }
+</style>
