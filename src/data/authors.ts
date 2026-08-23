@@ -12,5 +12,10 @@ export const authors: Record<string, AuthorData> = {
         name: 'trotacalles',
         github: 'Mandholine',
         discord: 'trotacalles',
+    },
+    nyalex: {
+        name: 'Nyalex',
+        github: 'AlexGallego2005',
+        discord: 'alex_gallego2005'
     }
 }

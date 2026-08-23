@@ -13,7 +13,14 @@
       "name": "Nyalex",
       "avatar_url": "https://github.com/AlexGallego2005.png",
       "profile": "https://github.com/AlexGallego2005",
-      "contributions": ["docs", "mantenimiento"]
+      "contributions": []
+    },
+    {
+      "login": "Mandholine",
+      "name": "Trota",
+      "avatar_url": "https://github.com/Mandholine.png",
+      "profile": "https://github.com/Mandholine",
+      "contributions": []
     }
   ],
   "contributorsPerLine": 7

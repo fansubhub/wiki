@@ -1,21 +1,21 @@
 ---
-title: Primeros pasos
-description: Guía de primeros pasos sobre los plugins de Aegisub.
+title: Automatizaciones
+description: Guía de primeros pasos sobre las automatizaciones de Aegisub.
 sidebar:
-  order: 1
+  order: 5
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Steps } from '@astrojs/starlight/components';
+import Video from '@components/Video.astro';
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 import { Kbd } from 'starlight-kbd/components';
 
 :::note[Créditos de autoría]
 El contenido de esta sección es una adaptación (parcial o total) del trabajo creado por **Phos**. Para más contexto, visita la [publicación original aquí](https://phoscity.github.io/Phos-Fansubbing-Guide/Typesetting/Aegisub%20Scripts/).
 :::
 
-Los _scripts_ o _plugins_ (en adelante _plugins_) de [Aegisub](/aegisub) son archivos `Lua` o `Moonscript` que puedes utilizar para automatizar tareas tediosas, repetitivas o complejas. Estos _plugins_ son absolutamente obligatorios para [Tipografía y carteles](/p/typesetting) ya que utilizarlos aumentará tu eficiencia.
+Las automatizaciones o _plugins_ (en adelante _plugins_) de [Aegisub](/aegisub) son archivos `Lua` o `Moonscript` que puedes utilizar para automatizar tareas tediosas, repetitivas o complejas. El uso de estos _plugins_ generalmente recomendado, dado que aumentará tu eficiencia y velocidad en distintas tareas.
 
-Hay dos métodos para instalar _plugins_ para Aegisub: **automático** y **manual**.
+Puedes ver la [historia de Automation](!https://aegisub.org/docs/latest/history_of_automation/) en la documentación oficial de Aegisub.
 
 ## Carpeta de _plugins_
 
@@ -27,13 +27,15 @@ Todos los _plugins_ deben estar en la carpeta _automation_ de Aegisub. Dependien
 | Linux | `~/.aegisub/` |
 | MacOS | `~/Library/Application Support/Aegisub/` |
 
-Dentro de la carpeta del programa, debe de haber una carpeta llamada _automation_. Dentro de esta carpeta deben de haber dos más: _autoload_ e _include_. Si estás instalando _plugins_ manualmente o cualquiera de estas carpetas no existe, créalas tú mismo. La carpeta _autoload_ consiste de todos los _plugins_ que quieres que Aegisub cargue mientras que la carpeta _include_ consiste de todos los módulos de los que dependen los _plugins_.
+Dentro de la carpeta del programa, debe de haber una carpeta llamada `automation`. Dentro de esta carpeta deben de haber dos más: `autoload` e `include`. Si estás instalando _plugins_ manualmente o cualquiera de estas carpetas no existe, créalas tú mismo. La carpeta `autoload` consiste de todos los _plugins_ que quieres que Aegisub cargue mientras que la carpeta `include` consiste de todos los módulos de los que dependen los _plugins_.
 
 :::note[Versiones portables]
 Si tienes una instalación portable de Aegisub, la carpeta de automatizaciones está localizada dentro del mismo directorio que la instalación de Aegisub.
 :::
 
 ## Métodos de instalación
+
+Hay dos métodos para instalar _plugins_ para Aegisub: **automático** y **manual**.
 
 <Tabs>
 
@@ -92,7 +94,5 @@ Cada vez que ejecutas un _plugin_, no quieres necesariamente tener que ir a `Aut
 7. Ahora, cada vez que presiones la tecla de la columna izquierda, se ejecutará el comando de la columna central.
 </Steps>
 
-<video controls width="100%" alt="Vídeo de y por Phos">
-    <source src="https://phoscity.github.io/Phos-Fansubbing-Guide/Typesetting/assets/Aegisub%20Script/hotkey_edit_tags.mp4" type="video/mp4" />
-    Tu navegador no soporta la reproducción de video.
-</video>
+<Video src="https://phoscity.github.io/Phos-Fansubbing-Guide/Typesetting/assets/Aegisub%20Script/hotkey_edit_tags.mp4" />
+© [Phos](https://phoscity.github.io/Phos-Fansubbing-Guide/Typesetting/Aegisub%20Scripts/)

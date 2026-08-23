@@ -12,13 +12,14 @@ import starlightSidebarTopics from 'starlight-sidebar-topics';
 import starlightAutoDrafts from 'starlight-auto-drafts';
 import starlightKbd from 'starlight-kbd';
 import starlightAnnouncement from 'starlight-announcement';
+import { rehypeCustomLinks } from './plugins/rehype-custom-links.mjs';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://new-wiki.fansubhub.com',
 	markdown: {
 		remarkPlugins: [remarkMath],
-		rehypePlugins: [rehypeKatex],
+		rehypePlugins: [rehypeKatex, rehypeCustomLinks],
 	},
 	integrations: [
 		icon(),
@@ -53,10 +54,23 @@ export default defineConfig({
 						items: [
 							{ 
 								label: 'Introducción',
-								items: ['aegisub']
+								items: [
+									'aegisub',
+									'aegisub/interface',
+									{
+										label: 'Primeros pasos',
+										collapsed: true,
+										items: [
+											'aegisub/load-files',
+											'aegisub/first-subtitle'
+										]
+									},
+									'aegisub/tags',
+									'aegisub/plugins'
+								]
 							},
 							{
-								label: 'Plugins',
+								label: 'Automatizaciones',
 								items: [{ autogenerate: { directory: 'aegisub/plugins' } }],
 							},
 							{
@@ -124,20 +138,20 @@ export default defineConfig({
 					},
 					{
 						label: 'Sincronización',
-						link: '/p/sync',
+						link: '/p/timing',
 						icon: 'clock',
 						items: [
 							{
 								label: 'Introducción',
-								items: ['p/sync']
+								items: ['p/timing']
 							},
 							{
 								label: 'Guías',
-								items: [{ autogenerate: { directory: 'guides/p/sync' } }],
+								items: [{ autogenerate: { directory: 'guides/p/timing' } }],
 							},
 							{
 								label: 'Material y recursos',
-								items: [{ autogenerate: { directory: 'resources/p/sync' } }],
+								items: [{ autogenerate: { directory: 'resources/p/timing' } }],
 							}
 						]
 					},

@@ -1,4 +1,5 @@
 ---
+// src/components/VideoPlayer.astro
 interface Props {
     src: string;
     width?: string;
@@ -12,27 +13,39 @@ interface Props {
 const {
     src,
     width = "100%",
-    type = "video/mp4",
+    type,
     poster,
     autoplay = false,
     loop = false,
     muted = false,
 } = Astro.props;
+
+// Detecta si es MKV por extensión de archivo o por el prop type
+const isMkv =
+    (type && type.includes("matroska")) || src.toLowerCase().endsWith(".mkv");
+const finalType = type || (isMkv ? "video/x-matroska" : "video/mp4");
 ---
 
 <div class="video-container not-content" style={`max-width: ${width};`}>
-    <video
-        controls={!autoplay}
-        autoplay={autoplay}
-        loop={loop || autoplay}
-        muted={muted || autoplay}
-        playsinline
-        preload="metadata"
-        poster={poster}
-    >
-        <source src={src} type={type} />
-        Tu navegador no soporta la reproducción de vídeo.
-    </video>
+    {
+        isMkv ? (
+            <embed src={src} type={finalType} class="video-element" />
+        ) : (
+            <video
+                controls={!autoplay}
+                autoplay={autoplay}
+                loop={loop || autoplay}
+                muted={muted || autoplay}
+                playsinline
+                preload="metadata"
+                poster={poster}
+                class="video-element"
+            >
+                <source src={src} type={finalType} />
+                Tu navegador no soporta la reproducción de vídeo.
+            </video>
+        )
+    }
 </div>
 
 <style>
@@ -45,11 +58,12 @@ const {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    video {
+    .video-element {
         display: block;
         width: 100%;
         height: auto;
-        aspect-ratio: 16 / 9; /* Mantiene la proporción y evita saltos de carga */
+        aspect-ratio: 16 / 9;
         object-fit: contain;
+        border: none;
     }
 </style>

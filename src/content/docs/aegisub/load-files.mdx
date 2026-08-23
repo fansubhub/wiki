@@ -1,0 +1,92 @@
+---
+title: Cargar archivos
+sidebar:
+  order: 1
+---
+
+import Author from '@components/Author.astro';
+import { Aside, Badge, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Kbd } from 'starlight-kbd/components';
+
+<Author id="nyalex" />
+
+Sin archivos cargados es complicado crear subtítulos, _aunque no imposible_, por lo que cargar los archivos que necesitas es una parte básica y necesaria de la tarea que vas a desempeñar. Por suerte, tienes varias maneras fáciles de llevarlo a cabo.
+
+:::caution[Limitaciones]
+Solo puedes tener abierto un archivo de cada tipo al mismo tiempo. Si intentas abrir dos archivos del mismo, reemplazarás el antiguo con el nuevo.
+:::
+
+:::note[[Solo por diversión requiere un buen ordenador](!https://gamepedia.cursecdn.com/minecraft_gamepedia/5/53/AmplifiedNotice.png?version=8d616592f73b9c91ae6adbc226c2ce8c)]
+Los archivos que quieras cargar se cargarán completamente en memoria. Eso quiere decir que si quieres trabajar con una película que ocupa **20 GB de memoria RAM**, tienes que tener físicamente esa memoria en tu ordenador.
+:::
+
+## Archivo de vídeo
+
+Puedes cargar un archivo de [vídeo compatible](!https://aegisub.org/docs/latest/video/#supported-formats) arrastrándolo a la [cuadrícula de subtítulos](/aegisub/interface/#cuadr%C3%ADcula-de-subt%C3%ADtulos) o a través del [menú](http://localhost:4321/aegisub/interface/#barra-de-men%C3%BA) en `Vídeo → Abrir vídeo...`. Si quieres volver a abrir un vídeo reciente, puedes seleccionarlo desde el desplegable `Reciente`, en la misma ubicación.
+
+![Abrir vídeo](https://media.fansubhub.com/d/uploads/images/abrir-video-aegisub.png?sign=PnRcMd7i9T7Ks-NC4jKFKm9sfc1kGngy89cOm9oKi6A=:0)
+
+:::tip[Imágenes]
+Puedes cargar imágenes estáticas y animadas (`.gif`). Para cargarlas debes hacerlo desde el menú desplegable, no es posible arrastrarlas.
+:::
+
+### Vídeo de prueba
+
+Si te has fijado en la captura anterior, existe una opción para utilizar un vídeo de prueba. Puede resultar útil en momentos en los que únicamente quieras probar o hacer experimentos con subtítulos, sin importar el vídeo.
+
+![Vídeo de prueba](https://media.fansubhub.com/d/uploads/images/video-prueba-aegisub.png?sign=ptposoxf1YtcgwsBOdBdGRAoZmh_RE4gOkzd8GU3Oh8=:0)
+
+#### Opciones
+
+| Opción | Descripción |
+| :--- | :--- |
+| Resolución de vídeo | La resolución del vídeo de prueba en píxeles. Puedes escoger entre los múltiples ajustes predefinidos. |
+| Color | El color de fondo del vídeo, puedes escoger el que prefieras. Si quieres que se genere con un fondo con tablero, marca la opción "**Patrón...**". |
+| Tasa de cuadros (FPS) | Determina por cuánto tiempo se muestra cada fotograma según los cuadros por segundo (_fps_). |
+| Duración (cuadros) | La duración del vídeo en cuadros (fotogramas). Con este número se calcula la duración resultante que aparece debajo. |
+
+#### Resultado
+
+Puedes modificar las opciones del vídeo para que el vídeo de muestra sea diferente. A continuación puedes ver dos diferencias entre generar un vídeo con un patrón de ajedrez o no.
+
+<Tabs>
+<TabItem label="Plano">
+![Sin tablero](https://media.fansubhub.com/d/uploads/images/video-prueba-azul.png?sign=ngv917hb0K8HvCzGYzI6CS8AfKGeGb3Hl2oo4eSs3ak=:0)
+</TabItem>
+<TabItem label="Ajedrez">
+![Con tablero](https://media.fansubhub.com/d/uploads/images/video-prueba-azul-cuadros.png?sign=mN6rnUgRNl6SCkDkCys8PBxRN7lDPfE3s73SuN-jaho=:0)
+</TabItem>
+</Tabs>
+
+## Archivo de subtítulos
+
+Tienes diferentes maneras para cargar el archivo de subtítulos con el que vas a trabajar (si vas a crear el archivo desde cero, puedes saltarte este paso).
+
+:::note[Subtítulos incrustados en [matroska](/files/matroska)]
+[Aegisub](/aegisub) no carga los subtítulos automáticamente, incluso si el vídeo ya tiene integrados.
+:::
+
+Para extraer subtítulos <Badge text="Softsub" variant="tip" /> de un archivo matroska puedes utilizar programas especializados (p.e. [gMKVExtractGUI](!https://github.com/Gpower2/gMKVExtractGUI)).
+
+<Tabs>
+<TabItem label="Manual">
+Añadir subtítulos manualmente, ya sea arrastrando el archivo a la cuadrícula de subtítulos, a través del menú `Archivo → Abrir subtítulos...` o de su atajo <Kbd windows="Contorl+O" />.
+
+![Abrir subtítulos](https://media.fansubhub.com/d/uploads/images/abrir-subtitulos.png?sign=R4jAR0bbYDkcppm08ovCQp062NzPE81lmTS19nmiGcQ=:0)
+</TabItem>
+<TabItem label="Desde vídeo">
+<Aside type="tip" title="¿Pero no decías que no los cargaba?" icon="question-circle">
+Así es.
+</Aside>
+
+No carga los subtítulos **automáticamente**, pero puede cargarlos desde el archivo de vídeo que tienes cargado en ese momento. Para hacerlo, ve a `Archivo → Abrir subtítulos desde el vídeo` (solo disponible después de cargar un vídeo con subtítulos), y automáticamente cargará los subtítulos (si tienes varios te preguntará cuál de todos quieres cargar).
+
+![Cargar subs desde vídeo](https://media.fansubhub.com/d/uploads/images/abrir-subs-video.png?sign=3OY4AcL2m9DaA1j6p70cQoWsm3uqteiRGaAEnbBL_D8=:0)
+</TabItem>
+</Tabs>
+
+## Archivo de audio
+
+Puedes cargar un archivo de [audio compatible](!https://aegisub.org/docs/latest/audio/#supported-formats) arrastrándolo a la [cuadrícula de subtítulos](/aegisub/interface/#cuadr%C3%ADcula-de-subt%C3%ADtulos) o a través del [menú](http://localhost:4321/aegisub/interface/#barra-de-men%C3%BA) en `Audio → Abrir archivo de audio...`. Si quieres volver a abrir un audio reciente, puedes seleccionarlo desde el desplegable `Reciente`, en la misma ubicación.
+
+![Abrir audio](https://media.fansubhub.com/d/uploads/images/abrir-audio.png?sign=PrF_aHnFtsG1psXsk-QP1HT90MYBoGGnWyWi8gElFFM=:0)

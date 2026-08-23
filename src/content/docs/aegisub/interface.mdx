@@ -1,0 +1,77 @@
+---
+title: Interfaz
+sidebar:
+  order: 2
+---
+
+import Author from '@components/Author.astro';
+import { Badge, Steps } from '@astrojs/starlight/components';
+import { Kbd } from 'starlight-kbd/components';
+
+:::note[Créditos de autoría]
+El contenido de esta sección es una adaptación (parcial o total) de la [documentación oficial](!https://aegisub.org/docs/latest/overview/) y el trabajo creado por **Phos**, que puedes visitar [aquí](!https://phoscity.github.io/Phos-Fansubbing-Guide/Typesetting/Aegisub%20Basics/).
+:::
+
+<Author id="nyalex" />
+
+Cuando inicias [**Aegisub**](/aegisub) por primera vez, esto es lo que ves. Al hacer [_fansubbing_](/fansub) verás esta pantalla durante mucho tiempo, así que es mejor que te familiarices con ella.
+
+:::note[Sobre la interfaz]
+Las siguientes imágenes están hechas en Windows. Es posible que en otro sistema operativo cambie ligeramente, pero debería de ser suficientemente parecido.
+:::
+
+![Aegisub interfaz](https://media.fansubhub.com/d/uploads/images/aegisub-interfaz.png?sign=or9rOeLRuTf6KzjwxDxhHlCLLLmY8NABvg0_YTrzCPs=:0)
+
+## Componentes
+
+La siguiente imagen muestra la interfaz de Aegisub con todo abierto. Para conseguir esto he [cargado un archivo](/aegisub/load-files) [matroska](/files/matroska) (`.mkv`) con vídeo y audio.
+
+![Aegisub interfaz completa](https://media.fansubhub.com/d/uploads/images/interfaz-aegisub-completa.png?sign=ZZ9Goz5SgDD9xcsx0B--04iXD3-IvI1dN4AauJdKA3s=:0)
+© _Fansub_ por KakumeiSubs
+
+### Barra de menú
+
+La barra superior se llama **Barra de menú** (_Menu Bar_). Esta barra contiene una lista de tareas que puedes ejecutar. Cada opción del mený es un desplegable que contiene una lista de tareas y desplegables anidados.
+
+### Barra de herramientas
+
+Debajo de la barra de menú está la **Barra de herramientas** (_Tool Bar_). Esta barra contiene atajos directos a una miríada de herramientas que ofrece Aegisub.
+
+### Caja de vídeo
+
+La **Caja de vídeo** (_Video Box_) te permite observar en tiepo real cómo quedan los subtítulos dentro del vídeo, pero también te ofrece la posibilidad se seleccionar los fotogramas específicos del vídeo en los que una línea de subtítulo debería empezar o acabar. Otra de sus cualidades es la de dejarte utilizar el ratón para [**posicionar**](/aegisub/tags/basic/position), [**rotar**](/aegisub/tags/advanced/rotate) y [**recortar**](/aegisub/tags/advanced/clip) una línea de subtitulado (p.e. para [coincidir con un cartel](/p/typesetting) en el vídeo).
+
+### Caja de audio
+
+La **Caja de audio** (_Audio Box_) puedes utilizarla para [sincronizar subtítulos](/p/timing) con el audio de una manera rápida y precisa. La **pantalla de audio** es capaz de mostrar el audio que has cargado de dos maneras: **espectro** y **forma de onda**.
+
+![Modos de la pantalla de visualización](https://media.fansubhub.com/d/uploads/images/pantalla-audio-visualizadores.png?sign=EVg0Zkv1cyZBVMA2mdoyL6d0WlfQe8BcRwbOaoXTz74=:0)
+
+### Caja de edición
+
+La **Caja de edición** es donde puedes editar el texto y otras propiedades de una línea de subtítulo directamente. A la línea de subtítulo que aparece aquí se le llama **línea activa**. Aun que puedes introducir tiempos en las cajas de tiempo ubicadas aquí, raramente necesitarás hacerlo, dado que es mucho más rápido [sincronizar líneas utilizando la **caja de audio**](/guides/p/timing/line-sync/). También puedes sincronizar al vídeo (por fotogramas).
+
+Puedes utilizar la barra de herramientas de formato para insertar [etiquetas](/aegisub/tags) de formato en la línea activa. Presiona <Kbd windows="Enter" /> para saltar a la siguiente línea guardando cambios[^save]. Si presionas <Kbd windows="Control+Enter" /> no saltará a la siguiente línea, pero guardará los cambios hechos en la actual.
+
+### Cuadrícula de subtítulos
+
+La **Cuadrícula de subtítulos** (_Subtitles Grid_) muestra todas las líneas de subtítulos del archivo con el que trabajas. Las líneas se marcan de diferentes colores dependiendo de sus propiedades.
+
+- **Fondo verde**: Las líneas con fondo verde son las líneas que tienes actualmente seleccionadas (p.e. ver línea **1** de la captura global).
+
+- **Fondo azul**: Las líneas con fondos azules están marcadas como comentarios y no aparecerán en el vídeo ni pantalla (p.e. las líneas **1** a **5** de la captura).
+
+- **Fondo amarillo ligero**: Las líneas con fondos ligeramente amarillos son visibles en el fotograma actual del vídeo. Esto es más fácil de ver cuando hay varias líneas en el mismo fotograma, como puede ser el caso de carteles.
+
+    ![Varias líneas de subs en el mismo tiempo](https://media.fansubhub.com/d/uploads/images/subtitulos-mismo-tiempo.png?sign=wFjXe6ETtXlq3mH7kIE0vgEI9X7bGkxdS-EVsS9KZuM=:0)
+    © _Fansub_ por KakumeiSubs
+
+- **Texto rojo**: Las líneas que aparecen con texto rojo se superposicionan en tiempo con la línea que tienes seleccionada en ese momento (p.e. la imagen anterior).
+
+### Barra de estado
+
+La barra inferior se llama **Barra de estado** (_Status Bar_). En la porción izquierda muestra información sobre los sub/menús seleccionados (siempre que pueda). La porción derecha se usa para mostrarte mensajes de estado, como carga o guardado de archivos, progresos, etc.
+
+## Referencias
+
+[^save]: No guarda los cambios hechos en el archivo real de subtítulos del dispositivo, únicamente lo guarda internamente. Para guardar y aplicar cambios en el archivo real, hace falta guardar con <Kbd windows="Control+S" />.
