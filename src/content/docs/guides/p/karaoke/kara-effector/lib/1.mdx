@@ -1,0 +1,169 @@
+---
+title: Librería (set_temp & remember)
+description: En esta guía se ve toda la librería de set_temp & remember de Kara Effector.
+---
+
+import Author from '@components/Author.astro';
+import { Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<Author id="trotacalles" />
+
+[**Kara Effector**](/guides/p/karaoke/kara-effector) ofrece dos funciones para almacenar datos, `remember` y `set_temp`, cada una con un propósito específico. Comprender su diferencia es clave para crear efectos complejos y eficientes.
+
+## Casilla `Variables [fx]`
+
+Es fundamental saber que esta casilla no es un editor de _scripts_ de Lua de formato libre. No admite bloques de código como `if ... then ... end` (a menos que estén dentro de una función).
+
+En su lugar, funciona mediante **asignaciones de variables** (`variable = valor`). Para ejecutar código de forma condicional, se utiliza una construcción común en Lua que funciona como un operador ternario:
+
+```lua
+mi_variable = (condición) and (valor_si_es_cierto) or (valor_si_es_falso)
+```
+
+Esta estructura es la base para usar `remember` y `set_temp` de manera efectiva en la interfaz.
+
+## Funciones
+
+<Tabs>
+<TabItem label="remember(ref, val)">
+:::note[La memoria a corto plazo]
+:::
+
+| Propósito |
+| :--- |
+| Optimizar el rendimiento de un efecto **dentro de una única línea de diálogo**. Su función es evitar cálculos repetitivos. |
+
+| ¿Cómo funciona? |
+| :--- |
+| `remember("nombre_del_dato", valor_a_guardar)` guarda un valor en la tabla interna `recall`. Para leerlo, se usa `recall.nombre_del_dato`. Esta memoria es volátil: se borra por completo cuando Kara Effector termina de procesar la línea actual y pasa a la siguiente. |
+
+#### Ejemplo Práctico
+
+Imagina un efecto con un bucle de 20 iteraciones (`loop = 20`) que utiliza la misma figura (`shape`). Sería ineficiente generar esa figura 20 veces. La solución es crearla solo en la primera iteración (`j == 1`) y **recordarla** para las demás.
+
+:::note[Paso 1]
+:::
+
+En la casilla **Variables [fx]**:
+
+```lua
+my_path = j == 1 and remember("circle_path", shape.size(shape.circle, 100)) or recall.circle_path
+```
+
+##### Análisis de la línea
+
+<Steps>
+1.  Se define una variable llamada `my_path`.
+
+2.  Se evalúa la condición `j == 1`.
+
+    - **Si `j` es 1 (primera iteración)**: Se ejecuta `remember("circle_path", ...)`. Esta función guarda la `shape` del círculo en `recall` y, a su vez, retorna el mismo `shape`. El valor retornado se asigna a `my_path`.
+    - **Si `j` es mayor que 1 (iteraciones siguientes)**: La condición es falsa, por lo que se ejecuta la expresión después del `or`. Se recupera la `shape` previamente guardada desde `recall.circle_path` y se asigna a `my_path`.
+</Steps>
+
+Gracias a esto, la variable `my_path` siempre contiene la `shape` necesaria, pero el cálculo pesado solo se realiza una vez por línea.
+
+:::note[Paso 2]
+:::
+
+En la casilla **Return [fx]**:
+
+Simplemente se usa la variable, prefijada con `var.`:
+
+```lua
+return math.shape(var.my_path, nil, nil, maxj)
+```
+
+##### Resumen
+
+| Atributo | Detalle |
+| :--- | :--- |
+| **Función** | Guardar datos para reutilización interna |
+| **Tabla** | `recall` |
+| **Ámbito de Vida** | Una sola línea de diálogo |
+| **Objetivo** | Optimización |
+</TabItem>
+
+<TabItem label="set_temp(ref, val)">
+:::note[La memoria a largo plazo]
+:::
+
+| Propósito |
+| :--- |
+| Pasar información y mantener un estado **entre diferentes líneas de diálogo** durante una misma ejecución del _script_. |
+
+| ¿Cómo funciona? |
+| :--- |
+| `set_temp("nombre_del_dato", valor_a_guardar)` guarda un valor en la tabla interna `temp`. Para leerlo, se usa `temp.nombre_del_dato`. Esta memoria es persistente y no se borra al pasar de una línea a otra. |
+
+#### Ejemplo Práctico
+
+Se quiere crear un efecto de "dominó", donde la animación de una línea comienza justo cuando termina la de la línea anterior.
+
+:::note[Paso 1]
+:::
+
+En la casilla **Variables [fx]** (esto se aplica a todas las líneas seleccionadas):
+
+```lua
+update_temp = syl.i == l.syl.n and set_temp("last_fall_time", l.start_time + syl.end_time + 500) or nil
+```
+
+##### Análisis de la línea
+
+<Steps>
+1.  La variable `update_temp` se usa solo para ejecutar la función `set_temp`.
+
+2.  Se evalúa la condición `syl.i == l.syl.n` (¿es esta la última sílaba de la línea?).
+
+    - **Si es la última sílaba:** Se ejecuta `set_temp(...)`. Se calcula el tiempo de finalización del efecto y se almacena en `temp.last_fall_time`.
+    - **Si no es la última sílaba:** No se hace nada (`update_temp` se vuelve `nil`).
+</Steps>
+
+:::note[Paso 2]
+:::
+
+**En la casilla "Line Start Time":**
+
+```lua
+return temp.last_fall_time or l.start_time + syl.start_time
+```
+
+##### Análisis de la línea
+
+<Steps>
+1. Se intenta leer `temp.last_fall_time`.
+    - **Si existe** (porque la línea anterior lo guardó), ese será el tiempo de inicio.
+    - **Si no existe** (porque es la primera línea del lote), se usa el tiempo de inicio por defecto de la sílaba.
+</Steps>
+
+Esto crea una secuencia continua de animaciones a través de múltiples líneas de diálogo.
+
+##### Resumen
+
+| Atributo | Detalle |
+| :--- | :--- |
+| **Función** | Guardar datos para compartirlos entre líneas |
+| **Tabla** | `temp` |
+| **Ámbito de Vida** | Toda la ejecución del script sobre las líneas seleccionadas |
+| **Objetivo** | Continuidad y secuenciación de efectos |
+</TabItem>
+</Tabs>
+
+---
+
+### Tabla Comparativa
+
+| Característica | `remember(ref, val)` | `set_temp(ref, val)` |
+| :--- | :--- | :--- |
+| **Propósito principal** | **Optimización** (dentro de una línea). | **Comunicación** (entre líneas). |
+| **Ámbito / Vida útil** | Línea actual (se borra al terminar). | Toda la ejecución del _script_. |
+| **Caso de uso típico** | Calcular un `shape` complejo una vez y reutilizarlo en un bucle (`j`). | Guardar el tiempo o posición final de una línea para que la siguiente lo use como valor inicial. |
+
+---
+
+<LinkCard
+    title="Inicio"
+    href="/guides/p/karaoke/kara-effector/function-library"
+    description="Volver a la biblioteca de funciones"
+/>

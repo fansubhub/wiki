@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.41.7",
+    "@iconify-json/lucide": "^1.2.125",
     "astro": "^7.1.6",
     "astro-contributors": "^0.8.0",
+    "astro-icon": "^1.2.0",
+    "lucide-astro": "^0.556.0",
     "medium-zoom": "^1.1.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",

@@ -1,0 +1,218 @@
+---
+title: Librería (time)
+description: En esta guía se ve toda la librería time de Kara Effector.
+---
+
+import Author from '@components/Author.astro';
+import { Aside, Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<Author id="trotacalles" />
+
+## ¿Para qué sirve?
+
+<Steps>
+1. **Manejar y convertir unidades de tiempo**
+
+    Facilita la conversión entre milisegundos (ms), el formato `Horas:Minutos:Segundos.Centisegundos` (HMS) y los fotogramas (_frames_) del vídeo.
+
+2. **Crear patrones de animación**
+
+    Proporciona funciones predefinidas para generar secuencias de tiempo comunes en efectos de karaoke (aparición de izquierda a derecha, del centro a los extremos, etc.) sin tener que escribir la lógica matemática cada vez.
+</Steps>
+
+## Funciones de conversión de formatos
+
+Estas funciones te permiten trabajar con diferentes unidades de tiempo de manera flexible. Todas ellas admiten también una tabla como argumento, en cuyo caso procesarán cada elemento de la tabla y devolverán una nueva tabla con los resultados.
+
+<Tabs>
+<TabItem label="HMS_to_ms(time_HMS)">
+Convierte una cadena de texto en formato HMS (`H:MM:SS.cs`) a un número entero que representa milisegundos. Es muy útil para trabajar con tiempos directamente en las casillas de la interfaz.
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `time_HMS(string | number)`: Una cadena de texto como `0:00:02.50` o un número (si es un número, lo devuelve sin cambios). Si se omite, toma el valor de `fx.offset.time_HMS`.
+</Aside>
+
+#### Ejemplo
+
+```lua
+-- En la casilla "Line Start Time":
+return HMS_to_ms("0:00:01.25") -- Devuelve: 1250
+```
+</TabItem>
+
+<TabItem label="ms_to_HMS(time_ms)">
+Hace la operación inversa a la anterior. Convierte un número en milisegundos a una cadena de texto con formato HMS.
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `time_ms(number)`: Un número que representa los milisegundos a convertir. Si se omite, toma el valor de `fx.offset.time_ms`.
+</Aside>
+
+#### Ejemplo
+
+```lua
+-- En la casilla "Return [fx]:"
+-- Crea una línea de texto que muestra la duración de la sílaba en formato HMS.
+return "{\\an5}" .. ms_to_HMS(syl.duration)
+```
+</TabItem>
+
+<TabItem label="time_to_frame(Time)">
+Calcula cuántos fotogramas (_frames_) del vídeo caben en un tiempo determinado. Utiliza la variable global `frame_dur` (duración de un fotograma en ms) para hacer el cálculo.
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `Time: number | string`: El tiempo a convertir, ya sea en milisegundos (`number`) o en formato HMS (`string`). Si se omite, toma el valor de `fx.offset.Time`.
+</Aside>
+
+#### Ejemplo
+
+El siguiente código devolverá aproximadamente $24$ si el video es de **23.976 fps**.
+
+```lua
+time_to_frame(1000)
+```
+</TabItem>
+
+<TabItem label="frame_to_ms(frames)">
+Convierte una cantidad de fotogramas a su equivalente en milisegundos.
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `frames: number`: El número de fotogramas a convertir. Si se omite, toma el valor de `fx.offset.frames`.
+</Aside>
+
+#### Ejemplo
+
+El siguiente código devolverá aproximadamente $417$ si el video es de **23.976 fps**.
+
+```lua
+frame_to_ms(10)
+```
+</TabItem>
+
+<TabItem label="frame_to_HMS(frames)">
+Convierte una cantidad de fotogramas a su equivalente en formato HMS. Es una combinación de `frame_to_ms` y `ms_to_HMS`.
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `frames: number`: El número de fotogramas a convertir. Si se omite, toma el valor de `fx.offset.frames`.
+</Aside>
+
+#### Ejemplo
+
+El siguiente código devolverá algo como `"0:00:05.005"`.
+
+```lua
+frame_to_HMS(120)
+```
+</TabItem>
+</Tabs>
+
+## Funciones de sincronización de sílabas
+
+Estas funciones generan retardos de tiempo calculados en base a la posición de la sílaba/palabra actual. Son el corazón de los efectos de karaoke secuenciales. Dependen de las variables automáticas `val_i` (índice actual) y `val_n` (número total).
+
+<Tabs>
+<TabItem label="time_li(Delay, Mode)">
+Crea un retardo progresivo, ideal para efectos que aparecen de izquierda a derecha (_line-in_). Cada sílaba aparece un poco después de la anterior.
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `Delay?: number`, _opcional_: Milisegundos de retardo entre cada unidad. Por defecto `40`.
+    - `Mode?: string`, _opcional_: Define la base del tiempo. Puede ser `syl` (relativo al inicio de la sílaba) o `word` (relativo al inicio de la palabra). Si se omite, es relativo al inicio de la línea.
+
+</Aside>
+
+#### Ejemplo
+
+```lua
+l.start_time + time_li(30)
+```
+</TabItem>
+
+<TabItem label="time_lo(Delay, Mode)">
+Crea un retardo progresivo inverso, ideal para efectos que desaparecen de derecha a izquierda (_line-out_).
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `Delay?: number`, _opcional_: Milisegundos de retardo entre cada unidad. Por defecto `40`.
+    - `Mode?: string`, _opcional_: Define la base del tiempo. Puede ser `syl` (relativo al inicio de la sílaba) o `word` (relativo al inicio de la palabra). Si se omite, es relativo al inicio de la línea.
+
+</Aside>
+
+#### Ejemplo
+
+```lua
+l.end_time + time_lo(30)
+```
+</TabItem>
+
+<TabItem label="time_mid1(Delay)">
+Crea un patrón de tiempo donde las sílabas de los extremos aparecen primero y las del centro al final (efecto de "cerrar cortinas"). Se usa sumando al tiempo de inicio (`l.start_time`).
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `Delay?: number`, _opcional_: Milisegundos de retardo entre cada unidad. Por defecto `30`.
+</Aside>
+
+#### Ejemplo
+
+```lua
+l.start_time + time_mid1(50)
+```
+</TabItem>
+
+<TabItem label="time_mid2(Delay)">
+Crea el patrón de tiempo opuesto a `time_mid1`. Las sílabas del centro aparecen primero y las de los extremos al final (efecto de "abrir cortinas"). Se usa restando del tiempo de inicio (`l.start_time`).
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `Delay?: number`, _opcional_: Milisegundos de retardo entre cada unidad. Por defecto `30`.
+</Aside>
+
+#### Ejemplo
+
+```lua
+l.start_time - time_mid2(50)
+```
+</TabItem>
+</Tabs>
+
+## Funciones de sincronización de bucles
+
+Estas funciones son análogas a las de sílabas, pero están diseñadas para usarse dentro de un _loop_ y dependen de los contadores `j`/`J` y `maxj`/`maxJ`.
+
+<Tabs>
+<TabItem label="time_loop1(Mode, Delay)">
+Genera patrones de tiempo para objetos creados en un bucle simple (_loop_). Depende de las variables `j` y `maxj`.
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `Delay?: number`, _opcional_: Milisegundos de retardo entre cada iteración. Por defecto `30`.
+    - `Mode: string`: El patrón de tiempo a usar. Acepta `li`, `lo`, `mid1`, `mid2`.
+</Aside>
+
+#### Ejemplo
+
+```lua
+retime("fxpretime", time_loop1("mid1", 20), time_loop1("mid1", 20) + 500)
+```
+</TabItem>
+
+<TabItem label="time_loop2(Mode, Delay)">
+Idéntica a la anterior, pero diseñada para bucles anidados o secundarios (_replay_). Depende de las variables `J` y `maxJ`.
+
+<Aside type="tip" title="Argumentos" icon="list-format">
+    - `Delay?: number`, _opcional_: Milisegundos de retardo entre cada iteración. Por defecto `30`.
+    - `Mode: string`: El patrón de tiempo a usar. Acepta `li`, `lo`, `mid1`, `mid2`.
+</Aside>
+
+#### Ejemplo
+
+Dentro de un `replay`, se puede usar el siguiente código para secuenciar los objetos del bucle anidado.
+
+```lua
+retime("fxpretime", time_loop2("li", 15), ...)
+```
+</TabItem>
+</Tabs>
+
+---
+
+<LinkCard
+    title="Inicio"
+    href="/guides/p/karaoke/kara-effector/function-library"
+    description="Volver a la biblioteca de funciones"
+/>

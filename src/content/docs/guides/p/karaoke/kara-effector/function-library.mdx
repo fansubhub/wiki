@@ -1,0 +1,101 @@
+---
+title: Librerías de funciones Lua
+description: Guía con explicaciones de las distintas funciones del Kara Effector.
+sidebar:
+  order: 3
+---
+
+import Author from '@components/Author.astro';
+import { Steps, LinkCard } from '@astrojs/starlight/components';
+
+<Author id="trotacalles" />
+
+En esta guía verás un recorrido por todas las librerías de [**Kara Effector**](/guides/p/karaoke/kara-effector), explicando sus funciones y recursos. Usaré ejemplos prácticos y algo de lenguaje técnico, pero no mucho. El objetivo es tener a la mano información complementaria que abarque aquello que el manual oficial de Kara Effector no cubrió. También la idea es que este material esté disponible de forma _online_.
+
+## Breve recorrido por las librerías
+
+Antes de sumergirte en el interior de las librerías, me gustaría dar un breve pantallazo a cada una. Así mismo, esta primera sección te servirá de índice para dirigirte a cada librería en específico.
+
+La biblioteca `Effector-utils-lib-3.6.lua` es el corazón funcional (por funciones) del Kara Effector. Es una colección masiva de funciones de utilidad diseñadas para simplificar y potenciar la creación de efectos de [karaoke](/p/karaoke) y edición de video en [Aegisub](/aegisub). Incorpora y amplía funcionalidades de bibliotecas anteriores y de la potente `Yutils`, proporcionando al creador de efectos un arsenal de herramientas para la manipulación de tiempo, tablas, texto, colores, formas vectoriales y mucho más.
+
+### Módulos y librerías
+
+<Steps>
+1. `set_temp & remember`
+
+    Este pequeño módulo se encarga de la gestión de estado temporal durante la ejecución de un _script_. Permite almacenar valores en una sesión para recuperarlos más tarde en otra parte del efecto, una técnica crucial para crear efectos consistentes a lo largo de múltiples sílabas o líneas sin recurrir a variables globales.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/1" />
+
+2. `time`
+
+    La manipulación del tiempo es fundamental en el karaoke. Esta biblioteca ofrece un conjunto completo de herramientas para convertir, calcular y generar patrones de tiempo, sirviendo como puente entre los milisegundos, los _timestamps_ de [**ASS**](/files/ass) y los fotogramas de video.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/2" />
+
+3. `table`
+
+    Lua se basa en tablas, y esta biblioteca sobrecarga sus capacidades nativas con docenas de funciones de alto nivel. Permite inspeccionar, transformar, comparar, filtrar y generar tablas complejas, que son la base para almacenar y manipular casi toda la información dentro de Kara Effector.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/3" />
+
+4. `string`
+
+    Amplía las funciones de manejo de texto de Lua, ofreciendo herramientas más avanzadas y específicas para las necesidades del _typesetting_ y la creación de efectos.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/4" />
+
+5. `math`
+
+    Esta es una de las bibliotecas más extensas, proporcionando herramientas matemáticas que van desde la generación de números aleatorios hasta la geometría vectorial y las transformaciones matriciales. Es esencial para cualquier efecto que involucre movimiento, posicionamiento y formas complejas.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/5" />
+
+6. `tag`
+
+    Este es el módulo final de salida para la mayoría de los efectos. Contiene funciones especializadas en la creación, manipulación y formateo de los override tags de ASS, que son los que finalmente definen el aspecto y la animación del karaoke.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/6" />
+
+7. `color` y `alpha`
+
+    Estos dos módulos se especializan en el manejo de colores y transparencias. Proporcionan herramientas para convertir entre diferentes formatos (ASS, RGB, HSV), generar valores aleatorios e interpolar suavemente entre un color/alfa y otro.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/7" />
+
+8. `shape`
+
+    Esta es una de las bibliotecas más potentes, dedicada por completo a la creación y manipulación de gráficos vectoriales (comandos de dibujo de ASS). Es la base para efectos de partículas, tipografías personalizadas, _morphing_ y animaciones de formas complejas.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/8" />
+
+9. `graph` e `image`
+
+    Estos módulos se enfocan en la generación de gráficos. `graph` crea formas geométricas primitivas como polígonos, engranajes o banners. `image` se encarga de procesar imágenes de mapa de bits (principalmente `.bmp`) para extraer su información de color y alfa, permitiendo recrear una imagen usando píxeles de ASS.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/9" />
+
+10. `aegisub`
+
+    Este módulo contiene funciones de conveniencia que interactúan directamente con las estructuras de datos de Aegisub y la biblioteca `karaskel`. Su principal propósito es analizar las líneas de diálogo y extraer información detallada sobre sus palabras, sílabas y caracteres.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/10" />
+
+11. `file`
+
+    Ofrece un conjunto de herramientas para interactuar con archivos externos. Permite leer, modificar y extraer información de archivos de texto, lo que puede usarse para cargar configuraciones o datos para efectos complejos.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/11" />
+
+12. `effector`
+
+    Esta es la biblioteca `meta` que gestiona el propio funcionamiento de Kara Effector. Contiene las funciones que construyen la interfaz de usuario, procesan las selecciones del usuario, aplican los efectos a las líneas de subtítulos y guardan las configuraciones.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/12" />
+
+13. `text`
+
+    Esta librería es el puente entre el texto de los subtítulos y los efectos gráficos avanzados. Su poder reside en su capacidad para tratar las cadenas de texto no como simples caracteres, sino como objetos visuales complejos. Proporciona herramientas para convertir texto en figuras vectoriales (_shapes_) totalmente manipulables, descomponerlo en sus unidades fonéticas o estructurales, y aplicar animaciones y estilos a nivel de caracter individual. Es una de las librerías más utilizadas y fundamentales para la creación de efectos visuales creativos.
+
+    <LinkCard title="Ir a la guía" href="/guides/p/karaoke/kara-effector/lib/13" />
+</Steps>

@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import icon from 'astro-icon';
 import starlightThemeRapide from 'starlight-theme-rapide';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightCoolerCredit from 'starlight-cooler-credit';
@@ -20,6 +21,7 @@ export default defineConfig({
 		rehypePlugins: [rehypeKatex],
 	},
 	integrations: [
+		icon(),
 		starlight({
 			title: 'Fansub Hub',
 			lastUpdated: true,
@@ -262,7 +264,8 @@ export default defineConfig({
 				Sidebar: './src/components/Sidebar.astro'
 			},
 			customCss: [
-				'./src/styles/custom.css'
+				'./src/styles/custom.css',
+				'katex/dist/katex.min.css'
 			]
 		}),
 	],

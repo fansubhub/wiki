@@ -26,3 +26,31 @@ table td {
 .content-panel img {
   border-radius: 9px;
 }
+
+/* Scrollbar fino para la lista de pestañas de Starlight */
+.tablist-wrapper {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--sl-color-gray-5, #555) transparent !important;
+}
+
+.tablist-wrapper::-webkit-scrollbar {
+  height: 4px !important;
+}
+
+.tablist-wrapper::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.tablist-wrapper::-webkit-scrollbar-thumb {
+  background: var(--sl-color-gray-5, #555) !important;
+  border-radius: 4px !important;
+}
+
+.tablist-wrapper::-webkit-scrollbar-button {
+  display: none !important;
+}
+
+/* Evita saltos de línea dentro de cada pestaña */
+.tablist-wrapper [role="tab"] {
+  white-space: nowrap;
+}

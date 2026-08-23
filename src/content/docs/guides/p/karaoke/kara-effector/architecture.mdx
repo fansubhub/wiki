@@ -1,0 +1,594 @@
+---
+title: Aquitectura y variables notables
+description: Guía casera en la que daremos un recorrido por el código que conforma Kara Effector.
+sidebar:
+  order: 2
+---
+
+import Author from '@components/Author.astro';
+import Video from '@components/Video.astro';
+import { Kbd } from 'starlight-kbd/components';
+import { Aside, Badge, Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<Author id="trotacalles" />
+
+Hace poco un grupo de _fansubbers_ de habla inglesa me pidieron que les ayudara a aprender sobre karaokes. Más adelante, otro _fansubber_ me pidió lo mismo. Fue entonces cuando me percaté de que la documentación sobre [**Kara Effector**](http://localhost:4321/guides/p/karaoke/kara-effector) estaba desactualizada o incompleta.
+
+Uno de los autores del mismo Kara Effector me lo había mencionado, que había gran cantidad de funciones que nunca fueron documentadas. Así que me propuse usar mis conocimientos en _prompting_ para generar una documentación clara y completa sobre todas las variables y funciones que podemos utilizar en Kara Effector, acompañadas de ejemplos y aclaraciones. 
+
+**Esta es la primera versión de dicha idea**. La hice con el interés de que sirva como una ayuda para quienes, como yo, quieren sacarle el mayor provecho a esta herramienta a fin de hacer mejores karaokes.
+
+## Arquitectura de Kara Effector
+
+El sistema de Kara Effector no es una sola pieza, sino un conjunto de módulos interconectados. Mientras que `Effector-utils-lib-3.6` proporciona las herramientas de efectos, las siguientes librerías proporcionan la base sobre la que todo se construye.
+
+### Librerías centrales del sistema
+
+<Tabs>
+<TabItem label="karaskel.lua">
+:::note[Propósito]
+Pre-procesamiento de datos de karaoke.
+:::
+
+Esta es la primera y más fundamental librería que actúa sobre los subtítulos. Su trabajo es analizar cada línea de diálogo temporizada y convertirla en una estructura de datos rica y fácil de usar. Es el "esqueleto" sobre el que los efectos construirán las animaciones.
+
+- **Análisis de tiempos**: Parsea las etiquetas `\k` para obtener la duración y los tiempos de cada sílaba.
+- **Manejo de _furigana_**: Detecta y separa el texto _furigana_ (texto sobre el _kanji_), calculando sus propias dimensiones y estilos.
+- **Cálculo de dimensiones**: Utiliza las funciones de Aegisub para pre-calcular el ancho, alto y posición de cada sílaba y del texto completo en la pantalla.
+- **Estructura de datos**: Organiza toda esta información en una tabla Lua (`line.kara`, `line.furi`) que se pasa a las funciones de efectos, simplificando enormemente el acceso a datos como `syl.width` o `syl.center`.
+
+En resumen, `karaskel` hace todo el trabajo pesado de medición y posicionamiento inicial, para que los creadores de efectos puedan concentrarse en la animación.
+</TabItem>
+
+<TabItem label="Yutils.lua">
+:::note[Propósito]
+Biblioteca de utilidades avanzadas de bajo nivel.
+:::
+
+Esta es una librería externa extremadamente potente, creada por "Youka" (Christoph Spanknebel). El Kara Effector la utiliza como su motor para muchas de las operaciones más complejas y computacionalmente intensivas. Es una dependencia crítica que le da al KE gran parte de su poder.
+
+- **Matemáticas avanzadas**: Incluye funciones para transformaciones matriciales 3D, cálculos de curvas Bézier, vectores y trigonometría.
+- **Procesamiento de formas avanzado**: Contiene algoritmos muy optimizados para delinear (_to_outline_), aplanar (_flatten_), dividir (_split_) y detectar (_detect_) formas (_shapes_) vectoriales a partir de datos de píxeles.
+- **Decodificación de archivos**: Puede leer y analizar archivos `.bmp` (imágenes) y `.wav` (audio), extrayendo datos que pueden usarse para crear efectos visuales.
+- **Interacción con fuentes**: Puede obtener métricas detalladas de las fuentes del sistema y convertir texto directamente a formas vectoriales, una función crucial para efectos tipográficos.
+- **Manejo de UTF-8**: Proporciona funciones robustas para trabajar con texto Unicode.
+
+En esencia, `Yutils` es la "caja de herramientas de ingeniería" que permite a `Effector-utils-lib-3.6` ofrecer funciones de tan alto nivel.
+</TabItem>
+
+<TabItem label="utils.lua / utils-auto4.lua">
+:::note[Propósito]
+Compatibilidad y creación de atajos.
+:::
+
+Estos archivos no contienen mucha lógica original. Su función principal es actuar como "puente" o "adaptador". Cargan las librerías más modernas de Aegisub (como `aegisub.util` y `effector-auto4`) y crean versiones abreviadas o alias de sus funciones.
+
+- **Atajos**: Definen funciones cortas como `R`, `Rs`, `Rd`, etc., que son en realidad llamadas a funciones más largas como `ke4.math.R`.
+- **Alias**: Hacen que funciones de `aegisub.util` estén disponibles bajo nombres más antiguos o convenientes, como `table.copy`.
+
+El propósito de estos archivos es hacer que el código de Kara Effector sea más limpio y fácil de leer para el autor, al tiempo que se aprovecha la potencia y eficiencia de las librerías estándar de **Automation 4** de Aegisub.
+</TabItem>
+</Tabs>
+
+### Archivos de extensibilidad y configuración
+
+<Tabs>
+<TabItem label="Effector-newlib-3.6.lua">
+:::note[Propósito]
+Almacenar tus propias funciones y variables reutilizables.
+:::
+
+Este archivo está pensado para que los usuarios avanzados añadan sus propias funciones de utilidad, variables globales o formas personalizadas. Al mantener estas adiciones en un archivo separado, se evita modificar los archivos principales de Kara Effector. Esto tiene dos ventajas:
+
+- Mantiene el código de Kara Effector limpio y original.
+- Facilita la actualización de Kara Effector en el futuro, ya que puedes reemplazar los archivos principales sin perder tus personalizaciones.
+</TabItem>
+
+<TabItem label="Effector-newfx-3.6.txt">
+:::note[Propósito]
+Almacenar las configuraciones de los efectos que creas y guardas.
+:::
+
+Cuando creas un efecto en la interfaz de **Modify** y lo guardas, su configuración se escribe en este archivo. Cada entrada es una llamada a la función `effector.create_fx`, que define el nombre del efecto y todos sus parámetros. Este archivo actúa como una base de datos de tus presets de efectos, que Kara Effector carga cada vez que se inicia.
+</TabItem>
+</Tabs>
+
+### Arquitectura general del sistema
+
+Ahora que hes visto todas las piezas, el flujo de trabajo en Kara Effector puede ser resumido en:
+
+<Steps>
+1. **Inicio**
+
+    El _script_ principal `Effector 3.6.lua` se ejecuta, carga todas las librerías (`karaskel`, `Effector-utils-lib-3.6`, etc.) y los archivos de configuración (`Effector-newfx-3.6`).
+
+2. **Interfaz**
+
+    Se muestra la interfaz gráfica al usuario para que seleccione las líneas, el tipo de efecto y la configuración.
+
+3. **Pre-procesamiento**
+
+    Al aplicar el efecto, `karaskel.lua` analiza las líneas seleccionadas y las convierte en estructuras de datos detalladas.
+
+4. **Ejecución del efecto**
+
+    La función del efecto seleccionado (definida a través de `effector.create_fx`) se ejecuta para cada sílaba/carácter/línea.
+
+5. **Cálculos Internos**
+
+    Durante la ejecución, la función del efecto utiliza las herramientas de las librerías:
+
+    - Usa la librería `effector` para la lógica principal.
+    - Usa las librerías `math`, `shape`, `text`, `color`, etc... de `Effector-utils-lib-3.6` para los cálculos.
+    - Estas, a su vez, pueden usar las funciones de bajo nivel de `Yutils.lua` para las operaciones más complejas.
+
+6. **Salida**
+
+    El resultado final es un conjunto de etiquetas de **ASS**, generadas por la librería `tag`, que se insertan en nuevas líneas de subtítulo en Aegisub.
+</Steps>
+
+## Variables disponibles
+
+En Kara Effector, las variables son atajos a propiedades de los elementos de karaoke (líneas, sílabas, etc.) y del entorno del script (resolución del video, etc.). Se pueden usar en casi todas las cajas de texto de la interfaz "Modify Effect", pero son más potentes en:
+
+- `Return[fx]`: Para construir el texto o la forma final mediante un formato.
+- `Variables[fx]`: Para definir valores personalizados que se usarán en otras cajas de texto.
+- `Add Tags[fx]`: Para añadir efectos dinámicos basados en las propiedades del elemento.
+
+#### Diferencias fundamentales entre variables de tiempo
+
+Es muy importante entender la diferencia entre los tipos de variables de tiempo.
+
+<Tabs>
+<TabItem label="l.start_time">
+:::note[Tiempo absoluto de la línea]
+:::
+
+| Descripción | Ejemplo |
+| :--- | :--- |
+| El tiempo de inicio de la línea de diálogo original, en milisegundos, desde el principio del video. Es un valor absoluto. | Si una línea empieza en la marca de 15 segundos del video, `l.start_time` será `15000`. |
+</TabItem>
+
+<TabItem label="syl.start_time">
+:::note[Tiempo relativo a la línea]
+:::
+
+| Descripción | Ejemplo |
+| :--- | :--- |
+| El tiempo de inicio de la sílaba, en milisegundos, contado desde el principio de _su propia línea_ (`l.start_time`). Es un valor relativo a la línea actual. | Si la línea empieza en `15000` y la sílaba empieza medio segundo después, `syl.start_time` será `500`. Su tiempo absoluto es $15000 + 500 = 15500$. |
+</TabItem>
+
+<TabItem label="syl.syl_start">
+:::note[Tiempo relativo al efecto]
+:::
+
+| Descripción | Función |
+| :--- | :--- |
+| El tiempo de inicio de la sílaba, en milisegundos, contado desde el principio de la **línea de efecto generada** (`fx.start_time`). | **Esta es la variable que casi siempre deberías usar dentro de una etiqueta [`\t()`](/aegisub/tags/advanced/transform)**. Un efecto (como una entrada anticipada o _lead-in_) podría empezar antes que la línea original, por lo que necesitas un tiempo relativo a la nueva línea de efecto. Se calcula como: (`l.start_time` + `syl.start_time`) - `fx.start_time`. |
+
+| Ejemplo |
+| :--- |
+| La línea empieza en `15000` (`l.start_time`).
+La sílaba empieza en `500` (`syl.start_time`). Tiempo absoluto: `15500`.
+Tu efecto de entrada anticipada empieza en `14800` (`fx.start_time` - `200`).
+`syl.syl_start` será $15500 - 14800 = 700$. Por lo tanto, `\t(700, ...)` se sincronizará perfectamente con la sílaba, pues le suma esos **200ms** de ventaja que le diste al efecto de _lead-in_ y no has tenido que calcularlo manualmente. |
+</TabItem>
+</Tabs>
+
+#### Variables de línea
+
+Estas se llaman con `line` o `l` y contienen información sobre la línea de diálogo completa que se está procesando.
+
+:::tip[Cajas de UI recomendadas]
+Todas
+:::
+
+| Variable | Abreviatura en `do_fx` | Descripción |
+| :--- | :--- | :--- |
+| `line.start_time` | `l_start` | Tiempo de inicio de la línea (en ms). |
+| `line.end_time` | `l_end` | Tiempo de fin de la línea (en ms). |
+| `line.duration` | `l_dur` | Duración total de la línea (en ms). |
+| `line.mid_time` | `l_mid` | El punto medio en el tiempo de la línea. |
+| `line.i` | `l_i` | Índice de la línea actual en la selección. |
+| `line.n` | `l_n` | Número total de líneas en la selección. |
+| `line.text_stripped` | - | El texto de la línea sin ninguna etiqueta ASS. |
+| `line.width` | `l_width` | Ancho total de la línea en píxeles. |
+| `line.height` | `l_height` | Alto total de la línea en píxeles. |
+| `line.left` `line.center` `line.right` | `l_left` `l_center` `l_right` | Coordenadas `X` de la caja delimitadora de la línea. |
+| `line.top` `line.middle` `line.bottom` | `l_top` `l_middle` `l_bottom` | Coordenadas `Y` de la caja delimitadora de la línea. |
+| `line.descent` `line.extlead` |  | Métricas de la fuente: descenso y espaciado externo. |
+| `line.styleref` | `L` | Una referencia al objeto de estilo completo de la línea. |
+| `line.hira` `.kata` `.roma` | `line.hira` `.kata` `.roma` | El texto completo de la línea convertido a _hiragana_, _katakana_ o _romaji_. |
+
+#### Variables de sílaba
+
+Estas se llaman con `syl` y están disponibles cuando **Template Type** es `Syl`, `Syl Multi`, `Char`, `Furi`, o cualquiera de las conversiones a _kana_/_romaji_.
+
+:::tip[Cajas de UI recomendadas]
+Todas
+:::
+
+| Variable | Abreviatura en `do_fx` | Descripción |
+| :--- | :--- | :--- |
+| `syl.start_time` | `syl_start` | Tiempo de inicio de la sílaba, relativo al inicio de la línea (en ms). |
+| `syl.end_time` | `syl_end` | Tiempo de fin de la sílaba, relativo al inicio de la línea. |
+| `syl.duration` | `syl_dur` | Duración de la sílaba (en ms). |
+| `syl.mid_time` | `syl_mid` | El punto medio en el tiempo de la sílaba. |
+| `syl.i` | `syl_i` | Índice de la sílaba actual en la línea. |
+| `syl.n` | `syl_n` | Número total de sílabas en la línea. |
+| `syl.text_stripped` | `syl.text` | El texto de la sílaba sin etiquetas. |
+| `syl.width` | `syl_width` | Ancho de la sílaba en píxeles. |
+| `syl.height` | `syl_height` | Alto de la sílaba en píxeles. |
+| `syl.left`, `syl.center`, `syl.right`| `syl_left`, `syl_center`, `syl_right`| Coordenadas `X` de la sílaba. |
+| `syl.top`, `syl.middle`, `syl.bottom`| `syl_top`, `syl_middle`, `syl_bottom`| Coordenadas `Y` de la sílaba. |
+| `syl.prespacewidth` |  | Ancho en píxeles del espacio en blanco *antes* de la sílaba. |
+| `syl.postspacewidth`|  | Ancho en píxeles del espacio en blanco *después* de la sílaba. |
+
+
+#### Variables de palabra
+
+Estas se llaman con `word` y están disponibles cuando **Template Type** es `Word`, `Translation Word`, o un tipo de plantilla basado en líneas.
+
+:::tip[Cajas de UI recomendadas]
+Todas
+:::
+
+| Variable | Abreviatura en `do_fx` | Descripción |
+| :--- | :--- | :--- |
+| `word.start_time` | `word_start`| Tiempo de inicio estimado de la palabra, relativo al inicio de la línea. |
+| `word.end_time` | `word_end` | Tiempo de fin estimado de la palabra. |
+| `word.duration` | `word_dur` | Duración estimada de la palabra. |
+| `word.i` | `word_i` | Índice de la palabra actual en la línea. |
+| `word.n` | `word_n` | Número total de palabras en la línea. |
+| `word.text` |  | El texto de la palabra. |
+| `word.width` `.height` | `word_width` `word_height` | Dimensiones de la palabra. |
+| `word.left` `.center` `.right` | `word_left` `word_center` `word_right` | Coordenadas `X` de la palabra. |
+
+#### Variables de carácter
+
+Estas se llaman con `char` y están disponibles cuando **Template Type** es `Char` o `Translation Char`.
+
+:::tip[Cajas de UI recomendadas]
+Todas
+:::
+
+| Variable | Abreviatura en `do_fx` | Descripción |
+| :--- | :--- | :--- |
+| `char.start_time` | `char_start`| Tiempo de inicio estimado del carácter, relativo al inicio de la línea. |
+| `char.end_time` | `char_end` | Tiempo de fin estimado del carácter. |
+| `char.duration` | `char_dur` | Duración estimada del carácter. |
+| `char.i` | `char_i` | Índice del carácter en la línea. |
+| `char.n` | `char_n` | Número total de caracteres en la línea. |
+| `char.text` |  | El carácter actual (una cadena de un solo carácter). |
+| `char.width` `.height` | `char_width` `char_height` | Dimensiones del carácter. |
+| `char.left` `.center` `.right` | `char_left` `char_center` `char_right` | Coordenadas `X` del carácter. |
+
+#### Variables de efecto
+
+Estas se llaman con `fx` y se calculan para cada línea de efecto que se genera. Son cruciales para entender el contexto temporal y espacial del propio efecto.
+
+:::tip[Cajas de UI recomendadas]
+`Return[fx]`, `Variables[fx]`, `Add Tags[fx]`.
+:::
+
+| Variable | Descripción |
+| :--- | :--- |
+| `fx.start_time` | El tiempo de inicio **real** de la línea de efecto que se está creando (en ms). |
+| `fx.end_time` | El tiempo de fin **real** de la línea de efecto que se está creando (en ms). |
+| `fx.dur` | La duración **real** de la línea de efecto (`fx.end_time` - `fx.start_time`). |
+| `fx.pos_x` `fx.pos_y` | La coordenada central final (`X`, `Y`) del objeto, después de aplicar funciones paramétricas y desplazamientos. |
+| `syl.syl_start` | Tiempo de inicio de la sílaba **relativo al inicio del efecto**. Esta es la variable clave a usar dentro de una etiqueta `\t()` para la sincronización de karaoke. |
+| `syl.syl_end` | Tiempo de fin de la sílaba **relativo al inicio del efecto**. |
+
+#### Variables de bucle e iteración
+
+Estas variables controlan los bucles para crear efectos complejos, repetitivos o por capas.
+
+:::tip[Cajas de UI recomendadas]
+`Return[fx]`, `Variables[fx]`, `Add Tags[fx]`.
+:::
+
+| Variable | Descripción |
+| :--- | :--- |
+| `j` | El contador del bucle principal (definido en la caja `loop`). Itera desde `1` hasta `maxj`. |
+| `maxj` | El número total de iteraciones para el bucle principal. |
+| `module` | **La variable más importante para la animación.** Representa el progreso del bucle `j`, normalizado de `0.0` a `1.0`.<br />Se calcula como $(j - 1) / (maxj - 1)$. |
+| `module1` `module2` | Módulos de progreso anidados, relativos al número de sílabas y al número de líneas, respectivamente. |
+| `J` | El contador del bucle externo (definido por la función `replay()`). |
+| `maxJ` | El número total de repeticiones del efecto. |
+| `moduler` | El progreso del bucle `J`, normalizado de `0.0` a `1.0`. |
+
+#### Variables de entorno y estilo
+
+Estas se llaman con `meta` y `L` y dan información sobre el _script_ de Aegisub y el estilo de la línea.
+
+:::tip[Cajas de UI recomendadas]
+`Variables[fx]`, `Return[fx]`.
+:::
+
+| Variable | Abreviatura en `do_fx` | Descripción |
+| :--- | :--- | :--- |
+| `meta.res_x` `meta.res_y` | `xres` `yres` | La resolución `X` e `Y` del _script_ de Aegisub. |
+| `frame_dur` |  | La duración de un único fotograma de video (en ms). |
+| `ratio` | `ratio` | Un factor de corrección de la relación de aspecto, útil para adaptar efectos a diferentes resoluciones de video. |
+| `L.color1` `L.color3` | `l_color1` `l_color3` | Los colores primario y de contorno del estilo de la línea. |
+| `L.alpha1` `L.alpha3` | `l_alpha1` `l_alpha3` | Las transparencias primaria y de contorno del estilo. |
+| `L.outline` `L.shadow` | `l_outline` `l_shadow` | El grosor del contorno y de la sombra del estilo. |
+| `L.fontsize` `L.fontname`| `l_fsize` `l_fname` | El tamaño y el nombre de la fuente del estilo. |
+
+#### Abreviaturas / Variables con dólar
+
+Estas se llaman con `$`. El script `Effector-utils-lib-3.6.lua` define una serie de variables con un prefijo `$` como atajos a las variables más comunes. Son extremadamente útiles para escribir código más corto y legible.
+
+:::note[Estas variables solo se pueden usar en el modo `auto4` en la caja de etiquetas]
+:::
+
+<Tabs>
+<TabItem label="Línea">
+| Variable | Equivalente en Lua | Descripción |
+| :--- | :--- | :--- |
+| `$lstart` `$lend` `$ldur` | `l_start` `l_end` `l_dur` | Tiempos de la línea. |
+| `$li` `$linen` | `l_i` `l_n` | Índice de la línea y total. |
+| `$lleft` `$lcenter` `$lright`| `l_left` `l_center` `l_right` | Posición `X` de la línea. |
+| `$ltop` `$lmiddle` `$lbottom`| `l_top` `l_middle` `l_bottom` | Posición `Y` de la línea. |
+| `$lwidth` `$lheight`| `l_width` `l_height` | Dimensiones de la línea. |
+</TabItem>
+
+<TabItem label="Sílaba">
+| Variable | Equivalente en Lua | Descripción |
+| :--- | :--- | :--- |
+| `$sstart` `$send` `$sdur` | `syl_start` `syl_end` `syl_dur` | Tiempos de la sílaba. |
+| `$si` `$syln` | `syl_i` `syl_n` | Índice de la sílaba y total. |
+| `$sleft` `$scenter` `$sright`| `syl_left` `syl_center` `syl_right` | Posición `X` de la sílaba. |
+</TabItem>
+
+<TabItem label="Carácter">
+| Variable | Equivalente en Lua | Descripción |
+| :--- | :--- | :--- |
+| `$cstart` `$cend` `$cdur` | `char_start` `char_end` `char_dur` | Tiempos del carácter. |
+| `$ci` `$charn` | `char_i` `char_n` | Índice del carácter y total. |
+| `$cleft` `$ccenter` `$cright` | `char_left` `char_center` `char_right` | Posición `X` del carácter. |
+</TabItem>
+
+<TabItem label="Palabra">
+| Variable | Equivalente en Lua | Descripción |
+| :--- | :--- | :--- |
+| `$wstart` `$wend` `$wdur` | `word_start` `word_end` `word_dur` | Tiempos de la palabra. |
+| `$wi` `$wordn` | `word_i` `word_n` | Índice de la palabra y total. |
+| `$wleft` `$wcenter` `$wright` | `word_left` `word_center` `word_right` | Posición `X` de la palabra. |
+</TabItem>
+
+<TabItem label="Furigana">
+| Variable | Equivalente en Lua | Descripción |
+| :--- | :--- | :--- |
+| `$fstart` `$fend` `$fdur` | `furi_start` `furi_end` `furi_dur` | Tiempos del _furigana_. |
+| `$fi` `$furin` | `furi_i` `furi_n` | Índice del _furigana_ y total. |
+| `$fleft` `$fcenter` `$fright` | `furi_left` `furi_center` `furi_right` | Posición `X` del _furigana_. |
+</TabItem>
+
+<TabItem label="Efecto">
+| Variable | Equivalente en Lua | Descripción |
+| :--- | :--- | :--- |
+| `$fxstart` `$fxend` `$fxdur` | `fx_start` `fx_end` `fx_dur` | Tiempos de la línea de efecto generada. |
+| `$fxi` `$fxn` | `fx_i` `fx_n` | Índice del bucle actual (`j`) y total de iteraciones (`maxj`). |
+| `$fxleft` `$fxcenter` `$fxright` | `fx_left` `fx_center` `fx_right` | Posición `X` final del objeto del efecto. |
+| `$fxtop` `$fxmiddle` `$fxbottom` | `fx_top` `fx_middle` `fx_bottom` | Posición `Y` final del objeto del efecto. |
+| `$fxwidth` `$fxheight` | `fx_width` `fx_height` | Dimensiones finales del objeto del efecto. |
+| `$fxx` `$fxy` | `fx_x` `fx_y` | Posición de anclaje final del objeto del efecto. |
+</TabItem>
+
+<TabItem label="General">
+| Variable | Equivalente en Lua | Descripción |
+| :--- | :--- | :--- |
+| `$start` `$end` `$dur` | `val_start` `val_end` `val_dur` | Tiempos del _elemento actual_ (depende del **Template Type**). |
+| `$i` `$n` | `val_i` `val_n` | Índice y total del _elemento actual_. |
+| `$left` `$center` `$right` | `val_left` `val_center` `val_right` | Posición `X` del _elemento actual_. |
+| `$top` `$middle` `$bottom` | `val_top` `val_middle` `val_bottom` | Posición `Y` del _elemento actual_. |
+| `$width` `$height` | `val_width` `val_height` | Dimensiones del _elemento actual_. |
+| `$x` `$y` | `val_center` `val_middle` | Posición de anclaje del _elemento actual_. |
+</TabItem>
+
+<TabItem label="Estilo">
+| Variable | Equivalente en Lua | Descripción |
+| :--- | :--- | :--- |
+| `$scale_x` `$scale_y` | `l_scale_x` `l_scale_y` | Escalado de la fuente del estilo. |
+| `$angle` | `l_angle` | Rotación del estilo. |
+| `$outline` `$shadow` | `l_outline` `l_shadow` | Grosor de contorno y sombra del estilo. |
+| `$fontsize` | `l_fsize` | Tamaño de fuente del estilo. |
+| `$fontname` | `l_fname` | Nombre de la fuente del estilo. |
+| `$spacing` | `l_spacing` | Espaciado entre letras del estilo. |
+| `$color1` a `$color4`| `l_color1` a `l_color4` | Los cuatro colores del estilo. |
+| `$alpha1` a `$alpha4`| `l_alpha1` a `l_alpha4` | Las cuatro transparencias del estilo. |
+| `$align` | `l_align` | El número de alineación del estilo. |
+</TabItem>
+</Tabs>
+
+#### Variables internas de Aegisub y Karaskel
+
+Estas son las variables fundamentales sobre las que Kara Effector construye las suyas. Se usan con menos frecuencia directamente en la interfaz de usuario, pero entenderlas es crucial para funciones avanzadas y para depurar errores. Estas propiedades son añadidas por el script `karaskel.lua` a cada objeto `line` durante el preprocesamiento.
+
+:::tip[Cajas de UI recomendadas]
+Principalmente `Variables[fx]` y `Return[fx]` para usuarios avanzados que escriben código Lua complejo.
+:::
+
+<Tabs>
+<TabItem label="Objeto 'line'">
+| Variable | Descripción |
+| :--- | :--- |
+| `line.kara` | La tabla principal que contiene todas las sílabas de karaoke procesadas. `line.kara[i]` es lo que se convierte en el objeto `syl` dentro de un efecto. |
+| `line.kara.n` | El número total de sílabas en la línea. |
+| `line.furi` | Una tabla separada que contiene todos los segmentos de _furigana_ procesados. |
+| `line.styleref` | Un objeto completo que contiene todas las propiedades del estilo de la línea (color, fuente, márgenes, etc.). La abreviatura `L` en los efectos apunta a esto. |
+| `line.effect` | El texto original del campo **Effect** de la línea. |
+</TabItem>
+
+<TabItem label="Objeto 'syl'">
+:::note[Dentro de `line.kara`]
+p.e. `line.kara.syl.text`.
+:::
+
+| Variable | Descripción |
+| :--- | :--- |
+| `syl.text` | El texto original de la sílaba, incluyendo cualquier etiqueta de formato. |
+| `syl.text_spacestripped` | El texto de la sílaba sin espacios en blanco al principio o al final. |
+| `syl.prespace` `syl.postspace` | Los caracteres de espacio en blanco (`" "`, `"\t"`) que estaban antes y después de la sílaba. |
+| `syl.highlights` | Una tabla que contiene los tiempos para cada sub-resaltado en sílabas con múltiples tiempos `\k` (p.e. `{\k10\k20\k30}sílaba`). |
+| `syl.furi` | Una sub-tabla que contiene una referencia al _furigana_ directamente asociado con esta sílaba. |
+</TabItem>
+
+<TabItem label="Objeto 'furi'">
+:::note[Dentro de `line.furi`]
+p.e. `line.furi.text`.
+:::
+
+| Variable | Descripción |
+| :--- | :--- |
+| `.text` | El texto del _furigana_. |
+| `.syl` | Una referencia a la sílaba principal a la que este furigana está anclado. |
+| `.isbreak` | Un booleano que indica si el _furigana_ debe unirse visualmente con el anterior (`false`) o no (`true`), controlado por `!` o `<` en el texto. |
+| `.spillback` | Un booleano que indica si el texto del furigana puede extenderse a la izquierda de su texto base, controlado por `<`. |
+</TabItem>
+</Tabs>
+
+#### Variables de plantilla (_template_)
+
+Estas son variables especiales y potentes diseñadas para **Template Types** como `Template Line [Syl]`. A diferencia de `syl.width` (que te da el ancho de la sílaba actual), estas variables otorgan acceso a una tabla con las propiedades de todos los elementos de la línea a la vez.
+
+:::tip[Cajas de UI recomendadas]
+`Add Tags[fx]` y `Return[fx]` (solo en **Template Types**).
+:::
+
+<Tabs>
+<TabItem label="linefx[ii].syls">
+:::note[`linefx[ii].syls`]
+Tabla con propiedades de todas las sílabas.
+:::
+
+| Variable | Descripción | Ejemplo de Uso |
+| :--- | :--- | :--- |
+| `.width[k]` | Ancho de la k-ésima sílaba. | `linefx[ii].syls.width[syl.i]` |
+| `.center[k]`| Centro de la k-ésima sílaba. | `linefx[ii].syls.center[syl.i]` |
+| `.start_time[k]`| Tiempo de inicio de la k-ésima sílaba.| `linefx[ii].syls.start_time[syl.i]` |
+</TabItem>
+
+<TabItem label="linefx[ii].words">
+:::note[`linefx[ii].words`]
+Tabla con propiedades de todas las palabras.
+:::
+
+| Variable | Descripción | Ejemplo de Uso |
+| :--- | :--- | :--- |
+| `.width[k]` | Ancho de la k-ésima palabra. | `linefx[ii].words.width[word.i]` |
+| `.center[k]`| Centro de la k-ésima palabra. | `linefx[ii].words.center[word.i]` |
+| `.start_time[k]`| Tiempo de inicio de la k-ésima palabra.| `linefx[ii].words.start_time[word.i]` |
+</TabItem>
+
+<TabItem label="linefx[ii].chars">
+:::note[`linefx[ii].chars`]
+Tabla con propiedades de todas los caracteres.
+:::
+
+| Variable | Descripción | Ejemplo de Uso |
+| :--- | :--- | :--- |
+| `.width[k]` | Ancho del k-ésimo carácter. | `linefx[ii].chars.width[char.i]` |
+| `.center[k]`| Centro del k-ésimo carácter. | `linefx[ii].chars.center[char.i]` |
+| `.start_time[k]`| Tiempo de inicio del k-ésimo carácter.| `linefx[ii].chars.start_time[char.i]` |
+</TabItem>
+</Tabs>
+
+### Aclaración sobre variables inaccesibles
+
+Es tan importante saber lo que **no puedes** usar como lo que sí puedes. La inaccesibilidad de ciertas variables no es una limitación de Kara Effector, sino una consecuencia de cómo funcionan la programación y los "ámbitos" de las variables.
+
+En resumen, solo puedes llamar a variables que existen y tienen un valor **en el momento exacto en que tu código en la caja de texto de la UI es evaluado**. Este momento es dentro de la función `effector.do_fx`, para una línea, sílaba e iteración de bucle específicas.
+
+Aquí tienes una aclaración de las secciones y tipos de variables que **NO** puedes llamar directamente desde las cajas de texto de la UI de Kara Effector, y la razón.
+
+#### Variables de configuración de la interfaz gráfica de usuario (GUI)
+
+Estas variables definen la ventana que estás viendo. No son datos de karaoke, sino metadatos sobre la propia herramienta.
+
+<Aside type="tip" title="Ejemplos" icon="list-format">
+    - `effector.GUI_config`, `effector.GUI_modify`, `effector.GUI_karax`, `effector.GUI_shape`, `effector.GUI_trans`, `effector.GUI_add`, `effector.ipol_lines`.
+    - Cualquier variable dentro de estas tablas, como `effector.GUI_modify[29].items`.
+</Aside>
+
+:::note[Razón de la Inaccesibilidad]
+Estas variables se usan **antes** de que tu efecto se ejecute para construir el diálogo. Cuando escribes en la caja `Return[fx]`, la ventana ya existe. No puedes llamar a una variable que define la ventana desde dentro de esa misma ventana.
+:::
+
+#### Variables internas del motor del _script_
+
+Estas son variables que el _script_ principal (`Kara Effector 3.6.lua`) usa para gestionar su estado, contar cosas y almacenar datos globalmente mientras se ejecuta.
+
+<Aside type="tip" title="Ejemplos" icon="list-format">
+    - `count_save`: Un contador para archivos de autoguardado.
+    - `fx_box`: La tabla que contiene la configuración del efecto actualmente seleccionado para mostrarlo en la UI de **Modify**.
+    - `list_fx, list_library`: Las tablas que contienen todos los efectos cargados, ordenados por categoría.
+</Aside>
+
+:::note[Razón de la Inaccesibilidad]
+Son parte de la maquinaria interna y no son relevantes para el diseño de un efecto. Están fuera del **ámbito** de la función `effector.do_fx` que evalúa tu código. Permitir el acceso a ellas podría crear inestabilidad y resultados impredecibles. El _script_ solo te proporciona la información que necesitas para la tarea actual, como los datos de la línea (`l`) o la sílaba (`syl`).
+:::
+
+#### Variables locales y temporales de preprocesamiento
+
+:::note[`karaskel.lua`]
+:::
+
+Antes de que tu efecto se ejecute, `karaskel.lua` analiza cada línea. Durante este proceso, usa muchas variables temporales para calcular anchos, posiciones y estructuras.
+
+<Aside type="tip" title="Ejemplos" icon="list-format">
+    - `worksyl`: Una tabla temporal que `karaskel` usa para agrupar sílabas con múltiples tiempos `\k`.
+    - `cur_inline_fx`: Una variable que almacena el último efecto en línea (`\-`) encontrado.
+    - `lgroups`: En la maquetación del furigana, es una tabla que agrupa sílabas para calcular su espaciado.
+    - `toinsert`: Una cola de estilos de furigana que necesitan ser añadidos al archivo.
+</Aside>
+
+:::note[Razón de la Inaccesibilidad]
+Son variables "locales" dentro de las funciones de `karaskel`. Una vez que una función termina su trabajo (p.e. calcular las posiciones de todas las sílabas en una línea), estas variables se destruyen y su memoria se libera. Recibes el **resultado final** de estos cálculos (p.e. `syl.width`, `syl.center`), pero no las variables intermedias usadas para llegar ahí.
+<Aside type="tip" title="Analogía" icon="open-book">
+    Es como pedir un plato en un restaurante. Recibes el plato terminado (`syl.width`), pero no tienes acceso a los ingredientes a medio cortar en la tabla del chef (`worksyl`).
+</Aside>
+:::
+
+#### Variables internas de funciones de librerías
+
+:::note[`Yutils.lua` `Effector-utils-lib-3.6.lua`]
+:::
+
+Puedes _llamar_ a las funciones de estas librerías (p.e. `shape.rotate(...)`), pero no puedes acceder a las variables que están _dentro_ de esas funciones.
+
+<Aside type="tip" title="Ejemplos" icon="list-format">
+    - Dentro de `Yutils.shape.split`, la tabla `new_shape` mientras se está construyendo.
+    - Dentro de `shape.array`, las tablas `shape_radial`, `shape_rectangular`, etc., mientras se están generando.
+    - Dentro de `effector.time`, las variables `Tim`, `Hor`, `Min`, `Seg`.
+</Aside>
+
+:::note[Razón de la Inaccesibilidad]
+Este es un principio fundamental de la programación llamado "ámbito de función". Las variables declaradas dentro de una función solo existen mientras esa función se está ejecutando. Cuando la función te da un resultado (su `valor de retorno`), sus variables internas desaparecen.
+:::
+
+#### El objeto global `aegisub` y su estado interno
+
+El _script_ interactúa con Aegisub a través de una API (Interfaz de Programación de Aplicaciones), que se compone principalmente de funciones. No expone su estado interno como variables que puedas leer.
+
+<Aside type="tip" title="Ejemplos de lo que NO puedes hacer" icon="list-format">
+    - `aegisub.selected_lines_count`: Una variable así no existe. Debes usar `aegisub.get_dialog_selection()`.
+    - `aegisub.main_window_handle`: Punteros internos del programa.
+    - `aegisub.undo_history_table`: La lista de acciones para deshacer.
+</Aside>
+
+:::note[Razón de la Inaccesibilidad]
+Aegisub expone un conjunto controlado de **funciones** (`aegisub.text_extents`, `aegisub.progress.set`, etc.) por seguridad y estabilidad. No concede acceso directo a su memoria interna o al estado de la aplicación.
+:::
+
+### Resumen de variables inaccesibles
+
+| Categoría | Variables/Secciones de Ejemplo | Razón de la Inaccesibilidad |
+| :--- | :--- | :--- |
+| **Configuración de UI** | `effector.GUI_config` `effector.GUI_modify` `fx_box` | Definen la interfaz gráfica; no son variables de datos de karaoke. |
+| **Motor del _script_** | `count_save` `list_fx` `list_library` `fx_box` | Son parte de la maquinaria interna del _script_, fuera del ámbito de ejecución del efecto. |
+| **Preprocesamiento** | `worksyl` `cur_inline_fx` (en `karaskel.lua`) | Son variables temporales y locales que se destruyen una vez que su tarea ha finalizado. |
+| **Funciones de librería** | Variables internas de `Yutils.shape.split` o `tag.oscill` | Son locales a las funciones. Solo recibes el resultado final que la función retorna. |
+| **Estado de Aegisub** | El número de líneas seleccionadas, el historial de deshacer | Aegisub no expone su estado interno como variables, solo a través de una API basada en funciones. |

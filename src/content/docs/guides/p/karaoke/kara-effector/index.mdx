@@ -1,6 +1,8 @@
 ---
 title: Instalación e introducción a su metodología
 description: Guía completa, de básico a avanzado, sobre el uso de Kara Effector, su biblioteca, funciones y verdadero potencial.
+sidebar:
+  order: 1
 ---
 
 import Author from '@components/Author.astro';
@@ -77,8 +79,8 @@ En esta planilla puedes modificar el efecto a fondo. Las siguientes son las part
 7. El _loop_; es decir, las veces que se ejecutará el efecto antes de pasar a la siguiente medida del _template type_. (Por ejemplo, si es _template syl_, las veces por _syl_ que se ejecutará antes de pasar a la siguente sílaba.)
 8. El tamaño del efecto; _100_ si está vacío, admite tamaños en porcentaje, similar a modificar el [`\fscx` y `\fscy`](/aegisub/tags/advanced/sizing), si pones `100, 100` estarás modificando ambos ejes.
 9. En este campo va todo lo que será retornado en la línea. Pueden usarse condiciones, pueden usarse variables y hasta funciones complejas para establecer varias capas según el loop. También tienes la casilla `modify or return` que te dejará decidir si quieres modificar líneas existentes o generar nuevas. Modificar obviamente neutralizará la casilla `return`.
-10. El tipo de pantilla (_template_) que se utilizará, define cada cuántos elementos se generará una nueva línea, y si será una línea para toda la línea del _K-Time_ (p.e. en traducciones), por cada palabra, sílaba o caracter.
-11. Estos dos campos definen qué se tomará como posición de partida del efecto en `X` e `Y`. Están condicionados por el _template type_. Si el _type_ es _line_ y pones `char.center` y `char.middle`, la línea te quedará centrada al centro del primer caracter, lo cual podría no ser lo deseado. Hay que tener cuidado y elegir la posición correcta, dependiendo del tipo de plantilla que estés usando. Si tu efecto funciona utilizando cada caracter, lo mejor es usar el centro de los caracteres. Si es por _syl_, el de la _syl_. Y así por el estilo.
+10. El tipo de pantilla (_template_) que se utilizará, define cada cuántos elementos se generará una nueva línea, y si será una línea para toda la línea del _K-Time_ (p.e. en traducciones), por cada palabra, sílaba o carácter.
+11. Estos dos campos definen qué se tomará como posición de partida del efecto en `X` e `Y`. Están condicionados por el _template type_. Si el _type_ es _line_ y pones `char.center` y `char.middle`, la línea te quedará centrada al centro del primer carácter, lo cual podría no ser lo deseado. Hay que tener cuidado y elegir la posición correcta, dependiendo del tipo de plantilla que estés usando. Si tu efecto funciona utilizando cada carácter, lo mejor es usar el centro de los caracteres. Si es por _syl_, el de la _syl_. Y así por el estilo.
 12. Estos dos campos definen la escala con respecto al eje `X` e `Y` de las gráficas que se generen con ecuaciones paramétricas. Si están vacíos, su valor predeterminado es `1`.
 13. En estas dos casillas puedes poner las **coordenadas**, **variables** o **funciones** que definan el movimiento de nuestros objetos. El valor predeterminado te sirve de comienzo y podrás poner una coma y una coordenada de destino. Cabe mencionar que los valores de estas casillas se suman con los de _Center_ `X` e `Y`.
 14. En este campo puedes poner el tiempo de **inicio** y de **finalización** del movimiento que tendrá el objeto.
@@ -91,7 +93,7 @@ En esta planilla puedes modificar el efecto a fondo. Las siguientes son las part
 21. Casilla **Print config** para indicar que quieres guardar en una línea.
 22. Campo para seleccionar la biblioteca de destino en caso de que quieras guardar directamente a la biblioteca.
 23. Casilla **Variables**. Esta casilla es la de mayor jerarquía en todo el _template_. Aquí puedes poner variables, según el lenguaje de programación Lua. También puedes usar funciones para llamarlas desde cualquier otra casilla. Prácticamente puedes utilizar Lua en estado puro aquí, usando la mayoría de las variables que tiene Kara Effector, Auto4 y Aegisub, salvo algún caso específico.
-24. **Reverse** sirve para dar vuelta en sentido **de derecha a izquierda** a algunas variables de Kara Effector y el orden de los elementos del _template_ (p.e. si originalmente tomaba como primer caracter el primero de izquierda a derecha, ahora tomará el primero de derecha a izquierda).
+24. **Reverse** sirve para dar vuelta en sentido **de derecha a izquierda** a algunas variables de Kara Effector y el orden de los elementos del _template_ (p.e. si originalmente tomaba como primer carácter el primero de izquierda a derecha, ahora tomará el primero de derecha a izquierda).
 25. Esta opción hace que Kara Effector se **salte los espacios** y no aplique el efecto en ellos. Si tu efecto usa las letras de la línea, dejarlo sin activar solo generaría líneas con los etiquetas pero sin nada de texto dentro. Por otro lado si tu efecto genera alguna clase de pantalla detrás de las letras usando formas, activarlo evitará huecos en donde hay espacios.
 26. Hace que la línea funcione de **modo vertical**.
 27. Hace que los cambios que hayas realizado en el template se **guarden temporalmente** para poder hacer cambios rápidos aplicando y presionando <Kbd windows="Control+Z" />. Los cambios son temporales, si recargas automatizaciones o reinicias el Aegisub, se perderán y todo volverá a `0`.
