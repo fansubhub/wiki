@@ -8,9 +8,76 @@ import Video from '@components/Video.astro';
 import { Kbd } from 'starlight-kbd/components';
 import { Badge, Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-<Badge text="TS : Completo" variant="note" />{' '}&ensp;<Badge text="Tipo : Softsub" variant="tip" />
 <Author id="trotacalles" />
 
 ![Portada por trotacalles](https://media.fansubhub.com/d/uploads/images/guides/es/sincronizacion-de-lineas/guiasincrobanner_Lite.webp?sign=1Xa1hiIUlvdYzUGBdOHiWS6ppwiXAVBYTuEywPm0bhI=:0)
 
-test
+## Prerrequisitos
+
+<LinkCard
+    title="Keyframes Extract"
+    href="https://drive.google.com/file/d/11CjDEOUlGqsR2fa6Pw_b8cEKo51e_YSe/view?usp=sharing"
+    description="Enlace para descargar script para extraer los keyframes."
+    target="_blank"
+/>
+
+Dentro encontrarás varios archivos `.bat` que se utilizan arrastrando el vídeo del que quieras extraer y soltándolo sobre el `.bat`. Los archivos están por resolución de muestreo para tomar los _keyframes_, siendo en mi opinión el de `360p` el más útil. Cuanta más resolución de muestreo más falsos positivos tendrás, y a su vez, con resoluciones menores podría no ser detectado algún _keyframe_.
+
+<CardGrid>
+<LinkCard
+    title="ffmpeg.exe"
+    href="https://ffmpeg.org/download.html#build-windows"
+    description="Multimedia framework, able to decode, encode, transcode, mux, demux, stream, filter and play pretty much anything."
+    target="_blank"
+/>
+
+<LinkCard
+    title="scxvid.exe"
+    href="https://github.com/soyokaze/SCXvid-standalone/releases"
+    description="Standalone, cross-platform port of the AviSynth SCXvid plugin."
+    target="_blank"
+/>
+</CardGrid>
+
+## Extractor
+
+Para poder utilizar el extractor, primero debes especificar la ruta en la que se encuentran los archivos `ffmpeg.exe` y `scxvid.exe`.
+
+```bat
+:: Archivo: generar_keyframes360p.bat
+
+@echo off
+echo Making SCXvid keyframes...
+set video="%~1"
+set video2="%~n1"
+"C:\tu\ruta\hasta\ffmpeg.exe" -i %video% -f yuv4mpegpipe -vf scale=640:360 -pix_fmt yuv420p -vsync drop - | "C:\tu\ruta\hasta\SCXvid.exe" %video2%_keyframes.txt
+echo Keyframes complete
+pause
+```
+
+Tras especificar ambas rutas, podrás empezar a utilizar el extractor. Para ello, prueba a arrastrar un archivo de vídeo hasta él, o agrégalo en el menú [_Enviar a_ del Explorador de Archivos](https://answers.microsoft.com/es-es/windows/forum/all/c%C3%B3mo-mejorar-la-opci%C3%B3n-enviar-a-del/b86b2068-3059-4051-afdc-460797bd64a4).
+
+Después de que se procese el vídeo introducido, el programa te creará un archivo `.txt` que deberás arrastar hasta el visualizador de vídeo de [Aegisub](/aegisub) y así aplicar los cuadros de sincronización. También puedes hacerlo abriendo el desplegable de **Vídeo** de la barra de herramientas y seleccionando la opción _Abrir cuadros clave..._.
+
+<Tabs>
+<TabItem label="Arrastrando" icon="pen">
+![Arrastrar](https://media.fansubhub.com/d/uploads/images/guides/es/sincronizacion-de-lineas/image1_Lite.webp?sign=K9hRTng_Uv9aIZRDbwx79aFGQOfJSkqBW_CMWdrwfS4=:0)
+</TabItem>
+<TabItem label="Desplegable" icon="add-document">
+![Desplegable](https://media.fansubhub.com/d/uploads/images/guides/es/sincronizacion-de-lineas/image2_Lite.webp?sign=QGH3vl5TnbFBt1GEJ6k_aFZK7zUIGR6TjKUWJFJDeT8=:0)
+</TabItem>
+</Tabs>
+
+## Interfaz
+
+Para conocer un poco la interfaz que se utiliza en la sincronización.
+
+<Video src="https://media.fansubhub.com/d/uploads/videos/guides/es/sincronizacion-de-lineas/interfaz-1.mp4?sign=2k5-Md2rDOzGq7A7Ookx5iOWd237z-F211RQxhfq64s=:0" />
+<Video src="https://media.fansubhub.com/d/uploads/videos/guides/es/sincronizacion-de-lineas/interfaz-2.mp4?sign=fIwYNfJ7-NHL0FO2zT8JAhfoSXw2izd-VMXv64AL-dc=:0" />
+
+### _Lead-in_ y _Lead-out_
+
+En estas dos partes se ve cómo, usando los atajos de teclado, puedes hacer el proceso de sincronización, ajuste a los _keyframes_ y unión de líneas en dos pasadas por el vídeo.
+
+<Video src="https://media.fansubhub.com/d/uploads/videos/guides/es/sincronizacion-de-lineas/lead-in-out-1.mp4?sign=ageidktQ5uxa8rVK6rYiftprzO8emU2HieGrdn8YR0o=:0" />
+<Video src="https://media.fansubhub.com/d/uploads/videos/guides/es/sincronizacion-de-lineas/lead-in-out-2.mp4?sign=J7onPDeo2vG6BNwQwX6SjBtNWC4ANmPM7CBpB7CPqnw=:0" />

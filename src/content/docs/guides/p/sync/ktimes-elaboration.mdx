@@ -1,0 +1,87 @@
+---
+title: Elaboración de K-Times
+description: La guía sobre cómo hacer un K-Time, la base de todo karaoke.
+---
+
+import Author from '@components/Author.astro';
+import Video from '@components/Video.astro';
+import { Kbd } from 'starlight-kbd/components';
+import { Badge, Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<Author id="trotacalles" />
+
+![Portada por trotacalles](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/guiaktimesbanner.jpg?sign=li90kswrKjmsil4yk0FT3Pdv0bJfzwgUi3-QQ_lJ4q0=:0)
+
+:::note[Disclaimer!]
+Todos los conceptos y argumentaciones aquí descritas pertenecen a mi propia opinión personal y deben entenderse como lo que yo pienso sobre ese tema. Defiendo mis ideas, pero soy consciente se que no son la verdad absoluta.
+:::
+
+## ¿Qué es un _K-Time_?
+
+Un _K-Time_ o K-Tiempo es la sincronización de las líneas y sílabas del subtítulo que se ve durante un tema musical. Puede usarse en vídeos musicales, series de animación, películas o en cualquier medio audiovisual que incluya música. Cuando a unos subtítulos comunes y corrientes se les añade una sincronización por sílabas, siguiendo la interpretación de la voz cantante, pasa a ser considerado un _K-Time_, que es la forma más básica posible de un [karaoke](/p/karaoke). La diferencia entre subtítulos normales y un karaoke es la sincronización por sílabas, y sin ella no puede ser considerado como tal.
+
+## Elaborar un _K-Time_
+
+Para hacer un _K-Time_ es esencial contar con las líneas en crudo que se mostrarán durante el tema musical que tenemos que subtitular. Estas líneas se organizan en "juegos de líneas" o conjuntos, y representan a los tres formatos de información que se mostrará en pantalla. Estos son: _hiragana_ o _katakana_, para los caracteres japoneses, _romaji_ para la romanización de dichos caracteres y [traducción](/p/translate) para la traducción de la letra.
+
+![Pistas de karaoke](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/division_segmentos_ktime.png?sign=i3mHLNu8D-qclDk3lZXZmv8RbDc6g3xowJEBVWYhSp0=:0)
+
+En el caso del romaji es preciso realizar un paso extra: la división de las palabras romanizadas en las sílabas del japonés a las que representan.
+
+Esto se logra fácilmente utilizando un _plugin_ automatizado que se llama **Split Syllables** y que se encuentra entre los [materiales de sincronización](/resources/p/sync). Una vez utilizado el _plugin_, tendremos el _romaji_ dividido en sílabas. Si nuestro _romaji_ es de buena calidad y fiel al estándar, la división será correcta, en caso contrario, pueden surgir problemas.
+
+![Sílabas japonés](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/hiragana3.gif?sign=elvOIs0nQMvuEMy1bNGjwbNV_U1SXxkvkPrszQ0q9fg=:0)
+
+:::tip[Sílabas especiales]
+Ciertas sílabas, como "_tte_", "_kkyo_" y toda sílaba que contenga una letra doble, así como las "_ou_" (p.e. _Kyou_), serán divididas en dos ya que, tal y como se ve en el silabario, no son una sílaba, sino dos. Otro detalle que vale la pena comentar, es que no se utilizan "_o_" en los karaokes, sino que son reemplazadas con "_wo_".
+:::
+
+### Proceso de sincronización
+
+Luego de tener tus líneas y el _romaji_ bien divido, comienza el proceso de sincronización. El primer paso consiste en delimitar correctamente la extensión de las líneas completas en el audio de Aegisub. Para eso utilizarás los mismos atajos de teclado (_keybinds_) que usaste en la sincronización de las líneas de los subtítulos. Eso se trató en [la otra guía](/guides/p/sync/line-sync).
+
+La porción de _romaji_ que le corresponde a cada línea viene delimitada en la versión oficial de la letra en _kanji_, pero puede ser modificada si así resulta beneficioso para el _fansubber_. Sin embargo, recomiendo siempre guiarse por esa estructura original de la letra, ya que suele representar la mejor forma de dividirla.
+
+Asignas el mismo tiempo al _kanji_, _romaji_ y traducción y te aseguras de no dejar _lead-in_ o _lead-out_ en la sinconización. Esto será muy importante después, cuando quieras hacer los efectos de ese karaoke.
+
+![Sincro líneas ktime](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/sincro_lineas_ktime.png?sign=lZoH9mn9W-8m_uT-4u_01n7E2vEfPCb1bkh3Adn9mE8=:0)
+
+Una vez que terminas de sincronizar las líneas completas, pasas a la sincronización de las sílabas del _romaji_ o _kanji_. En el caso del _kanji_ es exactamente igual, ya que cada carácter representa una sílaba.
+
+Para hacer la sincronización, al igual que pasaba con las líneas de los subtítulos, te vendrá bien manejar el gráfico del sonido en modo de espectrograma. Además, necesitas activar el **modo karaoke** para poder tocar la sincronización de cada sílaba sin moverla (la sincronización) de la línea completa.
+
+![Modo karaoke](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/modo_karaoke_ktime.png?sign=aPBKlHOkc1edwFcj8nUZ7CasuAii6Qf5fZucl0ph1CQ=:0)
+
+En modo espectrograma puedes notar cómo las distintas sílabas son evidentes en el gráfico en ciertos momentos de la canción, viéndose como pilares o segmentos definidos. Esto te puede ayudar a realizar la sincronización de manera más fácil e intuitiva.
+
+![Espectro](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/espectro_ktime.png?sign=-rYjsRC02aPgye9SDCvj8_3dLVf7-HSfmXPoqs2WreU=:0)
+
+Si te fijas con cuidado, podrás ver que hay un cierto espacio silencioso entre las sílabas, un espacio que no tiene una marca patente y que se ven como espacios más oscuros en el gráfico.
+
+![Espacios ktime](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/espacios_ktime.png?sign=rJfutXNoaqN4vjRHx89Ie1kKOdvGBTqZdZCgrBZ4ZEQ=:0)
+
+Estos huecos son parte de las sílabas, si pulsas el botón derecho del ratón sobre el gráfico podrás escucharlas con mejor detalle. La idea de la sincronización es ir moviendo estas divisiones y colocando las juntas en esos espacios entre sílabas. Con la ayuda del botón derecho del mouse, escuchando una a una y ajustando, la tarea debería ser sencilla.
+
+Ahora bien, no todas las sílabas se deben _timear_ de igual manera. Cómo administres ese pequeño espacio dependerá de cuál sea la letra que dé inicio a la sílaba. Si es una `n`, `m` o `r`, precisará todo el espacio, y el _time_ de esa sílaba comenzará exactamente al finalizar la anterior. Si la sílaba comienza por `s`, `z`, `a`, `g`, `d` o `k`, no necesitará ese espacio y el silencio podrá ser compartido entre ambas o ser dejado por completo a la sílaba anterior.
+
+Un caso interesante para remarcar es el de las dobles letras o sílabas de doble sonido, como son la "_tte_", "_kku_", etc. Toda sílaba que contenga una doble letra de comienzo suele ser precedida por un alargamiento en la pronunciación o un leve cambio de la nota cantada, volviéndose de doble nota en la sílaba anterior.
+
+![Cambio nota](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/cambio_nota_ktime.png?sign=z1L29kIHiHSlMNR8p1B6_2Ilvp2SVgyWYPktfjoaM94=:0)
+
+Algunos _karaokers_ consideran que dicho cambio de nota es el lugar para que la sílaba cambie, teniendo que ser _timeada_ la sílaba en ese punto. Otros consideran que debe usarse el espacio muerto entre sílabas cuando se genera, debido a que la doble sílaba suele generalos. Sin embargo, yo considero que la primera letra de la sílaba doble es "**muda**" o "sorda" y que debería ser _timeada_ al silencio o un poco más atrás. Por ejemplo, cuando el caso es "_katta_", la sílaba anterior a "_tta_" suena como "_kat_". Así mismo, si es "_natta_", la primera sonará "_nat_". Esa `t` al final de la sílaba anterior es muy leve. Se encuentra al final de la sílaba y es el lugar en que, considero, debería comenzar la primera letra doble.
+
+![Lugar doble sílaba](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/lugar_doblesil_ktime.png?sign=v41RLNf_dQQy09EBb85g8eNj3_P8iGcZCTuTw0QjW6o=:0)
+
+:::note[Hay otro detalle a tener en cuenta cuando sincronizas]
+Los espacios de silencio dentro de una misma línea.
+:::
+
+A veces sucede que el cantante se toma un instante para respirar o hacer una pausa. Cuando te encuentras con este tipo de situaciones, la estrategia a tomar dependerá de dónde se sitúe dicha pausa. Por ejemplo, si el silencio se encuentra entre dos palabras del _romaji_, usarás el espacio entre ambas como separador, añandiendo una sílaba vacía que solo contenga ese espacio, de esa manera, tu karaoke no usará ese espacio y lo identificará como vacío (_blank_).
+
+![Silencio palabras](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/silencio_palabras_ktime.png?sign=vdyjganAzyPp7tAXMiIq-7wEhhH76tlafA_3hjb-VZI=:0)
+
+En el caso de que el silencio se encuentre a mitad de una palabra del _romaji_, dependerá de ti decidir si ponerlo como silencio o no. Yo recomiendo no hacerlo, ya que no tendrás nada para fijar ese silencio al no tener un espacio.
+
+![Silencio sin espacios](https://media.fansubhub.com/d/uploads/images/guides/es/elaboracion-de-ktimes/silencio_noespacios_ktime.png?sign=b6xVlxos7Vy69oqO9963OTVU0tCoKz3VHIgzNV6_N6Y=:0)
+
+Una vez termines la sincronización de todas las sílabas, tendrás listo tu _K-Time_. Solo faltará que hagas los estilos y te pongas a programar tus efectos.

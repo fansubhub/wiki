@@ -140,6 +140,63 @@ export default defineConfig({
 						]
 					},
 					{
+						label: 'Encode',
+						link: '/p/encode',
+						icon: 'seti:video',
+						items: [
+							{
+								label: 'Introducción',
+								items: ['p/encode']
+							},
+							{
+								label: 'Guías',
+								items: [{ autogenerate: { directory: 'guides/p/encode' } }],
+							},
+							{
+								label: 'Material y recursos',
+								items: [{ autogenerate: { directory: 'resources/p/encode' } }],
+							}
+						]
+					},
+					{
+						label: 'Karaokes',
+						link: '/p/karaoke',
+						icon: 'seti:audio',
+						items: [
+							{
+								label: 'Introducción',
+								items: ['p/karaoke']
+							},
+							{
+								label: 'Guías',
+								items: [{ autogenerate: { directory: 'guides/p/karaoke' } }],
+							},
+							{
+								label: 'Material y recursos',
+								items: [{ autogenerate: { directory: 'resources/p/karaoke' } }],
+							}
+						]
+					},
+					{
+						label: 'Control de calidad',
+						link: '/p/quality',
+						icon: 'approve-check',
+						items: [
+							{
+								label: 'Introducción',
+								items: ['p/quality']
+							},
+							{
+								label: 'Guías',
+								items: [{ autogenerate: { directory: 'guides/p/quality' } }],
+							},
+							{
+								label: 'Material y recursos',
+								items: [{ autogenerate: { directory: 'resources/p/quality' } }],
+							}
+						]
+					},
+					{
 						label: 'Tipos de archivos',
 						link: '/files/',
 						icon: 'document',
